@@ -1,3 +1,14 @@
 target
-.idea
-XQueryGenerator.iml
+.idea/workspace.xml
+.idea/libraries
+.idea/scopes
+.idea/.name
+.idea/scopes/scope_settings.xml
+.idea/encodings.xml
+.idea/uiDesigner.xml
+.idea/compiler.xml
+.idea/modules.xml
+.idea/misc.xml
+.idea/vcs.xml
+.idea/runConfigurations
+.idea/copyright
