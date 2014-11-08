@@ -20,3 +20,5 @@ If no MathWebSearch element is available, the first annotation-xml element will 
 If no annotation-xml Math element is available, the first semantic element will be used.
 
 ...
+
+[![Build Status](https://drone.io/github.com/physikerwelt/MathMLQueryGenerator/status.png)](https://drone.io/github.com/physikerwelt/MathMLQueryGenerator/latest)
