@@ -21,4 +21,9 @@ If no annotation-xml Math element is available, the first semantic element will 
 
 ...
 
+##qvar
+
+Both qvar formats ```<qvar xmlns="http://search.mathweb.org/ns" />x</qvar>``` and
+ ```<qvar xmlns="http://search.mathweb.org/ns" name="x" />``` are supported.
+ 
 [![Build Status](https://drone.io/github.com/physikerwelt/MathMLQueryGenerator/status.png)](https://drone.io/github.com/physikerwelt/MathMLQueryGenerator/latest)
