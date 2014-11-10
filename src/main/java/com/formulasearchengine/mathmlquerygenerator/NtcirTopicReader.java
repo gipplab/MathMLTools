@@ -39,6 +39,7 @@ public class NtcirTopicReader {
 	public NtcirTopicReader (File topicFile) throws ParserConfigurationException, IOException, SAXException {
 		DocumentBuilder documentBuilder = getDocumentBuilderFactory().newDocumentBuilder();
 		topics = documentBuilder.parse( topicFile );
+		
 		//TODO: Find out how this code duplication can be avoided in Java.
 		queryGenerator = new XQueryGenerator( topics );
 	}
