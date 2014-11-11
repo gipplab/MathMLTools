@@ -84,6 +84,10 @@ public class NtcirTopicReader {
 		queryGenerator.setHeader( header );
 	}
 
+	public void setRestricLength ( boolean restrictLength) {
+		queryGenerator.setRestrictLength( restrictLength );
+	}
+
 	public List<NtcirPattern> extractPatterns () throws XPathExpressionException {
 		XPath xpath = namespaceAwareXpath( "t", NS_NII );
 		XPathExpression xNum = xpath.compile( "./t:num" );
