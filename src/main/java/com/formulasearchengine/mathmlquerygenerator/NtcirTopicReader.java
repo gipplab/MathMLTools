@@ -95,13 +95,14 @@ public class NtcirTopicReader {
 		NonWhitespaceNodeList topicList = new NonWhitespaceNodeList(
 			topics.getElementsByTagNameNS( NS_NII, "topic" ) );
 		for ( Node node : topicList ) {
-			String num = xNum.evaluate( node );
-			NonWhitespaceNodeList formulae = new NonWhitespaceNodeList( (NodeList)
+			final String num = xNum.evaluate( node );
+			final NonWhitespaceNodeList formulae = new NonWhitespaceNodeList( (NodeList)
 				xFormula.evaluate( node, XPathConstants.NODESET ) );
 			for ( Node formula : formulae ) {
 				String id = formula.getAttributes().getNamedItem( "id" ).getTextContent();
-				queryGenerator.setMainElement( getFirstChild( getFirstChild( formula ) ) );
-				patterns.add( new NtcirPattern( num, id, queryGenerator.toString() ) );
+				final Node mathMLNode = getFirstChild( formula );
+				queryGenerator.setMainElement( getFirstChild( mathMLNode ) );
+				patterns.add( new NtcirPattern( num, id, queryGenerator.toString(), mathMLNode ) );
 			}
 		}
 		return patterns;
