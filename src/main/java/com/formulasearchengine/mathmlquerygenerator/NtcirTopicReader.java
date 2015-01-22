@@ -76,16 +76,19 @@ public class NtcirTopicReader {
 		return xpath;
 	}
 
-	public void setFooter (String footer) {
+	public NtcirTopicReader setFooter (String footer) {
 		queryGenerator.setFooter( footer );
+		return this;
 	}
 
-	public void setHeader (String header) {
+	public NtcirTopicReader setHeader (String header) {
 		queryGenerator.setHeader( header );
+		return this;
 	}
 
-	public void setRestricLength ( boolean restrictLength) {
+	public NtcirTopicReader setRestricLength ( boolean restrictLength) {
 		queryGenerator.setRestrictLength( restrictLength );
+		return this;
 	}
 
 	public List<NtcirPattern> extractPatterns () throws XPathExpressionException {
