@@ -4,7 +4,7 @@
 
     <groupId>com.formulasearchengine</groupId>
     <artifactId>mathmlquerygenerator</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3-SNAPSHOT</version>
 
     <name>MathML Query Generator</name>
     <description>Converts MathWebSearch queries to XQuery expressions.</description>
