@@ -25,5 +25,11 @@ If no annotation-xml Math element is available, the first semantic element will 
 
 Both qvar formats ```<qvar xmlns="http://search.mathweb.org/ns" />x</qvar>``` and
  ```<qvar xmlns="http://search.mathweb.org/ns" name="x" />``` are supported.
- 
+
+##Ntcir Topics
+The NtcirTopicReader class supports parsing of queries specified in the NTCIR topic format
+http://ntcir-math.nii.ac.jp/wp-content/blogs.dir/13/files/2014/05/NTCIR11-Math-topics.pdf .
+The expected input is a DOMDocuement and the result is a List of NtcirPattern instances that
+include the XQuery expressions.
+
 [![Build Status](https://drone.io/github.com/physikerwelt/MathMLQueryGenerator/status.png)](https://drone.io/github.com/physikerwelt/MathMLQueryGenerator/latest)
