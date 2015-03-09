@@ -11,24 +11,32 @@ public class NtcirPattern {
 	private final String xQueryExpression;
 	private final Node mathMLNode;
 
-	public NtcirPattern (String num, String formulaID, String xQueryExpression, Node mathMLNode) {
+	/**
+	 * @param num
+	 * @param formulaID
+	 * @param xQueryExpression
+	 * @param mathMLNode
+	 */
+	public NtcirPattern( String num, String formulaID, String xQueryExpression, Node mathMLNode ) {
 		this.num = num;
 		this.formulaID = formulaID;
 		this.xQueryExpression = xQueryExpression;
 		this.mathMLNode = mathMLNode;
 	}
 
-	public String getNum () {
+	public final String getNum() {
 		return num;
 	}
 
-	public String getFormulaID () {
+	public final String getFormulaID() {
 		return formulaID;
 	}
 
-	public String getxQueryExpression () {
+	public final String getxQueryExpression() {
 		return xQueryExpression;
 	}
 
-	public Node getMathMLNode () { return mathMLNode; }
+	public final Node getMathMLNode() {
+		return mathMLNode;
+	}
 }
