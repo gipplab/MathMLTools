@@ -33,3 +33,5 @@ The expected input is a DOMDocuement and the result is a List of NtcirPattern in
 include the XQuery expressions.
 
 [![Build Status](https://drone.io/github.com/physikerwelt/MathMLQueryGenerator/status.png)](https://drone.io/github.com/physikerwelt/MathMLQueryGenerator/latest)
+[![MavenCentral](https://maven-badges.herokuapp.com/maven-central/com.formulasearchengine/mathmlquerygenerator/badge.svg)](maven-badges.herokuapp.com/maven-central/com.formulasearchengine/mathmlquerygenerator/)
+[![Coverage Status](https://coveralls.io/repos/physikerwelt/MathMLQueryGenerator/badge.svg)](https://coveralls.io/r/physikerwelt/MathMLQueryGenerator)
