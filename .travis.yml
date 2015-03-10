@@ -4,4 +4,4 @@ jdk:
 - oraclejdk7
 
 after_success:
-  - mvn clean test saga:coverage cobertura:cobertura coveralls:report
+  - mvn cobertura:cobertura coveralls:report
