@@ -42,6 +42,12 @@ public class NtcirTopicReader {
 		queryGenerator = new XQueryGenerator( topics );
 	}
 
+	public NtcirTopicReader( Document topics, String header, String footer, boolean restrictLength ) {
+		queryGenerator = new XQueryGenerator( topics );
+		this.topics = topics;
+		this.setHeader( header ).setFooter( footer ).setRestrictLength( restrictLength );
+	}
+
 	public final NtcirTopicReader setFooter( String footer ) {
 		queryGenerator.setFooter( footer );
 		return this;
@@ -57,13 +63,19 @@ public class NtcirTopicReader {
 		return this;
 	}
 
+	/**
+	 * Splits the given NTCIR query file into individual queries, converts each query into an XQuery using
+	 * XQueryGenerator, and returns the result as a list of NtcirPatterns for each individual query.
+	 * @return List of NtcirPatterns for each query
+	 * @throws XPathExpressionException Thrown if xpaths fail to compile or fail to evaluate
+	 +	 */
 	public final List<NtcirPattern> extractPatterns() throws XPathExpressionException {
 		final XPath xpath = DomDocumentHelper.namespaceAwareXpath( "t", NS_NII );
 		final XPathExpression xNum = xpath.compile( "./t:num" );
 		final XPathExpression xFormula = xpath.compile( "./t:query/t:formula" );
 		final NonWhitespaceNodeList topicList = new NonWhitespaceNodeList(
 			topics.getElementsByTagNameNS( NS_NII, "topic" ) );
-		for ( Node node : topicList ) {
+		for ( final Node node : topicList ) {
 			final String num = xNum.evaluate( node );
 			final NonWhitespaceNodeList formulae = new NonWhitespaceNodeList( (NodeList)
 				xFormula.evaluate( node, XPathConstants.NODESET ) );
