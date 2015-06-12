@@ -63,6 +63,11 @@ public class NtcirTopicReader {
 		return this;
 	}
 
+	public final NtcirTopicReader setAddQvarMap( boolean addQvarMap ) {
+		queryGenerator.setAddQvarMap( addQvarMap );
+		return this;
+	}
+
 	/**
 	 * Splits the given NTCIR query file into individual queries, converts each query into an XQuery using
 	 * XQueryGenerator, and returns the result as a list of NtcirPatterns for each individual query.
