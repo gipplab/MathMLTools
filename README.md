@@ -32,6 +32,6 @@ http://ntcir-math.nii.ac.jp/wp-content/blogs.dir/13/files/2014/05/NTCIR11-Math-t
 The expected input is a DOMDocuement and the result is a List of NtcirPattern instances that
 include the XQuery expressions.
 
-[![Build Status](https://drone.io/github.com/physikerwelt/MathMLQueryGenerator/status.png)](https://drone.io/github.com/physikerwelt/MathMLQueryGenerator/latest)
+[![Build Status](https://travis-ci.org/physikerwelt/MathMLQueryGenerator.svg?branch=travis)](https://travis-ci.org/physikerwelt/MathMLQueryGenerator)
 [![MavenCentral](https://maven-badges.herokuapp.com/maven-central/com.formulasearchengine/mathmlquerygenerator/badge.svg)](maven-badges.herokuapp.com/maven-central/com.formulasearchengine/mathmlquerygenerator/)
 [![Coverage Status](https://coveralls.io/repos/physikerwelt/MathMLQueryGenerator/badge.svg)](https://coveralls.io/r/physikerwelt/MathMLQueryGenerator)
