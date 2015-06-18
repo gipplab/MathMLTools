@@ -1,7 +1,7 @@
 package com.formulasearchengine.mathmlquerygenerator;
 
-import com.formulasearchengine.xmlhelper.DomDocumentHelper;
-import com.formulasearchengine.xmlhelper.NonWhitespaceNodeList;
+import com.formulasearchengine.mathmlquerygenerator.xmlhelper.XMLHelper;
+import com.formulasearchengine.mathmlquerygenerator.xmlhelper.NonWhitespaceNodeList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.formulasearchengine.xmlhelper.NonWhitespaceNodeList.getFirstChild;
+import static com.formulasearchengine.mathmlquerygenerator.xmlhelper.NonWhitespaceNodeList.getFirstChild;
 
 /**
  * Created by Moritz on 08.11.2014.
@@ -35,7 +35,7 @@ public class NtcirTopicReader {
 	}
 
 	public NtcirTopicReader( File topicFile ) throws ParserConfigurationException, IOException, SAXException {
-		DocumentBuilder documentBuilder = DomDocumentHelper.getDocumentBuilderFactory().newDocumentBuilder();
+		DocumentBuilder documentBuilder = XMLHelper.getDocumentBuilder( true );
 		topics = documentBuilder.parse( topicFile );
 
 		//TODO: Find out how this code duplication can be avoided in Java.
@@ -75,7 +75,7 @@ public class NtcirTopicReader {
 	 * @throws XPathExpressionException Thrown if xpaths fail to compile or fail to evaluate
 	 +	 */
 	public final List<NtcirPattern> extractPatterns() throws XPathExpressionException {
-		final XPath xpath = DomDocumentHelper.namespaceAwareXpath( "t", NS_NII );
+		final XPath xpath = XMLHelper.namespaceAwareXpath( "t", NS_NII );
 		final XPathExpression xNum = xpath.compile( "./t:num" );
 		final XPathExpression xFormula = xpath.compile( "./t:query/t:formula" );
 		final NonWhitespaceNodeList topicList = new NonWhitespaceNodeList(
