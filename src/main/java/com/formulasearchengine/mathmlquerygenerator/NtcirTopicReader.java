@@ -42,19 +42,24 @@ public class NtcirTopicReader {
 		queryGenerator = new XQueryGenerator( topics );
 	}
 
-	public NtcirTopicReader( Document topics, String header, String footer, boolean restrictLength ) {
+	public NtcirTopicReader( Document topics, String namespace, String pathToRoot, String returnFormat, boolean restrictLength ) {
 		queryGenerator = new XQueryGenerator( topics );
 		this.topics = topics;
-		this.setHeader( header ).setFooter( footer ).setRestrictLength( restrictLength );
+		this.setNamespace(namespace).setReturnFormat(returnFormat).setPathToRoot(pathToRoot).setRestrictLength(restrictLength);
 	}
 
-	public final NtcirTopicReader setFooter( String footer ) {
-		queryGenerator.setFooter( footer );
+	public final NtcirTopicReader setReturnFormat(String returnFormat) {
+		queryGenerator.setReturnFormat(returnFormat);
 		return this;
 	}
 
-	public final NtcirTopicReader setHeader( String header ) {
-		queryGenerator.setHeader( header );
+	public final NtcirTopicReader setNamespace(String namespace) {
+		queryGenerator.setNamespace(namespace);
+		return this;
+	}
+
+	public final NtcirTopicReader setPathToRoot(String pathToRoot) {
+		queryGenerator.setPathToRoot(pathToRoot);
 		return this;
 	}
 
