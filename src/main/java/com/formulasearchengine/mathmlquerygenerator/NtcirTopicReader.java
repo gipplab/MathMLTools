@@ -63,6 +63,11 @@ public class NtcirTopicReader {
 		return this;
 	}
 
+	public final NtcirTopicReader setFindRootApply(boolean findRootApply) {
+		queryGenerator.setFindRootApply(findRootApply);
+		return this;
+	}
+
 	public final NtcirTopicReader setRestrictLength( boolean restrictLength ) {
 		queryGenerator.setRestrictLength( restrictLength );
 		return this;
