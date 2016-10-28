@@ -283,7 +283,7 @@ public final class XMLHelper {
     public static Multiset<String> getIdentifiersFromCmml(Node cmml) throws XPathExpressionException {
         Multiset<String> list = HashMultiset.create();
         //System.out.println(printDocument(cmml));
-        NodeList identifier = getElementsB(cmml, "*//ci|*//co|*//cn"); //
+        NodeList identifier = getElementsB(cmml, "*//*:ci|*//*:co|*//*:cn"); //
         int len = identifier.getLength();
         // System.out.println( "found " + len + "elements" );
         for (int i = 0; i < len; i++) {
