@@ -283,7 +283,7 @@ public final class XMLHelper {
     public static Multiset<String> getIdentifiersFromCmml(Node cmml) throws XPathExpressionException {
         Multiset<String> list = HashMultiset.create();
         //System.out.println(printDocument(cmml));
-        NodeList identifier = getElementsB(cmml, "*//ci|*//co|*//cn"); //
+        NodeList identifier = getElementsB(cmml, "*//*:ci|*//*:co|*//*:cn"); //
         int len = identifier.getLength();
         // System.out.println( "found " + len + "elements" );
         for (int i = 0; i < len; i++) {
@@ -291,6 +291,19 @@ public final class XMLHelper {
         }
         return list;
     }
+
+    /**
+     * Gets all leaf nodes from the Node cmml.
+     * @param cmml the input node
+     * @return
+     * @throws XPathExpressionException
+     */
+    public static NodeList getLeafNodesFromCmml(Node cmml) throws XPathExpressionException {
+        return getElementsB(cmml, "*//*:ci[not(child::*)]|*//*:co[not(child::*)]|*//*:cn[not(child::*)]");
+    }
+
+
+
 
     /*the document.
      *
