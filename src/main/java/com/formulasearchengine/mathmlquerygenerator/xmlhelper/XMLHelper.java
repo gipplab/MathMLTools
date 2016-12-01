@@ -292,6 +292,19 @@ public final class XMLHelper {
         return list;
     }
 
+    /**
+     * Gets all leaf nodes from the Node cmml.
+     * @param cmml the input node
+     * @return
+     * @throws XPathExpressionException
+     */
+    public static NodeList getLeafNodesFromCmml(Node cmml) throws XPathExpressionException {
+        return getElementsB(cmml, "*//*:ci[not(child::*)]|*//*:co[not(child::*)]|*//*:cn[not(child::*)]");
+    }
+
+
+
+
     /*the document.
      *
      * @param doc the doc
