@@ -7,6 +7,7 @@ import net.sf.saxon.s9api.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -202,7 +203,7 @@ public final class XMLHelper {
 			is.setEncoding("UTF-8");
             return builder.parse(is);
         } catch (SAXException | ParserConfigurationException | IOException e) {
-            System.out.println("cannot parse following content\\n\\n" + InputXMLString);
+            System.out.println("cannot parse following content\n\n" + InputXMLString);
             e.printStackTrace();
             return null;
         }
@@ -230,7 +231,10 @@ public final class XMLHelper {
                 "http://apache.org/xml/features/dom/include-ignorable-whitespace",
                 Boolean.FALSE);
 
-        return domFactory.newDocumentBuilder();
+        DocumentBuilder documentBuilder = domFactory.newDocumentBuilder();
+        documentBuilder.setEntityResolver(new PartialLocalEntityResolver());
+
+        return documentBuilder;
     }
 
     /**
