@@ -57,7 +57,6 @@ public final class XMLHelper {
     private static XPath xpath = factory.newXPath();
 
 
-
     // <xPath,Name,Value>
     private static ArrayList<SimpleEntry<String, String>> traverseNode(Node n, String p) {
         ArrayList<SimpleEntry<String, String>> output = new ArrayList<>();
@@ -90,12 +89,11 @@ public final class XMLHelper {
         return output;
     }
 
-    public static ArrayList<SimpleEntry<String, String>> getMMLLeaves(Node n) throws XPathExpressionException{
+    public static ArrayList<SimpleEntry<String, String>> getMMLLeaves(Node n) throws XPathExpressionException {
         Node cmmlRoot = XMLHelper.getElementB(n, "./semantics/*[1]");
         return traverseNode(cmmlRoot, "");
 
     }
-
 
 
     /**
@@ -130,7 +128,7 @@ public final class XMLHelper {
      * @param node  the node
      * @param XPath the x path
      * @return NodeList
-     * @throws XPathExpressionException     the x path expression exception
+     * @throws XPathExpressionException the x path expression exception
      */
     public static Node getElementB(Node node, String XPath) throws XPathExpressionException {
 
@@ -147,7 +145,7 @@ public final class XMLHelper {
      * @param node  the node
      * @param XPath the x path
      * @return NodeList
-     * @throws XPathExpressionException     the x path expression exception
+     * @throws XPathExpressionException the x path expression exception
      */
     public static Node getElementB(Node node, XPathExpression XPath) throws XPathExpressionException {
 
@@ -162,7 +160,7 @@ public final class XMLHelper {
      * @param node  the node
      * @param XPath the x path
      * @return NodeList
-     * @throws XPathExpressionException     the x path expression exception
+     * @throws XPathExpressionException the x path expression exception
      */
     public static NodeList getElementsB(Node node, XPathExpression XPath)
             throws XPathExpressionException {
@@ -178,7 +176,7 @@ public final class XMLHelper {
      * @param node    the node
      * @param xString the x path
      * @return NodeList
-     * @throws XPathExpressionException     the x path expression exception
+     * @throws XPathExpressionException the x path expression exception
      */
     public static NodeList getElementsB(Node node, String xString) throws XPathExpressionException {
         XPathExpression xPath = compileX(xString);
@@ -198,9 +196,9 @@ public final class XMLHelper {
 
     public static Document String2Doc(String InputXMLString, boolean NamespaceAwareness) {
         try {
-			DocumentBuilder builder = getDocumentBuilder(NamespaceAwareness);
-			InputSource is = new InputSource(new StringReader(InputXMLString));
-			is.setEncoding("UTF-8");
+            DocumentBuilder builder = getDocumentBuilder(NamespaceAwareness);
+            InputSource is = new InputSource(new StringReader(InputXMLString));
+            is.setEncoding("UTF-8");
             return builder.parse(is);
         } catch (SAXException | ParserConfigurationException | IOException e) {
             System.out.println("cannot parse following content\n\n" + InputXMLString);
@@ -224,7 +222,7 @@ public final class XMLHelper {
                 .newInstance();
         domFactory.setNamespaceAware(NamespaceAwareness);
         // Unfortunately we can not ignore whitespaces without a schema.
-		// So we use the NdLst workaround for now.
+        // So we use the NdLst workaround for now.
         //domFactory.setValidating(true);
         //domFactory.setIgnoringElementContentWhitespace( true );
         domFactory.setAttribute(
@@ -298,6 +296,7 @@ public final class XMLHelper {
 
     /**
      * Gets all leaf nodes from the Node cmml.
+     *
      * @param cmml the input node
      * @return
      * @throws XPathExpressionException
@@ -305,8 +304,6 @@ public final class XMLHelper {
     public static NodeList getLeafNodesFromCmml(Node cmml) throws XPathExpressionException {
         return getElementsB(cmml, "*//*:ci[not(child::*)]|*//*:co[not(child::*)]|*//*:cn[not(child::*)]");
     }
-
-
 
 
     /*the document.
@@ -425,7 +422,6 @@ public final class XMLHelper {
     }
 
 
-
     /**
      * The Class Mynode.
      */
@@ -528,20 +524,22 @@ public final class XMLHelper {
     public static Document XslTransform(Node srcNode, String xsltResourceNamme) throws TransformerException, ParserConfigurationException {
         System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
         final InputStream is = XMLHelper.class.getClassLoader().getResourceAsStream(xsltResourceNamme);
-        Document doc = getNewDocument();
+
         TransformerFactory tFactory = TransformerFactory.newInstance();
         Transformer transformer = tFactory.newTransformer(new StreamSource(is));
+        Document doc = getNewDocument();
         transformer.transform(new DOMSource(srcNode), new DOMResult(doc));
+
         return doc;
     }
 
-    public static XQueryCompiler getXQueryCompiler(){
+    public static XQueryCompiler getXQueryCompiler() {
         Configuration saxonConfig = new Configuration();
         Processor processor = new Processor(saxonConfig);
         return processor.newXQueryCompiler();
     }
 
-    public static XQueryExecutable compileXQuerySting(String xQuery){
+    public static XQueryExecutable compileXQuerySting(String xQuery) {
         try {
             return getXQueryCompiler().compile(xQuery);
         } catch (SaxonApiException e) {
@@ -558,6 +556,7 @@ public final class XMLHelper {
         xqueryEval.run(new DOMDestination(doc));
         return doc;
     }
+
     public static Document runXQuery(XQueryExecutable query, Document doc) throws SaxonApiException, ParserConfigurationException {
         Processor proc = new Processor(false);
         XdmNode temp = proc.newDocumentBuilder().wrap(doc);
@@ -568,6 +567,7 @@ public final class XMLHelper {
         xqueryEval.run(new DOMDestination(out));
         return out;
     }
+
     public static XPath namespaceAwareXpath(final String prefix, final String nsURI) {
         XPathFactory xPathfactory = XPathFactory.newInstance();
         XPath xpath = xPathfactory.newXPath();
@@ -579,10 +579,12 @@ public final class XMLHelper {
                 else
                     return null;
             }
+
             @Override
             public Iterator getPrefixes(String val) {
                 throw new UnsupportedOperationException();
             }
+
             @Override
             public String getPrefix(String uri) {
                 throw new UnsupportedOperationException();
