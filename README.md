@@ -11,7 +11,7 @@ The content MathML elements may be given as
 3. semantic elements, or
 4. MathML tags that contain content MathML only
 
-##Details 
+## Details 
 
 If a document contains multiple elements, only the first MathWebSearch expression is processed.
 
@@ -21,12 +21,12 @@ If no annotation-xml Math element is available, the first semantic element will 
 
 ...
 
-##qvar
+## qvar
 
-Both qvar formats ```<qvar xmlns="http://search.mathweb.org/ns" />x</qvar>``` and
- ```<qvar xmlns="http://search.mathweb.org/ns" name="x" />``` are supported.
+Both qvar formats `<qvar xmlns="http://search.mathweb.org/ns" />x</qvar>` and
+ `<qvar xmlns="http://search.mathweb.org/ns" name="x" />` are supported.
 
-##Ntcir Topics
+## Ntcir Topics
 The NtcirTopicReader class supports parsing of queries specified in the NTCIR topic format
 http://ntcir-math.nii.ac.jp/wp-content/blogs.dir/13/files/2014/05/NTCIR11-Math-topics.pdf .
 The expected input is a DOMDocuement and the result is a List of NtcirPattern instances that
