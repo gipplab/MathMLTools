@@ -1,7 +1,7 @@
 package com.formulasearchengine.mathmlquerygenerator;
 
-import com.formulasearchengine.mathmlquerygenerator.xmlhelper.XMLHelper;
-import com.formulasearchengine.mathmlquerygenerator.xmlhelper.NonWhitespaceNodeList;
+import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
+import com.formulasearchengine.mathmltools.xmlhelper.NonWhitespaceNodeList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.formulasearchengine.mathmlquerygenerator.xmlhelper.NonWhitespaceNodeList.getFirstChild;
+import static com.formulasearchengine.mathmltools.xmlhelper.NonWhitespaceNodeList.getFirstChild;
 
 /**
  * Created by Moritz on 08.11.2014.
