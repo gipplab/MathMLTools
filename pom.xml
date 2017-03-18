@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.formulasearchengine</groupId>
-    <artifactId>mathmlquerygenerator</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <artifactId>mathmltools</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
-    <name>MathML Query Generator</name>
-    <description>Converts MathWebSearch queries to XQuery expressions.</description>
-    <url>http://www.formulasearchengine.com/MathMLQueryGenerator</url>
+    <name>MathML Tools</name>
+    <description>This library provides various tools for processing MathML using Java.</description>
+    <url>http://www.formulasearchengine.com/MathMLTools</url>
     <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
@@ -24,9 +24,9 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:git@github.com:physikerwelt/MathMLQueryGenerator.git</connection>
-        <developerConnection>scm:git:git@github.com:physikerwelt/MathMLQueryGenerator.git</developerConnection>
-        <url>git@github.com:physikerwelt/MathMLQueryGenerator.git</url>
+        <connection>scm:git:git@github.com:physikerwelt/MathMLTools.git</connection>
+        <developerConnection>scm:git:git@github.com:physikerwelt/MathMLTools.git</developerConnection>
+        <url>git@github.com:physikerwelt/MathMLTools.git</url>
     </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

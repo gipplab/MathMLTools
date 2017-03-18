@@ -1,6 +1,5 @@
-package com.formulasearchengine.mathmlquerygenerator.xmlhelper;
+package com.formulasearchengine.mathmltools.xmlhelper;
 
-import com.formulasearchengine.mathmlquerygenerator.xmlhelper.XMLHelper;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.formulasearchengine.mathmlquerygenerator.xmlhelper;
+package com.formulasearchengine.mathmltools.xmlhelper;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
@@ -7,7 +7,6 @@ import net.sf.saxon.s9api.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 

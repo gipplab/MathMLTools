@@ -1,4 +1,4 @@
-package com.formulasearchengine.mathmlquerygenerator.xmlhelper;
+package com.formulasearchengine.mathmltools.xmlhelper;
 
 
 import org.xml.sax.EntityResolver;
