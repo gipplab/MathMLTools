@@ -1,7 +1,7 @@
 package com.formulasearchengine.mathmlquerygenerator;
 
-import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
 import com.formulasearchengine.mathmltools.xmlhelper.NonWhitespaceNodeList;
+import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -9,13 +9,14 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.*;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.formulasearchengine.mathmltools.xmlhelper.NonWhitespaceNodeList.getFirstChild;
 
 /**
  * Created by Moritz on 08.11.2014.
@@ -98,8 +99,8 @@ public class NtcirTopicReader {
                     xFormula.evaluate(node, XPathConstants.NODESET));
             for (final Node formula : formulae) {
                 final String id = formula.getAttributes().getNamedItem("id").getTextContent();
-                final Node mathMLNode = getFirstChild(formula);
-                queryGenerator.setMainElement(getFirstChild(mathMLNode));
+                final Node mathMLNode = NonWhitespaceNodeList.getFirstChild(formula);
+                queryGenerator.setMainElement(NonWhitespaceNodeList.getFirstChild(mathMLNode));
                 patterns.add(new NtcirPattern(num, id, queryGenerator.toString(), mathMLNode));
             }
         }
