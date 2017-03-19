@@ -301,50 +301,50 @@ public class CMMLInfoTest {
     assertTrue(cmmlElement.isEquation());
   }
 
-  @Test
-  public final void test2CMML2() throws Exception {
-    final String sampleMML = getFileContents(MML_TEST_DIR + "testquery1.xml");
-    CMMLInfo cmml = new CMMLInfo(sampleMML);
-    XQueryExecutable standardQuery = cmml.getXQuery();
+//  @Test
+//  public final void test2CMML2() throws Exception {
+//    final String sampleMML = getFileContents(MML_TEST_DIR + "testquery1.xml");
+//    CMMLInfo cmml = new CMMLInfo(sampleMML);
+//    XQueryExecutable standardQuery = cmml.getXQuery();
+//
+//    CMMLInfo strict = new CMMLInfo(sampleMML).toStrictCmml();
+//    XQueryExecutable CDQuery = strict.getXQuery();
+//    CMMLInfo cmmlElement = new CMMLInfo(sampleMML);
+//    System.out.println(cmmlElement.toStrictCmml().getXQuery().getUnderlyingCompiledQuery().getExpression().toString());
+//  }
 
-    CMMLInfo strict = new CMMLInfo(sampleMML).toStrictCmml();
-    XQueryExecutable CDQuery = strict.getXQuery();
-    CMMLInfo cmmlElement = new CMMLInfo(sampleMML);
-    System.out.println(cmmlElement.toStrictCmml().getXQuery().getUnderlyingCompiledQuery().getExpression().toString());
-  }
+//  @Test
+//  public final void testStrictQueryTest() throws Exception {
+//    final String sampleMML = getFileContents(MML_TEST_DIR + "query1.xml");
+//    CMMLInfo mml = new CMMLInfo(sampleMML);
+//    System.out.println(TreeWriter.CompactForm(mml.toStrictCmml().abstract2CDs()));
+//
+//  }
 
-  @Test
-  public final void testStrictQueryTest() throws Exception {
-    final String sampleMML = getFileContents(MML_TEST_DIR + "query1.xml");
-    CMMLInfo mml = new CMMLInfo(sampleMML);
-    System.out.println(TreeWriter.CompactForm(mml.toStrictCmml().abstract2CDs()));
-
-  }
-
-  @Test
-  public final void testDtQueryTest() throws Exception {
-    String s = "declare default element namespace \"http://www.w3.org/1998/Math/MathML\";\n" +
-        "declare namespace functx = \"http://www.functx.com\";\n" +
-        "declare function functx:path-to-node\n" +
-        "  ( $nodes as node()* )  as xs:string* {\n" +
-        "\n" +
-        "$nodes/string-join(ancestor-or-self::*/name(.), '/')\n" +
-        " } ;<result>{\n" +
-        "for $m in . return\n"+
-        "for $x in $m//*:apply\n" +
-        "[*[1]/name() = 'l1' and *[2]/name() = 'apply' and *[2][*[1]/name() = 'l1'] and *[3]/name() = 'apply' and *[3][*[1]/name() = 'l1' and *[2]/name() = 'l0' and *[3]/name() = 'l0']]\n" +
-        "where\n" +
-        "fn:count($x/*[2]/*) = 3\n" +
-        " and fn:count($x/*[3]/*) = 3\n" +
-        " and fn:count($x/*) = 3\n" +
-        "\n" +
-        "return\n" +
-        "<element><x>{$x}</x><p>{data(functx:path-to-node($x))}</p></element>}\n" +
-        "</result>";
-    final String sampleMML = getFileContents(MML_TEST_DIR + "query1.xml");
-    CMMLInfo mml = new CMMLInfo(sampleMML);
-    System.out.println(TreeWriter.CompactForm(mml.toStrictCmml().abstract2DTs()));
-    assertEquals(s, mml.getXQueryString());
-  }
+//  @Test
+//  public final void testDtQueryTest() throws Exception {
+//    String s = "declare default element namespace \"http://www.w3.org/1998/Math/MathML\";\n" +
+//        "declare namespace functx = \"http://www.functx.com\";\n" +
+//        "declare function functx:path-to-node\n" +
+//        "  ( $nodes as node()* )  as xs:string* {\n" +
+//        "\n" +
+//        "$nodes/string-join(ancestor-or-self::*/name(.), '/')\n" +
+//        " } ;<result>{\n" +
+//        "for $m in . return\n"+
+//        "for $x in $m//*:apply\n" +
+//        "[*[1]/name() = 'l1' and *[2]/name() = 'apply' and *[2][*[1]/name() = 'l1'] and *[3]/name() = 'apply' and *[3][*[1]/name() = 'l1' and *[2]/name() = 'l0' and *[3]/name() = 'l0']]\n" +
+//        "where\n" +
+//        "fn:count($x/*[2]/*) = 3\n" +
+//        " and fn:count($x/*[3]/*) = 3\n" +
+//        " and fn:count($x/*) = 3\n" +
+//        "\n" +
+//        "return\n" +
+//        "<element><x>{$x}</x><p>{data(functx:path-to-node($x))}</p></element>}\n" +
+//        "</result>";
+//    final String sampleMML = getFileContents(MML_TEST_DIR + "query1.xml");
+//    CMMLInfo mml = new CMMLInfo(sampleMML);
+//    System.out.println(TreeWriter.CompactForm(mml.toStrictCmml().abstract2DTs()));
+//    assertEquals(s, mml.getXQueryString());
+//  }
 
 }

@@ -1,6 +1,6 @@
 package com.formulasearchengine.mathmltools.mml;
 
-import com.formulasearchengine.mathmlquerygenerator.XQueryGenerator;
+import com.formulasearchengine.mathmlquerygenerator.XQueryGeneratorBase;
 import com.formulasearchengine.mathmltools.xmlhelper.NonWhitespaceNodeList;
 import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
 import com.formulasearchengine.mathmltools.xmlhelper.XmlNamespaceTranslator;
@@ -361,11 +361,7 @@ public class CMMLInfo implements Document {
   }
 
   public final String getXQueryString() {
-    final XQueryGenerator gen = new XQueryGenerator(cmmlDoc);
-    gen.setNamespace(XQUERY_HEADER);
-    gen.setPathToRoot(".");
-    gen.setReturnFormat(XQUERY_FOOTER);
-    gen.setAddQvarMap(false);
+    final XQueryGeneratorBase gen = new XQueryGeneratorBase(cmmlDoc, XQUERY_HEADER, ".", XQUERY_FOOTER);
     final String queryString = gen.toString();
     return queryString;
   }
