@@ -15,12 +15,12 @@ import java.io.IOException;
  * Created by felix on 06.12.16.
  */
 public class PartialLocalEntityResolver implements EntityResolver {
-    private static final String FILEPATH_xhtml_math11_f_dtd = "xhtml-math11-f.dtd";
+    private static final String XHTML_MATH11_F_DTD = "xhtml-math11-f.dtd";
 
     @Override
     public org.xml.sax.InputSource resolveEntity(String publicId, String systemId) throws org.xml.sax.SAXException, IOException {
         if (systemId.equals("http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd")) {
-            return new InputSource(PartialLocalEntityResolver.class.getResourceAsStream(FILEPATH_xhtml_math11_f_dtd));
+            return new InputSource(PartialLocalEntityResolver.class.getResourceAsStream(XHTML_MATH11_F_DTD));
         }
         return null;
     }

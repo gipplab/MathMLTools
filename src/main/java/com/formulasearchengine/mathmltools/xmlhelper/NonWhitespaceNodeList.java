@@ -12,55 +12,55 @@ import java.util.List;
  */
 public class NonWhitespaceNodeList implements NodeList, Iterable<Node> {
 
-	private final List<Node> nodes;
+    private final List<Node> nodes;
 
-	public NonWhitespaceNodeList( NodeList list ) {
-		nodes = new ArrayList<>();
-		for ( int i = 0; i < list.getLength(); i++ ) {
-			if ( !isWhitespaceNode( list.item( i ) ) ) {
-				nodes.add( list.item( i ) );
-			}
-		}
-	}
+    public NonWhitespaceNodeList(NodeList list) {
+        nodes = new ArrayList<>();
+        for (int i = 0; i < list.getLength(); i++) {
+            if (!isWhitespaceNode(list.item(i))) {
+                nodes.add(list.item(i));
+            }
+        }
+    }
 
-	public static Node getFirstChild( Node node ) {
-		NonWhitespaceNodeList children = new NonWhitespaceNodeList( node.getChildNodes() );
-		return children.item( 0 );
-	}
+    public static Node getFirstChild(Node node) {
+        NonWhitespaceNodeList children = new NonWhitespaceNodeList(node.getChildNodes());
+        return children.item(0);
+    }
 
-	@Override
-	public Node item( int index ) {
-		return nodes.get( index );
-	}
+    private static boolean isWhitespaceNode(Node n) {
+        if (n.getNodeType() == Node.TEXT_NODE) {
+            String val = n.getNodeValue();
+            return val.trim().length() == 0;
+        } else {
+            return false;
+        }
+    }
 
-	@Override
-	public int getLength() {
-		return nodes.size();
-	}
+    /**
+     * @return Node or Null if list is empty
+     */
+    @SuppressWarnings({"ReturnOfNull", "SuppressionAnnotation"})
+    public final Node getFirstElement() {
+        if (nodes.isEmpty()) {
+            return null;
+        } else {
+            return item(0);
+        }
+    }
 
-	private static boolean isWhitespaceNode( Node n ) {
-		if ( n.getNodeType() == Node.TEXT_NODE ) {
-			String val = n.getNodeValue();
-			return val.trim().length() == 0;
-		} else {
-			return false;
-		}
-	}
+    @Override
+    public int getLength() {
+        return nodes.size();
+    }
 
-	@Override
-	public Iterator<Node> iterator() {
-		return nodes.iterator();
-	}
+    @Override
+    public Node item(int index) {
+        return nodes.get(index);
+    }
 
-	/**
-	 * @return Node or Null if list is empty
-	 */
-	@SuppressWarnings({ "ReturnOfNull", "SuppressionAnnotation" })
-	public final Node getFirstElement() {
-		if ( nodes.isEmpty() ) {
-			return null;
-		} else {
-			return item( 0 );
-		}
-	}
+    @Override
+    public Iterator<Node> iterator() {
+        return nodes.iterator();
+    }
 }

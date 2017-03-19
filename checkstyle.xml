@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (c) 2013-2016 University of Konstanz. All Rights Reserved.
+
+  This software is the proprietary information of University of Konstanz.
+  Use is subject to license terms.
+-->
+<!--
+  Checkstyle-Configuration: MathML Query Generator Configuration (local)
+-->
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+<module name="Checker">
+    <property name="severity" value="error" />
+    <module name="RegexpHeader">
+        <metadata name="com.atlassw.tools.eclipse.checkstyle.comment"
+                  value="Missing or incorrect header" />
+        <property name="severity" value="warning" />
+        <property name="header" value="^/\*$\n^ \* @\(#\)([A-Z][A-Za-z0-9_]*|package-info)\.java[ ]{3}[0-9]+\.[0-9]+[ ]{3}[A-Z][a-z]{2}[ ][0-9]{1,2},[ ][0-9]{4,}$\n^ \*$\n^ \* Copyright \(c\) ([0-9]{4,}-)?1997 University of Wisconsin\.$\n^ \* Copyright \(c\) ([0-9]{4,}-)?2006 Purdue University\.$\n^ \* Copyright \(c\) ([0-9]{4,}-)?2013-2016 University of Konstanz\.$\n^ \*$\n^ \* This software is the proprietary information of the above-mentioned institutions\.$\n^ \* Use is subject to license terms\. Please refer to the included copyright notice\.$\n^ \*/$\n" />
+    </module>
+    <module name="RegexpMultiline">
+        <property name="format" value="^.*@\(#\)[ ]?([A-Z][A-Za-z0-9_]*)\.java.*$(.*\r?\n)*^.*(class|interface|enum)[ ]\1.*$" />
+        <property name="message" value="Header comment does not match file name" />
+        <property name="severity" value="warning" />
+        <property name="minimum" value="1" />
+        <property name="maximum" value="1" />
+    </module>
+    <module name="RegexpMultiline">
+        <property name="format" value="\r?\n[ \t]*\r?\n[ \t]*\}"/>
+        <property name="message" value="Newline before closing brace"/>
+        <property name="severity" value="error" />
+    </module>
+    <module name="FileLength" />
+    <module name="FileTabCharacter" />
+    <module name="SuppressWarningsFilter" />
+    <module name="TreeWalker">
+        <module name="Regexp">
+            <property name="format" value="(^|[^*])[ \t]+$"/>
+            <property name="message" value="Trailing whitespace"/>
+            <property name="illegalPattern" value="true"/>
+        </module>
+        <module name="Regexp">
+            <property name="format" value="\r\n"/>
+            <property name="message" value="Windows newline"/>
+            <property name="illegalPattern" value="true"/>
+        </module>
+        <module name="ArrayTypeStyle" />
+        <module name="ModifierOrder" />
+        <module name="RedundantModifier" />
+        <module name="UpperEll" />
+        <module name="AvoidNestedBlocks" />
+        <module name="EmptyBlock">
+            <property name="option" value="text" />
+        </module>
+        <module name="LeftCurly" />
+        <module name="NeedBraces" />
+        <module name="RightCurly" />
+        <module name="EqualsHashCode" />
+        <module name="IllegalInstantiation" />
+        <module name="InnerAssignment" />
+        <module name="MissingSwitchDefault" />
+        <module name="SimplifyBooleanExpression" />
+        <module name="SimplifyBooleanReturn" />
+        <module name="StringLiteralEquality" />
+        <module name="AvoidStarImport" />
+        <module name="AvoidStaticImport">
+            <property name="excludes" value="org.junit.Assert.*"/>
+        </module>
+        <module name="IllegalImport" />
+        <module name="RedundantImport" />
+        <module name="UnusedImports" />
+        <module name="JavadocType">
+            <property name="severity" value="warning" />
+            <property name="scope" value="private" />
+            <property name="authorFormat" value=".* .*" />
+        </module>
+        <module name="JavadocMethod">
+            <property name="severity" value="warning" />
+            <property name="scope" value="private" />
+            <property name="allowUndeclaredRTE" value="true" />
+            <property name="allowThrowsTagsForSubclasses" value="true" />
+            <property name="allowMissingPropertyJavadoc" value="false" />
+        </module>
+        <module name="JavadocVariable">
+            <property name="severity" value="warning" />
+            <property name="scope" value="private" />
+        </module>
+        <module name="JavadocStyle">
+            <property name="severity" value="warning" />
+            <property name="scope" value="private" />
+        </module>
+        <module name="ConstantName" />
+        <module name="LocalFinalVariableName">
+            <property name="severity" value="warning" />
+        </module>
+        <module name="LocalVariableName" />
+        <module name="MemberName" />
+        <module name="MethodName" />
+        <module name="PackageName" />
+        <module name="ParameterName" />
+        <module name="StaticVariableName" />
+        <module name="TypeName" />
+        <module name="LineLength">
+            <property name="severity" value="warning" />
+            <property name="ignorePattern" value="^.*(@see|@\([#]\) \$Id:).*$" />
+            <property name="max" value="120" />
+            <property name="tabWidth" value="3" />
+        </module>
+        <module name="MethodLength">
+            <property name="max" value="250" />
+            <property name="countEmpty" value="false" />
+        </module>
+        <module name="ParameterNumber">
+            <property name="severity" value="warning" />
+            <property name="tokens" value="METHOD_DEF"/>
+        </module>
+        <module name="EmptyForIteratorPad" />
+        <module name="NoWhitespaceAfter">
+            <property name="tokens"
+                      value="BNOT, DEC, DOT, INC, LNOT, UNARY_MINUS, UNARY_PLUS" />
+        </module>
+        <module name="NoWhitespaceBefore" />
+        <module name="OperatorWrap" />
+        <module name="ParenPad" />
+        <module name="TypecastParenPad">
+            <property name="tokens" value="RPAREN, TYPECAST" />
+        </module>
+        <module name="WhitespaceAfter" />
+        <module name="WhitespaceAround">
+            <property name="tokens"
+                      value="ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,EQUAL,GE,GT,LAND,LCURLY,LE,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_RETURN,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,QUESTION,RCURLY,SL,SLIST,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN,LITERAL_ASSERT,TYPE_EXTENSION_AND" />
+        </module>
+        <module name="NestedIfDepth">
+            <property name="max" value="3" />
+        </module>
+        <module name="DefaultComesLast" />
+        <!--<module name="IllegalTokenText">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment"
+                      value="Labels are discouraged" />
+            <property name="tokens" value="LABELED_STAT" />
+            <property name="format" value=".*" />
+            <property name="message" value="labels are discouraged" />
+        </module>-->
+        <module name="AnonInnerLength">
+            <property name="max" value="100" />
+        </module>
+        <module name="EmptyForInitializerPad" />
+        <module name="MethodParamPad" />
+        <module name="CovariantEquals" />
+        <module name="ModifiedControlVariable" />
+        <module name="MultipleVariableDeclarations" />
+        <module name="SuperFinalize" />
+        <module name="ImportOrder">
+            <property name="severity" value="warning" />
+            <property name="groups" value="java, javax, junit, com, edu, org, ch, kn.uni" />
+            <property name="ordered" value="true"/>
+            <property name="separated" value="true" />
+            <property name="option" value="top"/>
+        </module>
+        <module name="FinalClass">
+            <property name="severity" value="warning" />
+        </module>
+        <module name="HideUtilityClassConstructor" />
+        <module name="VisibilityModifier" />
+        <module name="InterfaceIsType" />
+        <module name="FinalLocalVariable">
+            <property name="severity" value="warning" />
+            <property name="tokens" value="PARAMETER_DEF,VARIABLE_DEF" />
+        </module>
+        <module name="SuperClone" />
+        <module name="UnnecessaryParentheses" />
+        <module name="OneStatementPerLine" />
+        <!--<module name="RequireThis" />-->
+        <!-- module name="Indentation">
+           <property name="basicOffset" value="3"/>
+           <property name="caseIndent" value="3"/>
+        </module -->
+        <module name="TrailingComment">
+            <property name="format" value="^\s*$"/>
+        </module>
+        <!-- Make the @SuppressWarnings annotations available to Checkstyle -->
+        <module name="FileContentsHolder"/>
+        <module name="SuppressWarningsHolder" />
+    </module>
+
+
+    <module name="NewlineAtEndOfFile">
+        <property name="severity" value="warning" />
+        <property name="lineSeparator" value="lf"/>
+    </module>
+</module>

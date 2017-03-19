@@ -282,7 +282,7 @@ public class CMMLInfoTest {
     CMMLInfo cmml = new CMMLInfo(ciI);
     final XQueryExecutable xQuery = cmml.getXQuery();
     Document doc = XMLHelper.runXQuery(xQuery, sampleMML);
-    assertTrue(compareXML(XMLHelper.String2Doc(res1, true), doc).identical());
+    assertTrue(compareXML(XMLHelper.string2Doc(res1, true), doc).identical());
   }
 
   @Test
@@ -317,7 +317,7 @@ public class CMMLInfoTest {
 //  public final void testStrictQueryTest() throws Exception {
 //    final String sampleMML = getFileContents(MML_TEST_DIR + "query1.xml");
 //    CMMLInfo mml = new CMMLInfo(sampleMML);
-//    System.out.println(TreeWriter.CompactForm(mml.toStrictCmml().abstract2CDs()));
+//    System.out.println(TreeWriter.compactForm(mml.toStrictCmml().abstract2CDs()));
 //
 //  }
 
@@ -343,7 +343,7 @@ public class CMMLInfoTest {
 //        "</result>";
 //    final String sampleMML = getFileContents(MML_TEST_DIR + "query1.xml");
 //    CMMLInfo mml = new CMMLInfo(sampleMML);
-//    System.out.println(TreeWriter.CompactForm(mml.toStrictCmml().abstract2DTs()));
+//    System.out.println(TreeWriter.compactForm(mml.toStrictCmml().abstract2DTs()));
 //    assertEquals(s, mml.getXQueryString());
 //  }
 
