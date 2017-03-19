@@ -1,16 +1,14 @@
 package com.formulasearchengine.mathmltools.mml;
 
-import com.formulasearchengine.mathmltools.xmlhelper.XmlNamespaceTranslator;
-import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
+import com.formulasearchengine.mathmlquerygenerator.XQueryGenerator;
 import com.formulasearchengine.mathmltools.xmlhelper.NonWhitespaceNodeList;
-
+import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
+import com.formulasearchengine.mathmltools.xmlhelper.XmlNamespaceTranslator;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Sets;
-
 import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.XQueryExecutable;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.*;
@@ -21,7 +19,6 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
-
 import java.io.IOException;
 import java.util.*;
 
@@ -346,32 +343,32 @@ public class CMMLInfo implements Document {
     return depth;
   }
 
-//  public final XQueryExecutable getXQuery(Boolean useCache) {
-//    if (xQueryExecutable == null && !useCache) {
-//      getXQuery();
-//    }
-//    return xQueryExecutable;
-//  }
+  public final XQueryExecutable getXQuery(Boolean useCache) {
+    if (xQueryExecutable == null && !useCache) {
+      getXQuery();
+    }
+    return xQueryExecutable;
+  }
 
-//  public final XQueryExecutable getXQuery() {
-//
-//    final String queryString = getXQueryString();
-//    if (queryString == null) {
-//      return null;
-//    }
-//    xQueryExecutable = XMLHelper.compileXQuerySting(queryString);
-//    return xQueryExecutable;
-//  }
+  public final XQueryExecutable getXQuery() {
 
-//  public final String getXQueryString() {
-//    final XQueryGenerator gen = new XQueryGenerator(cmmlDoc);
-//    gen.setNamespace(XQUERY_HEADER);
-//    gen.setPathToRoot(".");
-//    gen.setReturnFormat(XQUERY_FOOTER);
-//    gen.setAddQvarMap(false);
-//    final String queryString = gen.toString();
-//    return queryString;
-//  }
+    final String queryString = getXQueryString();
+    if (queryString == null) {
+      return null;
+    }
+    xQueryExecutable = XMLHelper.compileXQuerySting(queryString);
+    return xQueryExecutable;
+  }
+
+  public final String getXQueryString() {
+    final XQueryGenerator gen = new XQueryGenerator(cmmlDoc);
+    gen.setNamespace(XQUERY_HEADER);
+    gen.setPathToRoot(".");
+    gen.setReturnFormat(XQUERY_FOOTER);
+    gen.setAddQvarMap(false);
+    final String queryString = gen.toString();
+    return queryString;
+  }
 
   public final CMMLInfo toDataCmml() {
     try {
