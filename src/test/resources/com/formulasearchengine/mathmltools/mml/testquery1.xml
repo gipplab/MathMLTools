@@ -1,0 +1,51 @@
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+    <semantics xml:id="m41.1a" xref="m41.1.pmml">
+        <apply xml:id="m41.1.11" xref="m41.1.11.pmml">
+            <apply xml:id="m41.1.11.1" xref="m41.1.11.1.pmml">
+                <csymbol cd="ambiguous" xml:id="m41.1.11.1.1">
+                    superscript
+                </csymbol>
+                <apply xml:id="m41.1.11.1.2">
+                    <csymbol cd="ambiguous" xml:id="m41.1.11.1.2.1">
+                        subscript
+                    </csymbol>
+                    <sum xml:id="m41.1.1" xref="m41.1.1.pmml" />
+                    <apply xml:id="m41.1.2.1" xref="m41.1.2.1.pmml">
+                        <eq xml:id="m41.1.2.1.2" xref="m41.1.2.1.2.pmml" />
+                        <mws:qvar xmlns:mws="http://search.mathweb.org/ns" name="n" />
+                        <cn type="integer" xml:id="m41.1.2.1.3" xref="m41.1.2.1.3.pmml">
+                            0
+                        </cn>
+                    </apply>
+                </apply>
+                <infinity xml:id="m41.1.3.1" xref="m41.1.3.1.pmml" />
+            </apply>
+            <apply xml:id="m41.1.11.2" xref="m41.1.11.2.pmml">
+                <times xml:id="m41.1.11.2.1" xref="m41.1.11.2.1.pmml" />
+                <apply xml:id="m41.1.11.2.2" xref="m41.1.11.2.2.pmml">
+                    <csymbol cd="ambiguous" xml:id="m41.1.11.2.2.1">
+                        superscript
+                    </csymbol>
+                    <ci xml:id="m41.1.4" xref="m41.1.4.pmml">
+                        t
+                    </ci>
+                    <mws:qvar xmlns:mws="http://search.mathweb.org/ns" name="m" />
+                </apply>
+                <apply xml:id="m41.1.11.2.3" xref="m41.1.11.2.3.pmml">
+                    <csymbol cd="ambiguous" xml:id="m41.1.11.2.3.1">
+                        subscript
+                    </csymbol>
+                    <ci xml:id="m41.1.6" xref="m41.1.6.pmml">
+                        a
+                    </ci>
+                    <ci xml:id="m41.1.7.1" xref="m41.1.7.1.pmml">
+                        k
+                    </ci>
+                </apply>
+                <ci xml:id="m41.1.9" xref="m41.1.9.pmml">
+                    x
+                </ci>
+            </apply>
+        </apply>
+    </semantics>
+</math>

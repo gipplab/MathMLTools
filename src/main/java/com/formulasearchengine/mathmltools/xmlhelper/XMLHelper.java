@@ -45,6 +45,7 @@ import java.util.regex.Pattern;
 @SuppressWarnings("UnusedDeclaration")
 public final class XMLHelper {
 
+    public static final Pattern ANNOTATION_XML_PATTERN = Pattern.compile("annotation(-xml)?");
     /**
      * The factory.
      */
@@ -414,6 +415,50 @@ public final class XMLHelper {
                 return false;
             }
         }
+    }
+
+    /**
+     * Returns the main element for which to begin generating the XQuery
+     *
+     * @param xml XML Document to find main element of
+     * @return Node for main element
+     */
+    public static Node getMainElement(Document xml) {
+        // Try to get main mws:expr first
+        NodeList expr = xml.getElementsByTagName("mws:expr");
+
+        if (expr.getLength() > 0) {
+            return new NonWhitespaceNodeList(expr).item(0);
+        }
+        // if that fails try to get content MathML from an annotation tag
+        Node node = getContentMathMLNode(xml);
+        if (node != null) {
+            return node;
+        }
+        // if that fails too interprete content of first semantic element as content MathML
+        expr = xml.getElementsByTagNameNS("*", "semantics");
+        if (expr.getLength() > 0) {
+            return new NonWhitespaceNodeList(expr).item(0);
+        }
+        // if that fails too interprete content of root MathML element as content MathML
+        expr = xml.getElementsByTagName("math");
+        if (expr.getLength() > 0) {
+            return new NonWhitespaceNodeList(expr).item(0);
+        }
+
+        return null;
+    }
+
+    private static Node getContentMathMLNode(Document xml) {
+        NodeList expr;
+        expr = xml.getElementsByTagName("annotation-xml");
+        for (Node node : new NonWhitespaceNodeList(expr)) {
+            if (node.hasAttributes()
+                    && node.getAttributes().getNamedItem("encoding").getNodeValue().equals("MathML-Content")) {
+                return node;
+            }
+        }
+        return null;
     }
 
     public void comileXQuery() {
