@@ -6,37 +6,47 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 /**
- * Created by Moritz on 19.03.2017.
+ * @author Moritz on 19.03.2017.
  */
-public class XQueryGeneratorBase {
-    private String namespace = "declare default element namespace \"http://www.w3.org/1998/Math/MathML\";";
-    //Qvar map of qvar name to XPaths referenced by each qvar
-    private String relativeXPath = "";
-    private String exactMatchXQuery = "";
-    private String lengthConstraint = "";
-    private String pathToRoot = "db2-fn:xmlcolumn(\"math.math_mathml\")";
-    private String returnFormat = "data($m/*[1]/@alttext)";
-    private Node mainElement = null;
-    private boolean restrictLength = true;
+public class BasicXQueryGenerator extends XQueryGenerator<BasicXQueryGenerator> {
 
+    public static final String XQUERY_NAMESPACE_ELEMENT = "declare namespace functx = \"http://www.functx.com\";";
+
+    public static final String FN_PATH_FROM_ROOT = "declare function functx:path-to-node( $nodes as node()* ) as xs:string* {\n"
+                    + "$nodes/string-join(ancestor-or-self::*/name(.), '/')\n"
+                    + " };";
+
+    public static final String XQUERY_FOOTER = "<element><x>{$x}</x><p>{data(functx:path-to-node($x))}</p></element>";
 
     /**
-     * Constructs a generator from a Document XML object.
+     * Create a {@see BasicXQueryGenerator} with a default configuration.
      *
-     * @param xml Document XML object
+     * @return returns {@see BasicXQueryGenerator}
      */
-    public XQueryGeneratorBase(Document xml, String namespace, String pathToRoot, String returnFormat) {
-        this.mainElement = XMLHelper.getMainElement(xml);
-        this.namespace = namespace;
-        this.pathToRoot = pathToRoot;
-        this.returnFormat = returnFormat;
+    public static BasicXQueryGenerator getDefaultGenerator() {
+        return new BasicXQueryGenerator()
+                .addHeader(XQueryGenerator.DEFAULT_NAMESPACE)
+                .addHeader(XQUERY_NAMESPACE_ELEMENT)
+                .addHeader(FN_PATH_FROM_ROOT)
+                .addHeader("<result> {")
+                .setPathToRoot(".")
+                .setReturnFormat(XQUERY_FOOTER)
+                .addFooter("}\n</result>");
     }
 
-    public XQueryGeneratorBase() {
+    @Override
+    public String generateQuery(Document document) {
+        if (document == null) {
+            return null;
+        }
+        setMainElement(XMLHelper.getMainElement(document));
+        return toString();
     }
 
+    @Override
     protected void generateConstraints() {
-        exactMatchXQuery = generateSimpleConstraints(mainElement, true);
+        String exactMatchXQuery = generateSimpleConstraints(getMainElement(), true);
+        setExactMatchXQuery(exactMatchXQuery);
     }
 
     private String generateSimpleConstraints(Node node) {
@@ -64,10 +74,9 @@ public class XQueryGeneratorBase {
                 //If an element node and not an attribute or text node, add to xquery and increment index
                 childElementIndex++;
 
-                if (handleSpecialElements(child, childElementIndex) || child.getLocalName() != null
-                        && XMLHelper.ANNOTATION_XML_PATTERN.matcher(child.getLocalName()).matches()) {
-                    //Ignore annotations and presentation mathml
-                } else {
+                // Only consider content mathml and ignore annotations or presentation mathml
+                if (!handleSpecialElements(child, childElementIndex) && (child.getLocalName() == null
+                        || !XMLHelper.ANNOTATION_XML_PATTERN.matcher(child.getLocalName()).matches())) {
                     if (queryHasText) {
                         //Add another condition on top of existing condition in query
                         out.append(" and ");
@@ -84,7 +93,7 @@ public class XQueryGeneratorBase {
                     }
                     if (child.hasChildNodes()) {
                         if (!isRoot) {
-                            relativeXPath += "/*[" + childElementIndex + "]";
+                            setRelativeXPath(getRelativeXPath() + "/*[" + childElementIndex + "]");
                             //Add relative constraint so this can be recursively called
                             out.append(" and *[").append(childElementIndex).append("]");
                         }
@@ -99,45 +108,22 @@ public class XQueryGeneratorBase {
                 //Text nodes are always leaf nodes
                 out.append("./text() = '").append(child.getNodeValue().trim()).append("'");
             }
-        }
-        //for child : nodelist
+        } //for child : nodelist
 
-        if (!isRoot && restrictLength) {
-            if (lengthConstraint.isEmpty()) {
-                //Initialize constraint
-                lengthConstraint += "fn:count($x" + relativeXPath + "/*) = " + childElementIndex;
-            } else {
-                //Add as additional constraint
-                lengthConstraint += "\n" + " and fn:count($x" + relativeXPath + "/*) = " + childElementIndex;
-            }
+        if (!isRoot && isRestrictLength()) {
+            // Initialize constraint or add as additional constraint
+            setLengthConstraint(
+                    (getLengthConstraint().isEmpty() ? "" : getLengthConstraint() + "\n and ")
+                            + "fn:count($x" + getRelativeXPath() + "/*) = " + childElementIndex
+            );
         }
 
-        if (!relativeXPath.isEmpty()) {
-            relativeXPath = relativeXPath.substring(0, relativeXPath.lastIndexOf("/"));
+        if (!getRelativeXPath().isEmpty()) {
+            String tmpRelativeXPath = getRelativeXPath().substring(0, getRelativeXPath().lastIndexOf("/"));
+            setRelativeXPath(tmpRelativeXPath);
         }
 
         return out.toString();
-    }
-
-    /**
-     * Builds the XQuery as a string. Uses the default format of looping through all apply nodes.
-     *
-     * @return XQuery as string
-     */
-    protected String getDefaultString() {
-        final StringBuilder outBuilder = new StringBuilder();
-        if (!namespace.isEmpty()) {
-            outBuilder.append(namespace).append("\n");
-        }
-        outBuilder.append("for $m in ").append(pathToRoot).append(" return\n")
-                .append("for $x in $m//*:").append(NonWhitespaceNodeList.getFirstChild(mainElement).getLocalName())
-                .append("\n").append(exactMatchXQuery);
-        if (!lengthConstraint.isEmpty()) {
-            outBuilder.append("\n").append("where").append("\n");
-            outBuilder.append(lengthConstraint);
-        }
-        outBuilder.append("\n\n").append("return").append("\n").append(returnFormat);
-        return outBuilder.toString();
     }
 
     protected boolean handleSpecialElements(Node child, Integer childElementIndex) {
@@ -147,10 +133,10 @@ public class XQueryGeneratorBase {
     /**
      * Generates the constraints of the XQuery and then builds the XQuery and returns it as a string
      *
-     * @return XQuery as string. Returns null if no main element set.
+     * @return XQuery as string. Returns null if no main element is set.
      */
     public String toString() {
-        if (mainElement == null) {
+        if (getMainElement() == null) {
             return null;
         }
         generateConstraints();

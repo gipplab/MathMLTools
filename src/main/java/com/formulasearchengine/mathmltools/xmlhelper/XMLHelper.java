@@ -328,8 +328,7 @@ public final class XMLHelper {
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
         StringWriter sw = new StringWriter();
-        transformer.transform(new DOMSource(doc),
-                new StreamResult(sw));
+        transformer.transform(new DOMSource(doc), new StreamResult(sw));
         return sw.toString();
     }
 

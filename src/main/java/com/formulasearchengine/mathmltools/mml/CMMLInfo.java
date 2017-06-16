@@ -1,6 +1,7 @@
 package com.formulasearchengine.mathmltools.mml;
 
-import com.formulasearchengine.mathmlquerygenerator.XQueryGeneratorBase;
+import com.formulasearchengine.mathmlquerygenerator.XQueryGenerator;
+import com.formulasearchengine.mathmlquerygenerator.BasicXQueryGenerator;
 import com.formulasearchengine.mathmltools.xmlhelper.NonWhitespaceNodeList;
 import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
 import com.formulasearchengine.mathmltools.xmlhelper.XmlNamespaceTranslator;
@@ -11,23 +12,7 @@ import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.XQueryExecutable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Attr;
-import org.w3c.dom.CDATASection;
-import org.w3c.dom.Comment;
-import org.w3c.dom.DOMConfiguration;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
-import org.w3c.dom.DocumentFragment;
-import org.w3c.dom.DocumentType;
-import org.w3c.dom.Element;
-import org.w3c.dom.EntityReference;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.ProcessingInstruction;
-import org.w3c.dom.Text;
-import org.w3c.dom.UserDataHandler;
+import org.w3c.dom.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -36,40 +21,24 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+/**
+ * @author Moritz Schubotz
+ */
 public class CMMLInfo implements Document {
+
     //For XML math processing
     public static final String NS_MATHML = "http://www.w3.org/1998/Math/MathML";
     public static final String ROBERT_MINER_XSL = "com/formulasearchengine/mathmltools/mml/RobertMinerC2s.xsl";
     protected static final Log LOG = LogFactory.getLog(CMMLInfo.class);
-    private static final String FN_PATH_FROM_ROOT = "declare namespace functx = \"http://www.functx.com\";\n"
-            + "declare function functx:path-to-node\n"
-            + "  ( $nodes as node()* )  as xs:string* {\n"
-            + "\n"
-            + "$nodes/string-join(ancestor-or-self::*/name(.), '/')\n"
-            + " } ;";
-    private static final String XQUERY_HEADER =
-            "declare default element namespace \"http://www.w3.org/1998/Math/MathML\";\n"
-                    +
-                    FN_PATH_FROM_ROOT
-                    +
-                    "<result>{";
-    private static final String FN_PATH_FROM_ROOT2 = "declare function path-from-root($x as node()) {\n"
-            + " if ($x/parent::*) then\n"
-            + " concat( path-from-root($x/parent::*), \"/\", node-name($x) )\n"
-            + " else\n"
-            + " concat( \"/\", node-name($x) )\n"
-            + " };\n";
+
     private static final String MATH_HEADER = "<?xml version=\"1.0\" ?>\n"
             + "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
             + "<semantics>\n";
-    private static final String MATH_FOOTER = "</semantics>\n"
-            + "</math>";
+
+    private static final String MATH_FOOTER = "</semantics>\n</math>";
+
     private static final List FORMULA_INDICATORS = Arrays.asList(
             "eq",
             "neq",
@@ -79,17 +48,19 @@ public class CMMLInfo implements Document {
             "geq",
             "equivalent"
     );
-    private static final String XQUERY_FOOTER =
-            "<element><x>{$x}</x><p>{data(functx:path-to-node($x))}</p></element>}\n"
-                    + "</result>";
+
     private Document cmmlDoc;
+    private XQueryGenerator queryGenerator = null;
     private XQueryExecutable xQueryExecutable;
     private boolean isStrict;
+
+    private Multiset<String> cachedElements = null;
+    private Boolean cachedIsEquation = null;
+    private String cachedString = null;
 
     public CMMLInfo(Document cmml) {
         constructor(cmml, true, false);
     }
-
 
     public CMMLInfo(String s) throws IOException, ParserConfigurationException {
         Document cmml = XMLHelper.string2Doc(s, true);
@@ -100,16 +71,8 @@ public class CMMLInfo implements Document {
         cmmlDoc = (Document) other.cmmlDoc.cloneNode(true);
     }
 
-    public CMMLInfo(Node f2) throws TransformerException, IOException, ParserConfigurationException {
-        //TODO: Improve performance here
-        Document cmml = XMLHelper.string2Doc(XMLHelper.printDocument(f2), true);
-        constructor(cmml, true, false);
-    }
-
     public static CMMLInfo newFromSnippet(String snippet) throws IOException, ParserConfigurationException {
-        return new CMMLInfo(MATH_HEADER
-                + snippet
-                + MATH_FOOTER);
+        return new CMMLInfo(MATH_HEADER + snippet + MATH_FOOTER);
     }
 
     public final CMMLInfo abstract2CDs() {
@@ -251,6 +214,7 @@ public class CMMLInfo implements Document {
 
     private void constructor(Document cmml, Boolean fixNamespace, Boolean preserveAnnotations) {
         cmmlDoc = cmml;
+        queryGenerator = BasicXQueryGenerator.getDefaultGenerator();
         if (fixNamespace) {
             fixNamespaces();
         }
@@ -360,7 +324,7 @@ public class CMMLInfo implements Document {
         if (queryTokens.isEmpty()) {
             return 1.0;
         }
-        final Multiset<String> our = getElements();
+        final Multiset<String> our = getElements(true);
         if (our.contains(queryTokens)) {
             return 1.0;
         } else {
@@ -441,7 +405,7 @@ public class CMMLInfo implements Document {
             XPathExpression xEquation = xpath.compile("*//m:ci|*//m:co|*//m:cn");
             NonWhitespaceNodeList identifiers = new NonWhitespaceNodeList((NodeList) xEquation.evaluate(cmmlDoc, XPathConstants.NODESET));
             for (Node identifier : identifiers) {
-                list.add(identifier.getTextContent().trim());
+                list.add(identifier.getTextContent().trim()); //.toLowerCase()); //TODO lower case was not in the original!
             }
             return list;
         } catch (final XPathExpressionException e) {
@@ -449,6 +413,17 @@ public class CMMLInfo implements Document {
                     + cmmlDoc.toString(), e);
         }
         return HashMultiset.create();
+    }
+
+    public final Multiset<String> getElements(boolean useCache) {
+        if (cachedElements == null || !useCache) {
+            synchronized (this) {
+                if (cachedElements == null) {
+                    cachedElements = getElements();
+                }
+            }
+        }
+        return cachedElements;
     }
 
     @Override
@@ -572,9 +547,7 @@ public class CMMLInfo implements Document {
     }
 
     public final XQueryExecutable getXQuery(Boolean useCache) {
-        if (xQueryExecutable
-                == null
-                && !useCache) {
+        if (xQueryExecutable == null && !useCache) {
             getXQuery();
         }
         return xQueryExecutable;
@@ -583,8 +556,7 @@ public class CMMLInfo implements Document {
     public final XQueryExecutable getXQuery() {
 
         final String queryString = getXQueryString();
-        if (queryString
-                == null) {
+        if (queryString == null) {
             return null;
         }
         xQueryExecutable = XMLHelper.compileXQuerySting(queryString);
@@ -592,9 +564,23 @@ public class CMMLInfo implements Document {
     }
 
     public final String getXQueryString() {
-        final XQueryGeneratorBase gen = new XQueryGeneratorBase(cmmlDoc, XQUERY_HEADER, ".", XQUERY_FOOTER);
-        final String queryString = gen.toString();
-        return queryString;
+        // Old generator without qvars
+//        final BasicXQueryGenerator gen = new BasicXQueryGenerator(cmmlDoc, XQUERY_HEADER, ".", XQUERY_FOOTER);
+//        return gen.toString();
+
+        // New generator with qvars
+//        final QVarXQueryGenerator gen = new QVarXQueryGenerator(cmmlDoc, XQUERY_HEADER, XQUERY_FOOTER);
+//        return gen.toString();
+
+        return queryGenerator.generateQuery(cmmlDoc);
+    }
+
+    public XQueryGenerator getQueryGenerator() {
+        return queryGenerator;
+    }
+
+    public void setQueryGenerator(XQueryGenerator queryGenerator) {
+        this.queryGenerator = queryGenerator;
     }
 
     @Override
@@ -652,14 +638,24 @@ public class CMMLInfo implements Document {
         return cmmlDoc.isEqualNode(node);
     }
 
+    public final boolean isEquation(boolean useCache) throws XPathExpressionException {
+        if (cachedIsEquation == null || !useCache) {
+            synchronized (this) {
+                if (cachedIsEquation == null) {
+                    cachedIsEquation = isEquation();
+                }
+            }
+        }
+        return cachedIsEquation;
+    }
+
     public final boolean isEquation() throws XPathExpressionException {
         Node cmmlMain = XMLHelper.getMainElement(cmmlDoc);
         XPath xpath = XMLHelper.namespaceAwareXpath("m", NS_MATHML);
         XPathExpression xEquation = xpath.compile("./m:apply/*");
 
         NonWhitespaceNodeList elementsB = new NonWhitespaceNodeList(XMLHelper.getElementsB(cmmlMain, xEquation));
-        if (elementsB.getLength()
-                > 0) {
+        if (elementsB.getLength() > 0) {
             String name = elementsB.item(0).getLocalName();
             if (FORMULA_INDICATORS.contains(name)) {
                 return true;
@@ -671,10 +667,9 @@ public class CMMLInfo implements Document {
     public final Boolean isMatch(XQueryExecutable query) {
         Document doc = null;
         try {
-            doc = XMLHelper.runXQuery(query, toString());
+            doc = XMLHelper.runXQuery(query, toString(true));
             final NodeList elementsB = doc.getElementsByTagName("p");
-            return elementsB.getLength()
-                    != 0;
+            return elementsB.getLength() != 0;
         } catch (final SaxonApiException | ParserConfigurationException e) {
             LOG.warn("Unable to parse if query is a match. ", e);
         }
@@ -755,12 +750,7 @@ public class CMMLInfo implements Document {
         return this;
     }
 
-    public final CMMLInfo toStrictCmml() throws TransformerException, ParserConfigurationException {
-        cmmlDoc = XMLHelper.xslTransform(cmmlDoc, ROBERT_MINER_XSL);
-        return this;
-    }
-
-    public final CMMLInfo toStrictCmmlCont() {
+    public final CMMLInfo toStrictCmml() {
         try {
             cmmlDoc = XMLHelper.xslTransform(cmmlDoc, ROBERT_MINER_XSL);
             isStrict = true;
@@ -771,8 +761,21 @@ public class CMMLInfo implements Document {
         return this;
     }
 
+
+    public final String toString(boolean useCache) {
+        if (cachedString == null || !useCache) {
+            synchronized (this) {
+                if (cachedString == null) {
+                    cachedString = toString();
+                }
+            }
+        }
+        return cachedString;
+    }
+
     @Override
     public final String toString() {
+
         try {
             return XMLHelper.printDocument(cmmlDoc);
         } catch (final TransformerException e) {
