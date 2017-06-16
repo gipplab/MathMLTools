@@ -61,7 +61,7 @@
         <module name="SimplifyBooleanExpression" />
         <module name="SimplifyBooleanReturn" />
         <module name="StringLiteralEquality" />
-        <module name="AvoidStarImport" />
+        <!--<module name="AvoidStarImport" />-->
         <module name="AvoidStaticImport">
             <property name="excludes" value="org.junit.Assert.*"/>
         </module>
@@ -162,10 +162,10 @@
         <module name="HideUtilityClassConstructor" />
         <module name="VisibilityModifier" />
         <module name="InterfaceIsType" />
-        <module name="FinalLocalVariable">
-            <property name="severity" value="warning" />
-            <property name="tokens" value="PARAMETER_DEF,VARIABLE_DEF" />
-        </module>
+        <!--<module name="FinalLocalVariable">-->
+            <!--<property name="severity" value="warning" />-->
+            <!--<property name="tokens" value="PARAMETER_DEF,VARIABLE_DEF" />-->
+        <!--</module>-->
         <module name="SuperClone" />
         <module name="UnnecessaryParentheses" />
         <module name="OneStatementPerLine" />
@@ -174,9 +174,9 @@
            <property name="basicOffset" value="3"/>
            <property name="caseIndent" value="3"/>
         </module -->
-        <module name="TrailingComment">
-            <property name="format" value="^\s*$"/>
-        </module>
+        <!--<module name="TrailingComment">-->
+            <!--<property name="format" value="^\s*$"/>-->
+        <!--</module>-->
         <!-- Make the @SuppressWarnings annotations available to Checkstyle -->
         <module name="FileContentsHolder"/>
         <module name="SuppressWarningsHolder" />

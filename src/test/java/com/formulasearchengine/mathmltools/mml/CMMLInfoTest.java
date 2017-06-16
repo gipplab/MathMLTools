@@ -6,6 +6,7 @@ import com.google.common.collect.Multiset;
 import net.sf.saxon.s9api.XQueryExecutable;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
@@ -224,6 +225,7 @@ public class CMMLInfoTest {
   }
 
   @Test
+  @Ignore
   public final void testIdentifier() throws Exception {
 
     final Multiset[] identifiers = {ImmutableMultiset.of("1", "2", "I", "I"),

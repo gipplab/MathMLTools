@@ -1,0 +1,73 @@
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+    <semantics id="Thmdefinition1.p1.1.1.m8.1a" xref="Thmdefinition1.p1.1.1.m8.1.cmml">
+        <mrow id="Thmdefinition1.p1.1.1.m8.1.10"
+              xref="Thmdefinition1.p1.1.1.m8.1.10.cmml">
+            <mrow id="Thmdefinition1.p1.1.1.m8.1.10.1"
+                  xref="Thmdefinition1.p1.1.1.m8.1.10.1.cmml">
+                <mi id="Thmdefinition1.p1.1.1.m8.1.1"
+                    xref="Thmdefinition1.p1.1.1.m8.1.1.cmml">F</mi>
+                <mo id="Thmdefinition1.p1.1.1.m8.1.10.1.1"
+                    mathvariant="italic"
+                    xref="Thmdefinition1.p1.1.1.m8.1.10.1.1.cmml">?</mo>
+                <mrow id="Thmdefinition1.p1.1.1.m8.1.3"
+                      xref="Thmdefinition1.p1.1.1.m8.1.3.cmml">
+                    <mo id="Thmdefinition1.p1.1.1.m8.1.3a"
+                        mathvariant="italic"
+                        xref="Thmdefinition1.p1.1.1.m8.1.3.cmml">(</mo>
+                    <mi id="Thmdefinition1.p1.1.1.m8.1.3b"
+                        xref="Thmdefinition1.p1.1.1.m8.1.3.cmml">R</mi>
+                    <mo id="Thmdefinition1.p1.1.1.m8.1.3c"
+                        mathvariant="italic"
+                        xref="Thmdefinition1.p1.1.1.m8.1.3.cmml">)</mo>
+                </mrow>
+            </mrow>
+            <mo id="Thmdefinition1.p1.1.1.m8.1.5"
+                mathvariant="normal"
+                xref="Thmdefinition1.p1.1.1.m8.1.5.cmml">=</mo>
+            <mrow id="Thmdefinition1.p1.1.1.m8.1.10.2"
+                  xref="Thmdefinition1.p1.1.1.m8.1.10.2.cmml">
+                <mi id="Thmdefinition1.p1.1.1.m8.1.6"
+                    xref="Thmdefinition1.p1.1.1.m8.1.6.cmml">?</mi>
+                <mo id="Thmdefinition1.p1.1.1.m8.1.10.2.1"
+                    mathvariant="italic"
+                    xref="Thmdefinition1.p1.1.1.m8.1.10.2.1.cmml">?</mo>
+                <mrow id="Thmdefinition1.p1.1.1.m8.1.8"
+                      xref="Thmdefinition1.p1.1.1.m8.1.8.cmml">
+                    <mo id="Thmdefinition1.p1.1.1.m8.1.8a"
+                        mathvariant="italic"
+                        xref="Thmdefinition1.p1.1.1.m8.1.8.cmml">(</mo>
+                    <mi id="Thmdefinition1.p1.1.1.m8.1.8b"
+                        xref="Thmdefinition1.p1.1.1.m8.1.8.cmml">S</mi>
+                    <mo id="Thmdefinition1.p1.1.1.m8.1.8c"
+                        mathvariant="italic"
+                        xref="Thmdefinition1.p1.1.1.m8.1.8.cmml">)</mo>
+                </mrow>
+            </mrow>
+        </mrow>
+        <annotation-xml encoding="MathML-Content">
+            <apply id="Thmdefinition1.p1.1.1.m8.1.10.cmml"
+                   xref="Thmdefinition1.p1.1.1.m8.1.10">
+                <eq id="Thmdefinition1.p1.1.1.m8.1.5.cmml"
+                    xref="Thmdefinition1.p1.1.1.m8.1.5"/>
+                <apply id="Thmdefinition1.p1.1.1.m8.1.10.1.cmml"
+                       xref="Thmdefinition1.p1.1.1.m8.1.10.1">
+                    <times id="Thmdefinition1.p1.1.1.m8.1.10.1.1.cmml"
+                           xref="Thmdefinition1.p1.1.1.m8.1.10.1.1"/>
+                    <ci id="Thmdefinition1.p1.1.1.m8.1.1.cmml"
+                        xref="Thmdefinition1.p1.1.1.m8.1.1">F</ci>
+                    <ci id="Thmdefinition1.p1.1.1.m8.1.3.cmml"
+                        xref="Thmdefinition1.p1.1.1.m8.1.3">R</ci>
+                </apply>
+                <apply id="Thmdefinition1.p1.1.1.m8.1.10.2.cmml"
+                       xref="Thmdefinition1.p1.1.1.m8.1.10.2">
+                    <times id="Thmdefinition1.p1.1.1.m8.1.10.2.1.cmml"
+                           xref="Thmdefinition1.p1.1.1.m8.1.10.2.1"/>
+                    <ci id="Thmdefinition1.p1.1.1.m8.1.6.cmml"
+                        xref="Thmdefinition1.p1.1.1.m8.1.6">?</ci>
+                    <ci id="Thmdefinition1.p1.1.1.m8.1.8.cmml"
+                        xref="Thmdefinition1.p1.1.1.m8.1.8">S</ci>
+                </apply>
+            </apply>
+        </annotation-xml>
+    </semantics>
+</math>
