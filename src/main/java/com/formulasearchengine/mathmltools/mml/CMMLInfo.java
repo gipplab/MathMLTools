@@ -337,6 +337,26 @@ public class CMMLInfo implements Document {
         }
     }
 
+    /*
+          Die alte getCoverage Methode enthält eigentlich einen Bug,
+          aber um die Reproduktion der Ergebnisse nicht zu verfälschen,
+          wird die alte Methode verwendet.
+           */
+//    public final Double getCoverage(Multiset<String> queryTokens) {
+//        final Multiset<String> our = getElements(true);
+//        if (queryTokens.isEmpty()) {
+//            return our.isEmpty() ? 1.0 : 0.;
+//        }
+//        if (our.contains(queryTokens)) {
+//            return 1.0;
+//        } else {
+//            final HashMultiset<String> tmp = HashMultiset.create();
+//            tmp.addAll(queryTokens);
+//            tmp.removeAll(our);
+//            return 1 - ((double) tmp.size() / (double) queryTokens.size());
+//        }
+//    }
+
     public final Integer getDepth(XQueryExecutable query) {
         Document doc = null;
         try {
