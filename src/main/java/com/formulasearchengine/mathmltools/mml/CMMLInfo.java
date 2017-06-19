@@ -1,7 +1,7 @@
 package com.formulasearchengine.mathmltools.mml;
 
+import com.formulasearchengine.mathmlquerygenerator.QVarXQueryGenerator;
 import com.formulasearchengine.mathmlquerygenerator.XQueryGenerator;
-import com.formulasearchengine.mathmlquerygenerator.BasicXQueryGenerator;
 import com.formulasearchengine.mathmltools.xmlhelper.NonWhitespaceNodeList;
 import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
 import com.formulasearchengine.mathmltools.xmlhelper.XmlNamespaceTranslator;
@@ -81,7 +81,7 @@ public class CMMLInfo implements Document {
         return this;
     }
 
-    public final Node abstract2DTs() {
+    public final CMMLInfo abstract2DTs() {
         abstractNodeDT(cmmlDoc, 0);
         fixNamespaces();
         return this;
@@ -214,7 +214,7 @@ public class CMMLInfo implements Document {
 
     private void constructor(Document cmml, Boolean fixNamespace, Boolean preserveAnnotations) {
         cmmlDoc = cmml;
-        queryGenerator = BasicXQueryGenerator.getDefaultGenerator();
+        queryGenerator = QVarXQueryGenerator.getDefaultGenerator();
         if (fixNamespace) {
             fixNamespaces();
         }
@@ -584,14 +584,6 @@ public class CMMLInfo implements Document {
     }
 
     public final String getXQueryString() {
-        // Old generator without qvars
-//        final BasicXQueryGenerator gen = new BasicXQueryGenerator(cmmlDoc, XQUERY_HEADER, ".", XQUERY_FOOTER);
-//        return gen.toString();
-
-        // New generator with qvars
-//        final QVarXQueryGenerator gen = new QVarXQueryGenerator(cmmlDoc, XQUERY_HEADER, XQUERY_FOOTER);
-//        return gen.toString();
-
         return queryGenerator.generateQuery(cmmlDoc);
     }
 
