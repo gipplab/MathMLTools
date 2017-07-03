@@ -1,5 +1,6 @@
 package com.formulasearchengine.mathmltools.mml;
 
+import com.formulasearchengine.mathmlquerygenerator.FirstXQueryGenerator;
 import com.formulasearchengine.mathmlquerygenerator.QVarXQueryGenerator;
 import com.formulasearchengine.mathmlquerygenerator.XQueryGenerator;
 import com.formulasearchengine.mathmltools.xmlhelper.NonWhitespaceNodeList;
@@ -89,10 +90,8 @@ public class CMMLInfo implements Document {
 
     private void abstractNodeCD(Node node) {
         final NonWhitespaceNodeList childNodes = new NonWhitespaceNodeList(node.getChildNodes());
-        if (childNodes.getLength()
-                > 0) {
-            for (int i = 0; i
-                    < childNodes.getLength(); i++) {
+        if (childNodes.getLength() > 0) {
+            for (int i = 0; i < childNodes.getLength(); i++) {
                 abstractNodeCD(childNodes.item(i));
             }
         } else {
@@ -102,15 +101,11 @@ public class CMMLInfo implements Document {
         String cd;
         try {
             cd = node.getAttributes().getNamedItem("cd").getNodeValue();
-        } catch (final DOMException e) {
+        } catch (final DOMException | NullPointerException e) {
             //TODO: Implement CD fallback
             cd = "";
-        } catch (NullPointerException e) {
-            cd = "";
         }
-        if (cd
-                != null
-                && cd.isEmpty()) {
+        if (cd != null && cd.isEmpty()) {
             return;
         }
         try {
@@ -138,18 +133,14 @@ public class CMMLInfo implements Document {
         Integer level = applies;
         final String name = node.getLocalName();
         if (node.hasChildNodes()) {
-            if (name
-                    != null
-                    && levelGenerators.contains(name)) {
+            if (name != null && levelGenerators.contains(name)) {
                 applies++;
             } else {
                 applies = 0;
             }
             NodeList childNodes = node.getChildNodes();
-            for (int i = 0; i
-                    < childNodes.getLength(); i++) {
-                if (i
-                        == 0) {
+            for (int i = 0; i < childNodes.getLength(); i++) {
+                if (i == 0) {
                     abstractNodeDT(childNodes.item(i), applies);
                 } else {
                     abstractNodeDT(childNodes.item(i), 0);
@@ -167,20 +158,16 @@ public class CMMLInfo implements Document {
             }
             rename = true;
         }
-        if (name
-                != null
-                && rename) {
+        if (name != null && rename) {
             try {
                 cmmlDoc.renameNode(node, "http://formulasearchengine.com/ns/pseudo/gen/datatype", "l"
                         + level);
             } catch (final DOMException e) {
-                LOG.info("could not rename node"
-                        + name);
+                LOG.info("could not rename node" + name);
                 return;
             }
         }
-        if (node.getNodeType()
-                == TEXT_NODE) {
+        if (node.getNodeType() == TEXT_NODE) {
             node.setTextContent("");
         }
     }
@@ -276,11 +263,9 @@ public class CMMLInfo implements Document {
 
     private void fixNamespaces() {
         Node math = new NonWhitespaceNodeList(cmmlDoc.getElementsByTagNameNS("*", "math")).getFirstElement();
-        if (math
-                == null) {
+        if (math == null) {
             try {
-                LOG.error("No mathml element found in:\n"
-                        + XMLHelper.printDocument(cmmlDoc));
+                LOG.error("No mathml element found in:\n" + XMLHelper.printDocument(cmmlDoc));
             } catch (TransformerException e) {
                 LOG.error("No mathml element found in unpritnabel input.");
             }
@@ -366,18 +351,15 @@ public class CMMLInfo implements Document {
             return null;
         }
         final NodeList elementsB = doc.getElementsByTagName("p");
-        if (elementsB.getLength()
-                == 0) {
+        if (elementsB.getLength() == 0) {
             return null;
         }
         Integer depth = Integer.MAX_VALUE;
         //find the match with lowest depth
-        for (int i = 0; i
-                < elementsB.getLength(); i++) {
+        for (int i = 0; i < elementsB.getLength(); i++) {
             final String path = elementsB.item(i).getTextContent();
             final int currentDepth = path.split("/").length;
-            if (currentDepth
-                    < depth) {
+            if (currentDepth < depth) {
                 depth = currentDepth;
             }
         }
@@ -425,7 +407,7 @@ public class CMMLInfo implements Document {
             XPathExpression xEquation = xpath.compile("*//m:ci|*//m:co|*//m:cn");
             NonWhitespaceNodeList identifiers = new NonWhitespaceNodeList((NodeList) xEquation.evaluate(cmmlDoc, XPathConstants.NODESET));
             for (Node identifier : identifiers) {
-                list.add(identifier.getTextContent().trim()); //.toLowerCase()); //TODO lower case was not in the original!
+                list.add(identifier.getTextContent().trim());
             }
             return list;
         } catch (final XPathExpressionException e) {
@@ -574,13 +556,21 @@ public class CMMLInfo implements Document {
     }
 
     public final XQueryExecutable getXQuery() {
-
         final String queryString = getXQueryString();
         if (queryString == null) {
             return null;
         }
         xQueryExecutable = XMLHelper.compileXQuerySting(queryString);
         return xQueryExecutable;
+    }
+
+    /**
+     * This method was used to test the "first" version of the query generator
+     * and for comparison against the current implementation.
+     */
+    @Deprecated
+    public String getXQueryStringBackup() {
+        return new FirstXQueryGenerator(cmmlDoc).toString();
     }
 
     public final String getXQueryString() {
@@ -787,7 +777,6 @@ public class CMMLInfo implements Document {
 
     @Override
     public final String toString() {
-
         try {
             return XMLHelper.printDocument(cmmlDoc);
         } catch (final TransformerException e) {
