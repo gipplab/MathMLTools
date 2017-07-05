@@ -13,8 +13,8 @@ public class BasicXQueryGenerator extends XQueryGenerator<BasicXQueryGenerator> 
     public static final String XQUERY_NAMESPACE_ELEMENT = "declare namespace functx = \"http://www.functx.com\";";
 
     public static final String FN_PATH_FROM_ROOT = "declare function functx:path-to-node( $nodes as node()* ) as xs:string* {\n"
-                    + "$nodes/string-join(ancestor-or-self::*/name(.), '/')\n"
-                    + " };";
+            + "$nodes/string-join(ancestor-or-self::*/name(.), '/')\n"
+            + " };";
 
     public static final String XQUERY_FOOTER = "<element><x>{$x}</x><p>{data(functx:path-to-node($x))}</p></element>";
 
