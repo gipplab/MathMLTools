@@ -455,15 +455,13 @@ public final class XMLHelper {
     }
 
     private static Node getContentMathMLNode(Document xml) {
-        NodeList expr;
-        expr = xml.getElementsByTagName("annotation-xml");
-        for (Node node : new NonWhitespaceNodeList(expr)) {
-            if (node.hasAttributes()
-                    && node.getAttributes().getNamedItem("encoding").getNodeValue().equals("MathML-Content")) {
-                return node;
-            }
+        try {
+            NodeList annotations = getElementsB(xml, "*:math/*:semantics/*:annotation-xml[@encoding='MathML-Content']");
+            return new NonWhitespaceNodeList(annotations).getFirstElement();
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public static Document xslTransform(Node srcNode, String xsltResourceNamme) throws TransformerException, ParserConfigurationException {
