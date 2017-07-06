@@ -225,7 +225,6 @@ public class CMMLInfoTest {
   }
 
   @Test
-  @Ignore
   public final void testIdentifier() throws Exception {
 
     final Multiset[] identifiers = {ImmutableMultiset.of("1", "2", "I", "I"),

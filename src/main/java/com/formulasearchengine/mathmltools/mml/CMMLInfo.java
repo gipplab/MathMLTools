@@ -32,6 +32,7 @@ public class CMMLInfo implements Document {
     //For XML math processing
     public static final String NS_MATHML = "http://www.w3.org/1998/Math/MathML";
     public static final String ROBERT_MINER_XSL = "com/formulasearchengine/mathmltools/mml/RobertMinerC2s.xsl";
+
     protected static final Log LOG = LogFactory.getLog(CMMLInfo.class);
 
     private static final String MATH_HEADER = "<?xml version=\"1.0\" ?>\n"
@@ -57,7 +58,6 @@ public class CMMLInfo implements Document {
 
     private Multiset<String> cachedElements = null;
     private Boolean cachedIsEquation = null;
-    private String cachedString = null;
 
     public CMMLInfo(Document cmml) {
         constructor(cmml, true, false);
@@ -102,6 +102,7 @@ public class CMMLInfo implements Document {
         try {
             cd = node.getAttributes().getNamedItem("cd").getNodeValue();
         } catch (final DOMException | NullPointerException e) {
+            LOG.error("attribute not accessible or not found", e);
             //TODO: Implement CD fallback
             cd = "";
         }
@@ -647,7 +648,7 @@ public class CMMLInfo implements Document {
     public final Boolean isMatch(XQueryExecutable query) {
         Document doc = null;
         try {
-            doc = XMLHelper.runXQuery(query, toString(true));
+            doc = XMLHelper.runXQuery(query, toString());
             final NodeList elementsB = doc.getElementsByTagName("p");
             return elementsB.getLength() != 0;
         } catch (final SaxonApiException | ParserConfigurationException e) {
@@ -739,18 +740,6 @@ public class CMMLInfo implements Document {
                     + cmmlDoc.toString(), e);
         }
         return this;
-    }
-
-
-    public final String toString(boolean useCache) {
-        if (cachedString == null || !useCache) {
-            synchronized (this) {
-                if (cachedString == null) {
-                    cachedString = toString();
-                }
-            }
-        }
-        return cachedString;
     }
 
     @Override
