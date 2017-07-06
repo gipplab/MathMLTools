@@ -3,13 +3,7 @@ package com.formulasearchengine.mathmltools.xmlhelper;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import net.sf.saxon.Configuration;
-import net.sf.saxon.s9api.DOMDestination;
-import net.sf.saxon.s9api.Processor;
-import net.sf.saxon.s9api.SaxonApiException;
-import net.sf.saxon.s9api.XQueryCompiler;
-import net.sf.saxon.s9api.XQueryEvaluator;
-import net.sf.saxon.s9api.XQueryExecutable;
-import net.sf.saxon.s9api.XdmNode;
+import net.sf.saxon.s9api.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -29,11 +23,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
+import javax.xml.xpath.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -46,16 +36,18 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-// TODO: Auto-generated Javadoc
-
 /**
- * The Class XMLHelper.
+ * XMLHelper contains utility functions to handle
+ * NodeLists, Nodes and the CMMLInfo object.
+ *
+ * @author Moritz Schubotz
  */
 @SuppressWarnings("UnusedDeclaration")
 public final class XMLHelper {
 
     public static final Pattern ANNOTATION_XML_PATTERN = Pattern.compile("annotation(-xml)?");
+    public static final String MATH_SEMANTICS_ANNOTATION = "*:math/*:semantics/*:annotation-xml[@encoding='MathML-Content']";
+
     /**
      * The factory.
      */
@@ -456,7 +448,7 @@ public final class XMLHelper {
 
     private static Node getContentMathMLNode(Document xml) {
         try {
-            NodeList annotations = getElementsB(xml, "*:math/*:semantics/*:annotation-xml[@encoding='MathML-Content']");
+            NodeList annotations = getElementsB(xml, MATH_SEMANTICS_ANNOTATION);
             return new NonWhitespaceNodeList(annotations).getFirstElement();
         } catch (XPathExpressionException e) {
             e.printStackTrace();
