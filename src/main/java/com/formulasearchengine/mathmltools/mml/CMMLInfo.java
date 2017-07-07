@@ -101,9 +101,11 @@ public class CMMLInfo implements Document {
         String cd;
         try {
             cd = node.getAttributes().getNamedItem("cd").getNodeValue();
-        } catch (final DOMException | NullPointerException e) {
-            LOG.error("attribute not accessible or not found", e);
+        } catch (final DOMException e) {
+            LOG.warn("attribute not accessible or not found", e);
             //TODO: Implement CD fallback
+            cd = "";
+        } catch (final NullPointerException e) {
             cd = "";
         }
         if (cd != null && cd.isEmpty()) {

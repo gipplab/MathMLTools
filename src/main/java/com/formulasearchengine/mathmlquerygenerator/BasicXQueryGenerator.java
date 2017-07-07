@@ -74,14 +74,16 @@ public class BasicXQueryGenerator extends XQueryGenerator<BasicXQueryGenerator> 
                 //If an element node and not an attribute or text node, add to xquery and increment index
                 childElementIndex++;
 
-                // We only want to consider elements below the content mathml semantics, a deeper annotation-node will be ignored
-                boolean notAnnotationNode = child.getLocalName() == null || !XMLHelper.ANNOTATION_XML_PATTERN.matcher(child.getLocalName()).matches();
-                if (notAnnotationNode) {
-                    if (handleSpecialElements(child, childElementIndex)) {
-                        // this was a special element and was handled otherwise (e.g. qvar)
-                        continue;
-                    }
+                boolean wasSpecialElement = handleSpecialElements(child, childElementIndex);
+                if (wasSpecialElement) {
+                    continue; // this was a special element and was handled otherwise (e.g. qvar)
+                }
 
+                // We only want to consider elements below the content mathml semantics,
+                // a deeper lying annotation-node should be ignored
+                boolean annotationNode = child.getLocalName() != null
+                        && XMLHelper.ANNOTATION_XML_PATTERN.matcher(child.getLocalName()).matches();
+                if (!annotationNode) {
                     if (queryHasText) {
                         //Add another condition on top of existing condition in query
                         out.append(" and ");
