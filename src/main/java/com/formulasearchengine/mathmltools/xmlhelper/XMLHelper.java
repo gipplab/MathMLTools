@@ -48,6 +48,10 @@ public final class XMLHelper {
     public static final Pattern ANNOTATION_XML_PATTERN = Pattern.compile("annotation(-xml)?");
     public static final String MATH_SEMANTICS_ANNOTATION = "*:math/*:semantics/*:annotation-xml[@encoding='MathML-Content']";
 
+    private XMLHelper() {
+        // utility class
+    }
+
     /**
      * The factory.
      */
@@ -113,7 +117,6 @@ public final class XMLHelper {
     public static NodeList string2NodeList(String inputXMLString,
                                            String xPath) throws ParserConfigurationException,
             IOException, XPathExpressionException {
-
         Document doc = string2Doc(inputXMLString, false);
         XPathFactory factory = XPathFactory.newInstance();
         XPath xpath = factory.newXPath();
@@ -134,8 +137,6 @@ public final class XMLHelper {
      * @throws XPathExpressionException the x path expression exception
      */
     public static Node getElementB(Node node, String xPath) throws XPathExpressionException {
-
-
         XPathExpression expr = xpath.compile(xPath);
         return getElementB(node, expr);
     }
@@ -150,7 +151,6 @@ public final class XMLHelper {
      * @throws XPathExpressionException the x path expression exception
      */
     public static Node getElementB(Node node, XPathExpression xPath) throws XPathExpressionException {
-
         return getElementsB(node, xPath).item(0);
     }
 
@@ -165,7 +165,6 @@ public final class XMLHelper {
      */
     public static NodeList getElementsB(Node node, XPathExpression xPath)
             throws XPathExpressionException {
-
         return (NodeList) xPath.evaluate(node, XPathConstants.NODESET);
     }
 
@@ -362,18 +361,6 @@ public final class XMLHelper {
     }
 
     public static boolean compareNode(Node nQ, Node nN, Boolean considerLength, Map<String, Node> qvars) throws Exception {
-        /*System.out.println("current query tree:");
-        try {
-            System.out.println(printDocument(nQ));
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println("current comp tree:");
-        try {
-            System.out.println(printDocument(nN));
-        }catch (Exception e) {
-            e.printStackTrace();
-        }// END OF DEBUG output XML */
         if (qvars == null) {
             throw new Exception("qvars array must not be null");
         }
@@ -528,10 +515,6 @@ public final class XMLHelper {
         };
         xpath.setNamespaceContext(ctx);
         return xpath;
-    }
-
-    public void comileXQuery() {
-        //XQueryCompiler xqueryCompiler;
     }
 
     /**
