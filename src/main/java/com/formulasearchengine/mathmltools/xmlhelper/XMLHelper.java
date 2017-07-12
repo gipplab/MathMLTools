@@ -36,6 +36,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.formulasearchengine.mathmltools.mml.CMMLInfo.NS_MATHML;
+
 /**
  * XMLHelper contains utility functions to handle
  * NodeLists, Nodes and the CMMLInfo object.
@@ -46,7 +48,7 @@ import java.util.regex.Pattern;
 public final class XMLHelper {
 
     public static final Pattern ANNOTATION_XML_PATTERN = Pattern.compile("annotation(-xml)?");
-    public static final String MATH_SEMANTICS_ANNOTATION = "*:math/*:semantics/*:annotation-xml[@encoding='MathML-Content']";
+    public static final String MATH_SEMANTICS_ANNOTATION = "m:math/m:semantics/m:annotation-xml[@encoding='MathML-Content']";
 
     private XMLHelper() {
         // utility class
@@ -279,6 +281,7 @@ public final class XMLHelper {
      * @return
      * @throws XPathExpressionException
      */
+    @Deprecated
     public static Multiset<String> getIdentifiersFromCmml(Node cmml) throws XPathExpressionException {
         Multiset<String> list = HashMultiset.create();
         //System.out.println(printDocument(cmml));
@@ -298,6 +301,7 @@ public final class XMLHelper {
      * @return
      * @throws XPathExpressionException
      */
+    @Deprecated
     public static NodeList getLeafNodesFromCmml(Node cmml) throws XPathExpressionException {
         return getElementsB(cmml, "*//*:ci[not(child::*)]|*//*:co[not(child::*)]|*//*:cn[not(child::*)]");
     }
@@ -410,7 +414,6 @@ public final class XMLHelper {
     public static Node getMainElement(Document xml) {
         // Try to get main mws:expr first
         NodeList expr = xml.getElementsByTagName("mws:expr");
-
         if (expr.getLength() > 0) {
             return new NonWhitespaceNodeList(expr).item(0);
         }
@@ -435,7 +438,8 @@ public final class XMLHelper {
 
     private static Node getContentMathMLNode(Document xml) {
         try {
-            NodeList annotations = getElementsB(xml, MATH_SEMANTICS_ANNOTATION);
+            XPath xPath = namespaceAwareXpath("m", NS_MATHML);
+            NodeList annotations = getElementsB(xml, xPath.compile(MATH_SEMANTICS_ANNOTATION));
             return new NonWhitespaceNodeList(annotations).getFirstElement();
         } catch (XPathExpressionException e) {
             e.printStackTrace();

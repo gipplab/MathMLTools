@@ -72,6 +72,12 @@ public class CMMLInfo implements Document {
         cmmlDoc = (Document) other.cmmlDoc.cloneNode(true);
     }
 
+    public CMMLInfo(Node f2) throws TransformerException, IOException, ParserConfigurationException {
+        //TODO: Improve performance here
+        Document cmml = XMLHelper.string2Doc(XMLHelper.printDocument(f2), true);
+        constructor(cmml, true, false);
+    }
+
     public static CMMLInfo newFromSnippet(String snippet) throws IOException, ParserConfigurationException {
         return new CMMLInfo(MATH_HEADER + snippet + MATH_FOOTER);
     }
