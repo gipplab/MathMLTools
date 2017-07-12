@@ -63,6 +63,7 @@
         <module name="StringLiteralEquality" />
         <!--<module name="AvoidStarImport" />-->
         <module name="AvoidStaticImport">
+            <property name="severity" value="warning" />
             <property name="excludes" value="org.junit.Assert.*"/>
         </module>
         <module name="IllegalImport" />
