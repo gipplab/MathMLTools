@@ -13,17 +13,12 @@ install:
 after_success:
   - mvn clean test jacoco:report coveralls:report
 
-env:
-  global:
-  - secure: fX1/AIAPMvRLrriO+yeHCT/fA4y0zq4hWx31Z/VRAb+noGkXm1lVC58u6qFfyY17FUOfL+PZ5XVlseS9jkUPhZ9fNgdkT1MtslcIHKWYqPZInw2En47mtOdKreA2rb9cdzApSNccA8Ezro7EEk2y4e/VaqhdQ6kKC4aq322Djv2+ks1xz0fkkUbBGZtMZ3CATopbgTs3SRJyfuGzHJTztgmyUp/t1+w6OspuRpCcohoDvgxQhhDB2Npitpavfvce98VHdfnAIvRqUyv6C+IO/QVyb/DC3kaguji+P+mFn+m8aHPfWNtwMhhcjQPC8oix87WBSx+x50KYWPqXmDFe4ApUhmVA59yyUQksXd/Kggdvnb3JBQ2wMotqU+ahKdYacg7HMKTXbeCmEbnzOK/juzE2isJiGngVvOkQtX4nNRoSenfikWqopfPoW/B2PfEIZOnSEOxjC3gm4plfLFT5XLZfsiTkfRf62XkugRQ1tOr+U5eRxL8hwK/6cd56aCjXb8wASznkx7ENhv6/2hqwQJQy3ONsSnyeNFxRP9gK2qZNJzEhv0yATjaQvNyCySwSb5BCM2+MA6WnV0WKTxTu8dx+bpNzf5lRNvPXrcCzEMWaHUcyR7JSVWWOyrPudyUEW7ESDr6qrMxUmcGSAT/aGuJnnEET2HfOaPONPWW+kNQ=
-  - secure: OBYji91SDPNuKFCNSq9qB1KHdjx060/Fh4jLvBGeL2DJcnnTtRJwdapyRPuUjSYvuagkxBhoQuZSO+d+LbNjGjBnQr1qVXFRRXd48h6Fw4SSerMQMLkC42Y1c007uRXMA1E8fS/5pfsBfRfGI78bhrgld+NJl/CTPH8g/41Jxb8khv/YdKYo4szERvK31DhAxqYcIORjWtLuKYZEtA/WiR31X8EmZWhEtRQmILT3SbJ6yMUB9aEKjp5XCLh+TzyOhrIwHuFftkVYJOrpJOdgz5qnd4hke5rFEYcIiPfdH5Ltb2nZgMyJ6bwRxY+IyO8Dwob8itZH1Oilx0CMkq91gtnPpP5mactHpsYCUncnIp7P/rOi+Y3wVhF4h1jO93h5j8BZcs1ceKVpVy7PCHCYYclLb++vHUHhse6JOX3rPSYcnYIgtr8tRZ/KSYbruKtWSfkISGYEf9Oke+ucSJ8LswfF+Cyo9++XxMl0UEkiiKMyVLSMCpsOg4m11Gdb+kd2LjixHyAUwruB98UNHa8ZsG8m6GIk+XJPMexxVHC59TGDjyU7ATDpYPdgcD/0ca0NtpfKUdccK5fbtDBqLn/ZPWQ2/RLRl38fv3XUXRYSLjKAJ/ohYTW/2PvO5kcfaIF7Y1ucDYiLobcHMpfERPY5nqT6FAr5ci3r4L7jxvmqygI=
-
 deploy:
   -
     provider: script
     script: .travis/deploy.sh
     skip_cleanup: true
     on:
-      repo: physikerwelt/MathMLTools
+      repo: ag-gipp/MathMLTools
       branch: master
       jdk: oraclejdk8
