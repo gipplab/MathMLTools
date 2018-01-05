@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("JavaDoc")
 public class CMMLInfoTest {
-    private static final String MML_TEST_DIR = "com/formulasearchengine/mathmltools/mml/";
+    static final String MML_TEST_DIR = "com/formulasearchengine/mathmltools/mml/";
     private final String rawTests[] = {"<annotation-xml encoding=\"MathML-Content\" id=\"I1.i2.p1.1.m1.1.cmml\" xref=\"I1.i2.p1.1.m1.1\">\n" +
             "  <apply id=\"I1.i2.p1.1.m1.1.6.cmml\" xref=\"I1.i2.p1.1.m1.1.6\">\n" +
             "    <list id=\"I1.i2.p1.1.m1.1.6.1.cmml\"/>\n" +
@@ -198,7 +198,7 @@ public class CMMLInfoTest {
         XMLUnit.setXSLTVersion("2.0");
     }
 
-    private static String getFileContents(String fName) throws IOException {
+    static String getFileContents(String fName) throws IOException {
         final InputStream is = CMMLInfoTest.class.getClassLoader().getResourceAsStream(fName);
         try {
             final Scanner s = new Scanner(is, "UTF-8");
@@ -348,13 +348,5 @@ public class CMMLInfoTest {
     System.out.println(TreeWriter.compactForm(mml.toStrictCmml().abstract2DTs()));
     assertEquals(s, mml.getXQueryString());
   }
-
-    @Test
-    public final void testLoadArXivDocTest() throws Exception {
-        final String sampleMML = getFileContents(MML_TEST_DIR + "arxivSample.mml");
-        CMMLInfo mml = new CMMLInfo(sampleMML);
-        System.out.println(TreeWriter.compactForm(mml.toStrictCmml().abstract2CDs()));
-
-    }
 
 }
