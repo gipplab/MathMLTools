@@ -53,7 +53,7 @@ public class NtcirTopicReaderTest {
     public void checkBaseX() throws Exception {
         final String referenceString = getFileContents("jp/ac/nii/basexReferenceQueries.txt");
         final NtcirTopicReader tr = getTopicReader(WIKIPEDIA_RESOURCE);
-        tr.setNamespace(BASEX_NAMESPACE);
+        //tr.setNamespace(BASEX_NAMESPACE);
         tr.setPathToRoot(BASEX_PATHTOROOT);
         tr.setReturnFormat(BASEX_RETURNFORMAT);
         final StringBuilder sb = new StringBuilder();
@@ -68,7 +68,7 @@ public class NtcirTopicReaderTest {
     public void checkRecursiveBaseX() throws Exception {
         final String referenceString = getFileContents("jp/ac/nii/basexRecursiveReferenceQueries.txt");
         final NtcirTopicReader tr = getTopicReader(WIKIPEDIA_RESOURCE);
-        tr.setNamespace(BASEX_NAMESPACE);
+        //tr.setNamespace(BASEX_NAMESPACE);
         tr.setPathToRoot(BASEX_PATHTOROOT);
         tr.setReturnFormat(BASEX_RETURNFORMAT);
         tr.setFindRootApply(true);
