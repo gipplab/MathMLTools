@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<math>
+    <apply>
+        <eq/>
+        <apply>
+            <times/>
+            <ci>a</ci>
+            <ci>b</ci>
+        </apply>
+        <apply>
+            <times/>
+            <ci>b</ci>
+            <ci>a</ci>
+        </apply>
+    </apply>
+</math>

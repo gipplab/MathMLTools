@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+    <semantics>
+        <annotation-xml encoding="application/openmath+xml">
+            <OMA xmlns="http://www.openmath.org/OpenMath">
+                <OMV name="E"/>
+            </OMA>
+        </annotation-xml>
+        <annotation-xml encoding="MathML-Content"
+                        id="I1.i2.p1.1.m1.1.cmml"
+                        xref="I1.i2.p1.1.m1.1">
+            <ci xml:id="p1.1.m1.1.1.cmml" xref="p1.1.m1.1.1">E</ci>
+        </annotation-xml>
+    </semantics>
+</math>

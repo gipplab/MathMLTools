@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<mws:query xmlns:mws="http://search.mathweb.org/ns" xmlns:m="http://www.w3.org/1998/Math/MathML" limitmin="0"
+           answsize="30">
+    <mws:expr>
+        <m:apply xml:id="p1.1.m1.1.3.cmml" xref="p1.1.m1.1.3">
+            <m:csymbol cd="ambiguous" xml:id="p1.1.m1.1.3.1.cmml">superscript</m:csymbol>
+            <m:ci xml:id="p1.1.m1.1.1.cmml" xref="p1.1.m1.1.1">c</m:ci>
+            <m:cn type="integer" xml:id="p1.1.m1.1.2.1.cmml" xref="p1.1.m1.1.2.1">2</m:cn>
+        </m:apply>
+    </mws:expr>
+</mws:query>
