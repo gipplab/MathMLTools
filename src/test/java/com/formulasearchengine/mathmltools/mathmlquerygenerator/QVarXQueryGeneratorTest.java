@@ -132,65 +132,65 @@ public class QVarXQueryGeneratorTest {
         runTestCollection("com/formulasearchengine/mathmlquerygenerator/recursive", true);
     }
 
-//    public void testCustomization() throws Exception {
-//        final String testNamespace = "declare default element namespace \"http://www.w3.org/1998/Math/MathML\";";
-//        final String testPathToRoot = "//*:root";
-//        final String testResultFormat = "<hit>{$x}</hit>";
-//        final String testInput = getFileContents("com/formulasearchengine/mathmlquerygenerator/cmml/q1.xml");
-//        final String expectedOutput = "declare default element namespace \"http://www.w3.org/1998/Math/MathML\";\n" +
-//                "for $m in //*:root return\n" +
-//                "for $x in $m//*:ci\n" +
-//                "[./text() = 'E']\n" +
-//                "where\n" +
-//                "fn:count($x/*) = 0\n" +
-//                "\n" +
-//                "return\n" +
-//                "<hit>{$x}</hit>";
-//        Document query = XMLHelper.string2Doc(testInput, true);
-//        QVarXQueryGenerator xQueryGenerator = new QVarXQueryGenerator(query);
-//        xQueryGenerator.setReturnFormat(testResultFormat).setNamespace(testNamespace)
-//                .setPathToRoot(testPathToRoot);
-//        assertEquals(expectedOutput, xQueryGenerator.toString());
-//        assertEquals(testResultFormat, xQueryGenerator.getReturnFormat());
-//        assertEquals(testNamespace, xQueryGenerator.getNamespace());
-//    }
-//
-//    public void testNoRestriction() throws Exception {
-//        final String testInput = getFileContents("com/formulasearchengine/mathmlquerygenerator/mws/qqx2x.xml");
-//        final String expectedOutput = "declare function local:qvarMap($x) {\n" +
-//                " map {\"x\" : (data($x/*[2]/*[2]/@xml:id),data($x/*[3]/@xml-id))}\n" + "};\n" +
-//                "for $m in //*:root return\n" + "for $x in $m//*:apply\n" +
-//                "[*[1]/name() = 'plus' and *[2]/name() = 'apply' and *[2][*[1]/name() = 'csymbol' and *[1][./text() = 'superscript'] and *[3]/name() = 'cn' and *[3][./text() = '2']]]\n" +
-//                "where\n" +
-//                "$x/*[2]/*[2] = $x/*[3]\n\n" +
-//                "return\n";
-//        Document query = XMLHelper.string2Doc(testInput, true);
-//        QVarXQueryGenerator xQueryGenerator = new QVarXQueryGenerator(query);
-//        xQueryGenerator.setReturnFormat("").setNamespace("").setPathToRoot("//*:root").setRestrictLength(false);
-//        assertEquals(expectedOutput, xQueryGenerator.toString());
-//        assertFalse(xQueryGenerator.isRestrictLength());
-//    }
-//
-//    public void testNoMath() throws Exception {
-//        final String input = "<?xml version=\"1.0\"?>\n<noMath />";
-//        QVarXQueryGenerator qg = new QVarXQueryGenerator(input);
-//        assertNull("Input without math should return null", qg.toString());
-//    }
-//
-//    public void testqVarGetter() throws Exception {
-//        final String expectedVariableName = "x";
-//        final String firstExpectedLocation = "/*[2]/*[2]";
-//        final String testInput = getFileContents("com/formulasearchengine/mathmlquerygenerator/mws/qqx2x.xml");
-//        Document query = XMLHelper.string2Doc(testInput, false);
-//        QVarXQueryGenerator xQueryGenerator = new QVarXQueryGenerator(query);
-//        Map<String, ArrayList<String>> qVars = xQueryGenerator.getQvar();
-//        assertEquals(1, qVars.entrySet().size());
-//        Map.Entry<String, ArrayList<String>> firstEntry = qVars.entrySet().iterator().next();
-//        assertEquals(expectedVariableName, firstEntry.getKey());
-//        ArrayList<String> xPaths = firstEntry.getValue();
-//        assertEquals(2, xPaths.size());
-//        assertEquals(firstExpectedLocation, xPaths.get(0));
-//        assertEquals(true, xQueryGenerator.isAddQvarMap());
-//    }
+    public void testCustomization() throws Exception {
+        final String testNamespace = "declare default element namespace \"http://www.w3.org/1998/Math/MathML\";";
+        final String testPathToRoot = "//*:root";
+        final String testResultFormat = "<hit>{$x}</hit>";
+        final String testInput = getFileContents("com/formulasearchengine/mathmlquerygenerator/cmml/q1.xml");
+        final String expectedOutput = "declare default element namespace \"http://www.w3.org/1998/Math/MathML\";\n" +
+                "for $m in //*:root return\n" +
+                "for $x in $m//*:ci\n" +
+                "[./text() = 'E']\n" +
+                "where\n" +
+                "fn:count($x/*) = 0\n" +
+                "\n" +
+                "return\n" +
+                "<hit>{$x}</hit>";
+        Document query = XMLHelper.string2Doc(testInput, true);
+        QVarXQueryGenerator xQueryGenerator = new QVarXQueryGenerator();
+        xQueryGenerator.setReturnFormat(testResultFormat).setNamespace(testNamespace)
+                .setPathToRoot(testPathToRoot);
+        assertEquals(expectedOutput, xQueryGenerator.toString());
+        assertEquals(testResultFormat, xQueryGenerator.getReturnFormat());
+        //assertEquals(testNamespace, xQueryGenerator.getNamespace());
+    }
+
+    public void testNoRestriction() throws Exception {
+        final String testInput = getFileContents("com/formulasearchengine/mathmlquerygenerator/mws/qqx2x.xml");
+        final String expectedOutput = "declare function local:qvarMap($x) {\n" +
+                " map {\"x\" : (data($x/*[2]/*[2]/@xml:id),data($x/*[3]/@xml-id))}\n" + "};\n" +
+                "for $m in //*:root return\n" + "for $x in $m//*:apply\n" +
+                "[*[1]/name() = 'plus' and *[2]/name() = 'apply' and *[2][*[1]/name() = 'csymbol' and *[1][./text() = 'superscript'] and *[3]/name() = 'cn' and *[3][./text() = '2']]]\n" +
+                "where\n" +
+                "$x/*[2]/*[2] = $x/*[3]\n\n" +
+                "return\n";
+        Document query = XMLHelper.string2Doc(testInput, true);
+        QVarXQueryGenerator xQueryGenerator = new QVarXQueryGenerator();
+        xQueryGenerator.setReturnFormat("").setNamespace("").setPathToRoot("//*:root").setRestrictLength(false);
+        assertEquals(expectedOutput, xQueryGenerator.toString());
+        assertFalse(xQueryGenerator.isRestrictLength());
+    }
+
+    public void testNoMath() throws Exception {
+        final String input = "<?xml version=\"1.0\"?>\n<noMath />";
+        QVarXQueryGenerator qg = new QVarXQueryGenerator();
+        assertNull("Input without math should return null", qg.toString());
+    }
+
+    public void testqVarGetter() throws Exception {
+        final String expectedVariableName = "x";
+        final String firstExpectedLocation = "/*[2]/*[2]";
+        final String testInput = getFileContents("com/formulasearchengine/mathmlquerygenerator/mws/qqx2x.xml");
+        Document query = XMLHelper.string2Doc(testInput, false);
+        QVarXQueryGenerator xQueryGenerator = new QVarXQueryGenerator();
+        Map<String, ArrayList<String>> qVars = xQueryGenerator.getQvar();
+        assertEquals(1, qVars.entrySet().size());
+        Map.Entry<String, ArrayList<String>> firstEntry = qVars.entrySet().iterator().next();
+        assertEquals(expectedVariableName, firstEntry.getKey());
+        ArrayList<String> xPaths = firstEntry.getValue();
+        assertEquals(2, xPaths.size());
+        assertEquals(firstExpectedLocation, xPaths.get(0));
+        assertEquals(true, xQueryGenerator.isAddQvarMap());
+    }
 
 }

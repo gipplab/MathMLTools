@@ -136,11 +136,11 @@ public abstract class XQueryGenerator<T extends XQueryGenerator> {
         return pathToRoot;
     }
 
-    String getReturnFormat() {
+    public String getReturnFormat() {
         return returnFormat;
     }
 
-    boolean isRestrictLength() {
+    public boolean isRestrictLength() {
         return restrictLength;
     }
 
@@ -160,12 +160,12 @@ public abstract class XQueryGenerator<T extends XQueryGenerator> {
         this.relativeXPath = relativeXPath;
     }
 
-    T setPathToRoot(String pathToRoot) {
+    public T setPathToRoot(String pathToRoot) {
         this.pathToRoot = pathToRoot;
         return (T) this;
     }
 
-    T setReturnFormat(String returnFormat) {
+    public T setReturnFormat(String returnFormat) {
         this.returnFormat = returnFormat;
         return (T) this;
     }
