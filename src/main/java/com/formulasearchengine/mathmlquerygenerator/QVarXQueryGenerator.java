@@ -1,7 +1,10 @@
 package com.formulasearchengine.mathmlquerygenerator;
 
 import com.formulasearchengine.mathmltools.xmlhelper.NonWhitespaceNodeList;
+import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
 import com.google.common.collect.Lists;
+
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;
@@ -47,7 +50,7 @@ public class QVarXQueryGenerator extends BasicXQueryGenerator {
                 .addFooter("}\n</result>");
     }
 
-    void addDefaultHeader(){
+    public void addDefaultHeader(){
         this.addHeader(XQueryGenerator.DEFAULT_NAMESPACE).addHeader("");
     }
 
@@ -55,6 +58,20 @@ public class QVarXQueryGenerator extends BasicXQueryGenerator {
         qvar = new LinkedHashMap<>();
         super.generateConstraints();
         generateQvarConstraints();
+    }
+
+    /**
+     * Convince constructor initializes the QueryGenerator with a document
+     *
+     * @deprecated Use setMainElement(XMLHelper.getMainElement(document)) explicitly
+     * @param document The document whose root element is extracted
+     */
+    @Deprecated()
+    public QVarXQueryGenerator(Document document) {
+        setMainElement(XMLHelper.getMainElement(document));
+    }
+
+    public QVarXQueryGenerator() {
     }
 
     /**

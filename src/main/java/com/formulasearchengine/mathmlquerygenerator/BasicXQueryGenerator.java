@@ -154,7 +154,7 @@ public class BasicXQueryGenerator extends XQueryGenerator<BasicXQueryGenerator> 
 
     @Deprecated()
     public XQueryGenerator setNamespace(String namespace) {
-        this.addHeader(namespace);
+        this.addHeader(namespace).addHeader("");
         return this;
     }
 }
