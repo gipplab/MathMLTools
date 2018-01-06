@@ -11,8 +11,8 @@ import com.google.common.collect.Multiset;
 import com.google.common.collect.Sets;
 import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.XQueryExecutable;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.*;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -33,7 +33,7 @@ public class CMMLInfo implements Document {
     public static final String NS_MATHML = "http://www.w3.org/1998/Math/MathML";
     public static final String ROBERT_MINER_XSL = "com/formulasearchengine/mathmltools/mml/RobertMinerC2s.xsl";
 
-    protected static final Log LOG = LogFactory.getLog(CMMLInfo.class);
+    protected static final Logger LOG = LogManager.getLogger(CMMLInfo.class.getName());
 
     private static final String MATH_HEADER = "<?xml version=\"1.0\" ?>\n"
             + "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
