@@ -7,7 +7,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -36,17 +35,12 @@ public class NtcirTopicReader {
     }
 
     public NtcirTopicReader(File topicFile) throws ParserConfigurationException, IOException, SAXException {
-        DocumentBuilder documentBuilder = XMLHelper.getDocumentBuilder(true);
-        topics = documentBuilder.parse(topicFile);
-
-        //TODO: Find out how this code duplication can be avoided in Java.
-        queryGenerator = new QVarXQueryGenerator();
+        this(XMLHelper.getDocumentBuilder(true).parse(topicFile));
         queryGenerator.addDefaultHeader();
     }
 
     public NtcirTopicReader(Document topics, String namespace, String pathToRoot, String returnFormat, boolean restrictLength) {
-        queryGenerator = new QVarXQueryGenerator();
-        this.topics = topics;
+        this(topics);
         this.setNamespace(namespace).setReturnFormat(returnFormat).setPathToRoot(pathToRoot).setRestrictLength(restrictLength);
     }
 
