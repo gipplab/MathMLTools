@@ -7,6 +7,7 @@ import org.w3c.dom.Node;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,7 +30,6 @@ public class QVarXQueryGenerator extends BasicXQueryGenerator {
     private String qvarConstraint = "";
     private String qvarMapVariable = "";
     private Map<String, ArrayList<String>> qvar = new LinkedHashMap<>();
-    private String namespace;
 
     /**
      * Create a {@see QVarXQueryGenerator} with a default configuration.
@@ -45,6 +45,10 @@ public class QVarXQueryGenerator extends BasicXQueryGenerator {
                 .setPathToRoot(".")
                 .setReturnFormat(XQUERY_FOOTER)
                 .addFooter("}\n</result>");
+    }
+
+    void addDefaultHeader(){
+        this.addHeader(XQueryGenerator.DEFAULT_NAMESPACE).addHeader("");
     }
 
     protected void generateConstraints() {
@@ -145,6 +149,7 @@ public class QVarXQueryGenerator extends BasicXQueryGenerator {
         return qvar;
     }
 
+
     /**
      * Builds the XQuery as a string. Uses the recursive format of recursively looping through the documents.
      * This enables the $depth and the $rootApply variables.
@@ -243,7 +248,4 @@ public class QVarXQueryGenerator extends BasicXQueryGenerator {
         return findRootApply ? getRecursiveString() : getDefaultString();
     }
 
-    public void setNamespace(String namespace) {
-        this.namespace = namespace;
-    }
 }

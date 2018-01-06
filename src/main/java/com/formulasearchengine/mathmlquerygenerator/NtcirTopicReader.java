@@ -41,6 +41,7 @@ public class NtcirTopicReader {
 
         //TODO: Find out how this code duplication can be avoided in Java.
         queryGenerator = new QVarXQueryGenerator();
+        queryGenerator.addDefaultHeader();
     }
 
     public NtcirTopicReader(Document topics, String namespace, String pathToRoot, String returnFormat, boolean restrictLength) {
@@ -55,7 +56,7 @@ public class NtcirTopicReader {
     }
 
     public final NtcirTopicReader setNamespace(String namespace) {
-        queryGenerator.setNamespace(namespace);
+        queryGenerator.addHeader(namespace);
         return this;
     }
 
