@@ -148,7 +148,7 @@ public class QVarXQueryGenerator extends BasicXQueryGenerator {
                 output.append(qvarConstraint);
             } else {
                 output.append(getLengthConstraint())
-                        .append(qvarConstraint.isEmpty() ? "" : "\nand ").append(qvarConstraint);
+                        .append(qvarConstraint.isEmpty() ? "" : "\n and ").append(qvarConstraint);
             }
         }
         // append return format
