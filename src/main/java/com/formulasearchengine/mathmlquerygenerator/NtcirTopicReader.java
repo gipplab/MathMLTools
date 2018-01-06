@@ -28,11 +28,11 @@ public class NtcirTopicReader {
     public static final String NS_NII = "http://ntcir-math.nii.ac.jp/";
     private final Document topics;
     private final List<NtcirPattern> patterns = new ArrayList<>();
-    private final XQueryGenerator queryGenerator;
+    private final QVarXQueryGenerator queryGenerator;
 
     public NtcirTopicReader(Document topics) {
         this.topics = topics;
-        queryGenerator = new XQueryGenerator(topics);
+        queryGenerator = new QVarXQueryGenerator(topics);
     }
 
     public NtcirTopicReader(File topicFile) throws ParserConfigurationException, IOException, SAXException {
@@ -40,11 +40,11 @@ public class NtcirTopicReader {
         topics = documentBuilder.parse(topicFile);
 
         //TODO: Find out how this code duplication can be avoided in Java.
-        queryGenerator = new XQueryGenerator(topics);
+        queryGenerator = new QVarXQueryGenerator(topics);
     }
 
     public NtcirTopicReader(Document topics, String namespace, String pathToRoot, String returnFormat, boolean restrictLength) {
-        queryGenerator = new XQueryGenerator(topics);
+        queryGenerator = new QVarXQueryGenerator(topics);
         this.topics = topics;
         this.setNamespace(namespace).setReturnFormat(returnFormat).setPathToRoot(pathToRoot).setRestrictLength(restrictLength);
     }
@@ -81,7 +81,7 @@ public class NtcirTopicReader {
 
     /**
      * Splits the given NTCIR query file into individual queries, converts each query into an XQuery using
-     * XQueryGenerator, and returns the result as a list of NtcirPatterns for each individual query.
+     * QVarXQueryGenerator, and returns the result as a list of NtcirPatterns for each individual query.
      *
      * @return List of NtcirPatterns for each query
      * @throws XPathExpressionException Thrown if xpaths fail to compile or fail to evaluate
