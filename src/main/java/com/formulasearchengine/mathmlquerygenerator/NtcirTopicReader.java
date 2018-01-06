@@ -32,7 +32,7 @@ public class NtcirTopicReader {
 
     public NtcirTopicReader(Document topics) {
         this.topics = topics;
-        queryGenerator = new QVarXQueryGenerator(topics);
+        queryGenerator = new QVarXQueryGenerator();
     }
 
     public NtcirTopicReader(File topicFile) throws ParserConfigurationException, IOException, SAXException {
@@ -40,11 +40,11 @@ public class NtcirTopicReader {
         topics = documentBuilder.parse(topicFile);
 
         //TODO: Find out how this code duplication can be avoided in Java.
-        queryGenerator = new QVarXQueryGenerator(topics);
+        queryGenerator = new QVarXQueryGenerator();
     }
 
     public NtcirTopicReader(Document topics, String namespace, String pathToRoot, String returnFormat, boolean restrictLength) {
-        queryGenerator = new QVarXQueryGenerator(topics);
+        queryGenerator = new QVarXQueryGenerator();
         this.topics = topics;
         this.setNamespace(namespace).setReturnFormat(returnFormat).setPathToRoot(pathToRoot).setRestrictLength(restrictLength);
     }

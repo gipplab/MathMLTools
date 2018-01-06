@@ -29,6 +29,7 @@ public class QVarXQueryGenerator extends BasicXQueryGenerator {
     private String qvarConstraint = "";
     private String qvarMapVariable = "";
     private Map<String, ArrayList<String>> qvar = new LinkedHashMap<>();
+    private String namespace;
 
     /**
      * Create a {@see QVarXQueryGenerator} with a default configuration.
@@ -240,5 +241,9 @@ public class QVarXQueryGenerator extends BasicXQueryGenerator {
         }
         generateConstraints();
         return findRootApply ? getRecursiveString() : getDefaultString();
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
     }
 }
