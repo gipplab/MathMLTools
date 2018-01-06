@@ -2,7 +2,6 @@ package com.formulasearchengine.mathmlquerygenerator;
 
 import com.formulasearchengine.mathmltools.xmlhelper.NonWhitespaceNodeList;
 import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
-import scala.deprecated;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;

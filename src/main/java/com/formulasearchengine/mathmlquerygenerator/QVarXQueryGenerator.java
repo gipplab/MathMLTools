@@ -1,17 +1,16 @@
 package com.formulasearchengine.mathmlquerygenerator;
 
-import com.formulasearchengine.mathmltools.xmlhelper.NonWhitespaceNodeList;
-import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
-import com.google.common.collect.Lists;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import com.formulasearchengine.mathmltools.xmlhelper.NonWhitespaceNodeList;
+import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
+import com.google.common.collect.Lists;
 
 /**
  * Converts MathML queries into XQueries, given a namespace, a xquery/xpath to the root elements, and a xquery return format.
@@ -35,6 +34,20 @@ public class QVarXQueryGenerator extends BasicXQueryGenerator {
     private Map<String, ArrayList<String>> qvar = new LinkedHashMap<>();
 
     /**
+     * Convince constructor initializes the QueryGenerator with a document
+     *
+     * @param document The document whose root element is extracted
+     * @deprecated Use setMainElement(XMLHelper.getMainElement(document)) explicitly
+     */
+    @Deprecated()
+    public QVarXQueryGenerator(Document document) {
+        setMainElement(XMLHelper.getMainElement(document));
+    }
+
+    public QVarXQueryGenerator() {
+    }
+
+    /**
      * Create a {@see QVarXQueryGenerator} with a default configuration.
      *
      * @return returns {@see QVarXQueryGenerator}
@@ -50,7 +63,7 @@ public class QVarXQueryGenerator extends BasicXQueryGenerator {
                 .addFooter("}\n</result>");
     }
 
-    public void addDefaultHeader(){
+    public void addDefaultHeader() {
         this.addHeader(XQueryGenerator.DEFAULT_NAMESPACE).addHeader("");
     }
 
@@ -58,20 +71,6 @@ public class QVarXQueryGenerator extends BasicXQueryGenerator {
         qvar = new LinkedHashMap<>();
         super.generateConstraints();
         generateQvarConstraints();
-    }
-
-    /**
-     * Convince constructor initializes the QueryGenerator with a document
-     *
-     * @deprecated Use setMainElement(XMLHelper.getMainElement(document)) explicitly
-     * @param document The document whose root element is extracted
-     */
-    @Deprecated()
-    public QVarXQueryGenerator(Document document) {
-        setMainElement(XMLHelper.getMainElement(document));
-    }
-
-    public QVarXQueryGenerator() {
     }
 
     /**

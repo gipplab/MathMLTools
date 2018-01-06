@@ -27,7 +27,7 @@
     <module name="RegexpMultiline">
         <property name="format" value="\r?\n[ \t]*\r?\n[ \t]*\}"/>
         <property name="message" value="Newline before closing brace"/>
-        <property name="severity" value="error" />
+        <property name="severity" value="warning" />
     </module>
     <module name="FileLength" />
     <module name="FileTabCharacter" />
