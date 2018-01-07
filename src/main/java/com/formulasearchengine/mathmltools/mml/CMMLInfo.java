@@ -1,5 +1,32 @@
 package com.formulasearchengine.mathmltools.mml;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.w3c.dom.Attr;
+import org.w3c.dom.CDATASection;
+import org.w3c.dom.Comment;
+import org.w3c.dom.DOMConfiguration;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+import org.w3c.dom.DocumentFragment;
+import org.w3c.dom.DocumentType;
+import org.w3c.dom.Element;
+import org.w3c.dom.EntityReference;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.ProcessingInstruction;
+import org.w3c.dom.Text;
+import org.w3c.dom.UserDataHandler;
+
 import com.formulasearchengine.mathmlquerygenerator.FirstXQueryGenerator;
 import com.formulasearchengine.mathmlquerygenerator.QVarXQueryGenerator;
 import com.formulasearchengine.mathmlquerygenerator.XQueryGenerator;
@@ -9,20 +36,14 @@ import com.formulasearchengine.mathmltools.xmlhelper.XmlNamespaceTranslator;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Sets;
-import net.sf.saxon.s9api.SaxonApiException;
-import net.sf.saxon.s9api.XQueryExecutable;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.w3c.dom.*;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
-import java.io.IOException;
-import java.util.*;
+import net.sf.saxon.s9api.SaxonApiException;
+import net.sf.saxon.s9api.XQueryExecutable;
 
 /**
  * @author Moritz Schubotz
@@ -61,6 +82,11 @@ public class CMMLInfo implements Document {
 
     public CMMLInfo(Document cmml) {
         constructor(cmml, true, false);
+    }
+
+    public CMMLInfo(String s,boolean preserveAnnotations) {
+        Document cmml = XMLHelper.string2Doc(s, true);
+        constructor(cmml, true, preserveAnnotations);
     }
 
     public CMMLInfo(String s) throws IOException, ParserConfigurationException {

@@ -9,11 +9,15 @@ public class Math {
     private CMMLInfo cDom;
 
     public Math(String cDom) throws IOException, ParserConfigurationException {
-        this.cDom = new CMMLInfo(cDom);
+        this.cDom = new CMMLInfo(cDom,true);
     }
 
     public CMMLInfo getInfoObject() {
         return cDom;
     }
 
+    @Override
+    public String toString() {
+        return cDom.toString();
+    }
 }
