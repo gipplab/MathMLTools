@@ -12,10 +12,21 @@ import java.io.IOException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.xmlunit.validation.ValidationProblem;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 class MathTest {
+    @Test
+    void isValid() throws IOException, ParserConfigurationException {
+        final String sampleMML = getFileContents(MML_TEST_DIR + "Emc2.xml");
+        Math math = new Math(sampleMML);
+        for (ValidationProblem validationProblem : math.getValdationProblems()) {
+            System.out.println(validationProblem);
+        }
+
+        //assertTrue(math.isValid());
+    }
 
     @ParameterizedTest()
     @ValueSource(strings = {"<math/>", "<math><mi>a</mi></math>"})
