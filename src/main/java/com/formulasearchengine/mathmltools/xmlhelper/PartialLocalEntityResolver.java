@@ -7,6 +7,8 @@ import java.util.Map;
 import com.google.common.collect.ImmutableMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.w3c.dom.ls.LSInput;
+import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
@@ -18,7 +20,7 @@ import org.xml.sax.InputSource;
  * <p>
  * Created by felix on 06.12.16.
  */
-public class PartialLocalEntityResolver implements EntityResolver {
+public class PartialLocalEntityResolver implements EntityResolver, LSResourceResolver {
     private static final Logger log = LogManager.getLogger("PartialLocalEntityResolver");
 
 
@@ -27,10 +29,13 @@ public class PartialLocalEntityResolver implements EntityResolver {
     private static final Map<String, String> PUBLIC_IDS;
 
     static {
+        // Notice that moving the files to a subfolder will break the XSD resource resolution
         SYSTEM_IDS = ImmutableMap.<String, String>builder()
                 .put("http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd", "xhtml-math11-f.dtd")
 //MathML3 DTD
-                .put("http://www.w3.org/Math/DTD/mathml3/mathml3.dtd", "mathml3-dtd/mathml3.dtd")
+                .put("http://www.w3.org/Math/DTD/mathml3/mathml3.dtd", "mathml3.dtd")
+                .put("http://www.w3.org/Math/DTD/mathml3/htmlmathml-f.ent", "htmlmathml-f.ent")
+                .put("http://www.w3.org/Math/DTD/mathml3/mathml3-qname.mod", "mathml3-qname.mod")
 //MathML3 XSD
                 .put("https://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd", "mathml3.xsd")
                 .put("https://www.w3.org/Math/XMLSchema/mathml3/mathml3-content.xsd", "mathml3-content.xsd")
@@ -49,16 +54,20 @@ public class PartialLocalEntityResolver implements EntityResolver {
     @Override
     public org.xml.sax.InputSource resolveEntity(String publicId, String systemId) {
         InputStream stream;
-        log.trace("Resolving Entity (\"" + publicId + "\", \"" + systemId + "\")");
+        log.trace("Resolving entity (\"" + publicId + "\", \"" + systemId + "\")");
         if (SYSTEM_IDS.containsKey(systemId)) {
             stream = getStream(SYSTEM_IDS.get(systemId));
         } else if (PUBLIC_IDS.containsKey(publicId)) {
+            // consider removing this branch since it might never be used
             stream = getStream(PUBLIC_IDS.get(publicId));
         } else {
-            log.debug("Can not resolve entity" + systemId + publicId);
+            log.debug("Can not resolve entity {} {}", systemId, publicId);
             return null;
         }
-        return new InputSource(stream);
+        final InputSource source = new InputSource(stream);
+        source.setSystemId(systemId);
+        source.setPublicId(publicId);
+        return source;
     }
 
     private InputStream getStream(String name) {
@@ -66,6 +75,71 @@ public class PartialLocalEntityResolver implements EntityResolver {
     }
 
 
+    @Override
+    public LSInput resolveResource(String type, String namespaceURI, String publicId, String systemId, String baseURI) {
+        log.trace("Resolving resource {}-{}-{}-{}-{}", type, namespaceURI, publicId, systemId, baseURI);
+        if (SYSTEM_IDS.containsKey(baseURI)) {
+            log.trace("Try to resolve from known url {}", baseURI);
+            if (SYSTEM_IDS.containsValue(systemId)) {
+                log.trace("Try to resolve local entity {}", systemId);
+                final String globalSystemId = SYSTEM_IDS.entrySet().stream()
+                        .filter(entry -> systemId.equals(entry.getValue()))
+                        .findFirst().get().getKey();
+                return getLsInput(publicId, globalSystemId, baseURI);
+            }
+            log.debug("Could not resolve resource {}-{}-{}-{}-{}", type, namespaceURI, publicId, systemId, baseURI);
+        }
+        return null;
+    }
+
+
+    private LSInput getLsInput(String publicId, String systemId, String baseURI) {
+        final InputSource inputSource = resolveEntity(publicId, systemId);
+        return new InputSourceLSInput(inputSource, baseURI);
+    }
+
+    private static class InputSourceLSInput extends InputSource implements LSInput {
+        private boolean certifiedText;
+        private String baseURI;
+        private String stringData;
+
+        private InputSourceLSInput(InputSource inputSource, String baseURI) {
+            super(inputSource.getByteStream());
+            setPublicId(inputSource.getPublicId());
+            setSystemId(inputSource.getSystemId());
+            setBaseURI(baseURI);
+        }
+
+        @Override
+        public String getStringData() {
+            return stringData;
+        }
+
+        @Override
+        public void setStringData(String stringData) {
+            this.stringData = stringData;
+        }
+
+        @Override
+        public String getBaseURI() {
+            return baseURI;
+        }
+
+        @Override
+        public void setBaseURI(String baseURI) {
+            this.baseURI = baseURI;
+        }
+
+        @Override
+        public boolean getCertifiedText() {
+            return certifiedText;
+        }
+
+        @Override
+        public void setCertifiedText(boolean certifiedText) {
+            this.certifiedText = certifiedText;
+        }
+    }
 }
 
 /*
