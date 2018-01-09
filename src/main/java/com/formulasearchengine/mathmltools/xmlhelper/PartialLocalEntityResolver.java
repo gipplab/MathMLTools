@@ -43,7 +43,6 @@ public class PartialLocalEntityResolver implements EntityResolver {
 //MathML3 DTD
                 .put("-//W3C//ENTITIES MathML 3.0 Qualified Names 1.0//EN", "mathml3-dtd/mathml3-qname.mod")
                 .put("-//W3C//ENTITIES HTML MathML Set//EN//XML", "mathml3-dtd/htmlmathml-f.ent")
-//MathML3 XSD
                 .build();
     }
 
@@ -66,7 +65,50 @@ public class PartialLocalEntityResolver implements EntityResolver {
         return PartialLocalEntityResolver.class.getResourceAsStream(name);
     }
 
-    public static Map<String, String> getSystemIds() {
-        return SYSTEM_IDS;
-    }
+
 }
+
+/*
+Possible extensions (currently not implemented)
+
+Idea 1
+
+Support for Apache commons-configuration2
+
+The DefaultEntityResolver class however can not
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-configuration2 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-configuration2</artifactId>
+            <version>2.2</version>
+        </dependency>
+
+
+    public static void registerDefaultEntries() {
+        DefaultEntityResolver defaultEntityResolver = new DefaultEntityResolver();
+        for (Map.Entry<String, String> entry : SYSTEM_IDS.entrySet()) {
+            try {
+                defaultEntityResolver.registerEntityId(entry.getValue(), new URL(entry.getKey()));
+            } catch (MalformedURLException e) {
+                log.error("Can not register entry!", e);
+            }
+        }
+    }
+
+and Tests
+
+    @org.junit.jupiter.api.Test
+    @Disabled
+    void showRE() {
+        assertEquals(0, getRegisteredEntities().size());
+        PartialLocalEntityResolver.registerDefaultEntries();
+        assertThat(getRegisteredEntities().size(), is(greaterThan(0)));
+    }
+
+    private Map<String, URL> getRegisteredEntities() {
+        DefaultEntityResolver defaultEntityResolver = new DefaultEntityResolver();
+        return defaultEntityResolver.getRegisteredEntities();
+    }
+
+
+ */
