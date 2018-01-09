@@ -1,11 +1,12 @@
 package com.formulasearchengine.mathmltools.xmlhelper;
 
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
@@ -18,31 +19,54 @@ import org.xml.sax.InputSource;
  * Created by felix on 06.12.16.
  */
 public class PartialLocalEntityResolver implements EntityResolver {
+    private static final Logger log = LogManager.getLogger("PartialLocalEntityResolver");
 
 
-    private static final Map<String, String> LOCAL_SCHEMA;
+    private static final Map<String, String> SYSTEM_IDS;
+    // Files that are internally referred in the MathML3 DTD
+    private static final Map<String, String> PUBLIC_IDS;
 
     static {
-        LOCAL_SCHEMA = ImmutableMap.<String, String>builder()
-            .put("http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd", "xhtml-math11-f.dtd")
-            .put("https://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd", "mathml3.xsd")
-            .put("https://www.w3.org/Math/XMLSchema/mathml3/mathml3-content.xsd", "mathml3-content.xsd")
-            .put("https://www.w3.org/Math/XMLSchema/mathml3/mathml3-presentation.xsd", "mathml3-presentation.xsd")
-            .put("https://www.w3.org/Math/XMLSchema/mathml3/mathml3-common.xsd", "mathml3-common.xsd")
-            .put("https://www.w3.org/Math/XMLSchema/mathml3/mathml3-strict-content.xsd", "mathml3-strict-content.xsd")
-            .build();
+        SYSTEM_IDS = ImmutableMap.<String, String>builder()
+                .put("http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd", "xhtml-math11-f.dtd")
+//MathML3 DTD
+                .put("http://www.w3.org/Math/DTD/mathml3/mathml3.dtd", "mathml3-dtd/mathml3.dtd")
+//MathML3 XSD
+                .put("https://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd", "mathml3.xsd")
+                .put("https://www.w3.org/Math/XMLSchema/mathml3/mathml3-content.xsd", "mathml3-content.xsd")
+                .put("https://www.w3.org/Math/XMLSchema/mathml3/mathml3-presentation.xsd", "mathml3-presentation.xsd")
+                .put("https://www.w3.org/Math/XMLSchema/mathml3/mathml3-common.xsd", "mathml3-common.xsd")
+                .put("https://www.w3.org/Math/XMLSchema/mathml3/mathml3-strict-content.xsd", "mathml3-strict-content.xsd")
+                .build();
+
+        PUBLIC_IDS = ImmutableMap.<String, String>builder()
+//MathML3 DTD
+                .put("-//W3C//ENTITIES MathML 3.0 Qualified Names 1.0//EN", "mathml3-dtd/mathml3-qname.mod")
+                .put("-//W3C//ENTITIES HTML MathML Set//EN//XML", "mathml3-dtd/htmlmathml-f.ent")
+//MathML3 XSD
+                .build();
     }
 
     @Override
-    public org.xml.sax.InputSource resolveEntity(String publicId, String systemId) throws org.xml.sax.SAXException, IOException {
-        if (LOCAL_SCHEMA.containsKey(systemId)) {
-            InputStream resourceAsStream = PartialLocalEntityResolver.class.getResourceAsStream(LOCAL_SCHEMA.get(systemId));
-            return new InputSource(resourceAsStream);
+    public org.xml.sax.InputSource resolveEntity(String publicId, String systemId) {
+        InputStream stream;
+        log.trace("Resolving Entity (\"" + publicId + "\", \"" + systemId + "\")");
+        if (SYSTEM_IDS.containsKey(systemId)) {
+            stream = getStream(SYSTEM_IDS.get(systemId));
+        } else if (PUBLIC_IDS.containsKey(publicId)) {
+            stream = getStream(PUBLIC_IDS.get(publicId));
+        } else {
+            log.debug("Can not resolve entity" + systemId + publicId);
+            return null;
         }
-        return null;
+        return new InputSource(stream);
     }
 
-    public static Map<String, String> getLocalSchema() {
-        return LOCAL_SCHEMA;
+    private InputStream getStream(String name) {
+        return PartialLocalEntityResolver.class.getResourceAsStream(name);
+    }
+
+    public static Map<String, String> getSystemIds() {
+        return SYSTEM_IDS;
     }
 }
