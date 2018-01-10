@@ -3,6 +3,8 @@ package com.formulasearchengine.nativetools;
 import org.apache.logging.log4j.Level;
 import org.junit.Test;
 
+import java.util.LinkedList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -13,9 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class CommandExecutorTest {
 
-    public static final String ROBUST_COMMAND = "echo";
-    public static final String TEST_STRING = "TEST-IS";
-    public static final String NEW_LINE = System.lineSeparator();
+    static final String ROBUST_COMMAND = "echo";
+    static final String TEST_STRING = "TEST-IS";
+    static final String NEW_LINE = System.lineSeparator();
 
     @Test
     public void simpleEchoTest(){
@@ -25,9 +27,20 @@ public class CommandExecutorTest {
     }
 
     @Test
-    public void simpleEchoNoWaitingTest(){
+    public void simpleEchoWithTimeoutTest(){
         CommandExecutor executor = new CommandExecutor("JUnit-Test", ROBUST_COMMAND, TEST_STRING);
-        NativeResponse response = executor.execWithoutTimeout();
+        NativeResponse response = executor.exec( 1000, Level.DEBUG );
+        assertEchoNativeResponse( response );
+    }
+
+    @Test
+    public void simpleEchoNoWaitingTest(){
+        LinkedList<String> args = new LinkedList<>();
+        args.add("JUnit-Test");     // service name
+        args.add(ROBUST_COMMAND);   // command
+        args.add(TEST_STRING);      // command argument
+        CommandExecutor executor = new CommandExecutor(args);
+        NativeResponse response = executor.execWithoutTimeout( Level.INFO );
         assertEchoNativeResponse( response );
     }
 

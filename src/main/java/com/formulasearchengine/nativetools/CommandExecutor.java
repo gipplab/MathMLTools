@@ -57,7 +57,7 @@ public class CommandExecutor {
      * @param args the commands for the native console
      */
     public CommandExecutor(List<String> args) {
-        this(args.get(0), args);
+        this(args.remove(0), args);
     }
 
     /**
