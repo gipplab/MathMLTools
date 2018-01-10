@@ -14,6 +14,7 @@ import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
@@ -28,7 +29,6 @@ import org.xmlunit.validation.Languages;
 import org.xmlunit.validation.ValidationProblem;
 import org.xmlunit.validation.ValidationResult;
 import org.xmlunit.validation.Validator;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Math {
     private static final Logger log = LogManager.getLogger("Math");
@@ -88,7 +88,7 @@ public class Math {
                 }
             }
         } else {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Implement no annotations case.");
         }
     }
 
