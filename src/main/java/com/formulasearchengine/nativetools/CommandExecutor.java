@@ -13,7 +13,12 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * A native command executor.
+ * A native command executor. Note that it assumes the results of the native code will
+ * be printed to the standard output streams while errors and also logging information
+ * will be printed in the error output stream.
+ *
+ * This command executor is very simple and doesn't allow further communications with the
+ * native code (such as listening for inputs) yet.
  *
  * @author Andre Greiner-Petter
  */
@@ -228,6 +233,11 @@ public class CommandExecutor {
         return builder.toString();
     }
 
+    /**
+     * Has to be done in the end manually. Close all streams manually.
+     * @param process process with open streams
+     * @throws IOException if something went wrong due closing streams
+     */
     private void safetyExit(Process process) throws IOException {
         process.getErrorStream().close();
         process.getInputStream().close();
