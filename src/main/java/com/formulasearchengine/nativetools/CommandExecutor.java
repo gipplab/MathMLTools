@@ -253,14 +253,10 @@ public class CommandExecutor {
      * @return true if the command can be executed or false if not.
      */
     public static boolean commandCheck(String nativeCommand) {
-        try {
-            CommandExecutor executor = new CommandExecutor(
-                    "DefinitionCheck", "which", nativeCommand
-            );
-            NativeResponse res = executor.exec(100);
-            return res.getStatusCode() == 0;
-        } catch (Exception e) {
-            return false;
-        }
+        CommandExecutor executor = new CommandExecutor(
+                "DefinitionCheck", "which", nativeCommand
+        );
+        NativeResponse res = executor.exec(100);
+        return res.getStatusCode() == 0;
     }
 }
