@@ -120,6 +120,11 @@
             <artifactId>xmlunit-core</artifactId>
             <version>2.5.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.6</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -202,8 +207,10 @@
                         <configuration>
                             <configLocation>checkstyle.xml</configLocation>
                             <encoding>UTF-8</encoding>
-                            <consoleOutput>true</consoleOutput>
-                            <failsOnError>true</failsOnError>
+                            <consoleOutput>false</consoleOutput>
+                            <failOnViolation>true</failOnViolation>
+                            <violationSeverity>error</violationSeverity>
+                            <logViolationsToConsole>true</logViolationsToConsole>
                             <skip>false</skip>
                         </configuration>
                         <goals>
