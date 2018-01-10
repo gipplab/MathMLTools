@@ -1,0 +1,136 @@
+<math xmlns="http://www.w3.org/1998/Math/MathML" id="p1.1.m1.1" class="ltx_Math" alttext="\BesselJ{\nu}'@{x}\BesselY{\nu}@{\lambda x}-\BesselY{\nu}'@{x}\BesselJ{\nu}@{%&#10;\lambda x}" display="inline">
+    <semantics id="p1.1.m1.1a">
+        <mrow id="p1.1.m1.1.6" xref="p1.1.m1.1.6.cmml">
+            <mrow id="p1.1.m1.1.6.1" xref="p1.1.m1.1.6.1.cmml">
+                <mrow id="p1.1.m1.1.1.8.2" xref="p1.1.m1.1.1.1.cmml">
+                    <mpadded width="-1.7pt" id="p1.1.m1.1.1.2" xref="p1.1.m1.1.1.2.1.1.cmml">
+                        <msubsup id="p1.1.m1.1.1.2.1.2" xref="p1.1.m1.1.1.2.1.1.cmml">
+                            <mi id="p1.1.m1.1.1.2.1.2.2.1.2" xref="p1.1.m1.1.1.2.1.2.2.1.1.1.cmml">J</mi>
+                            <mi id="p1.1.m1.1.1.2.1.2.2.1.3.1" xref="p1.1.m1.1.1.2.1.2.2.1.3.1.cmml">ν</mi>
+                            <mi mathsize="142%" id="p1.1.m1.1.1.2.1.2.3" xref="p1.1.m1.1.1.2.1.1.1.cmml">′</mi>
+                        </msubsup>
+                    </mpadded>
+                    <mo id="p1.1.m1.1.1.8.2a" xref="p1.1.m1.1.1.1.cmml">⁡</mo>
+                    <mrow id="p1.1.m1.1.1.8.2.1" xref="p1.1.m1.1.1.1.cmml">
+                        <mo id="p1.1.m1.1.1.5" xref="p1.1.m1.1.1.1.cmml">(</mo>
+                        <mi id="p1.1.m1.1.1.6" xref="p1.1.m1.1.1.6.cmml">x</mi>
+                        <mo id="p1.1.m1.1.1.7" xref="p1.1.m1.1.1.1.cmml">)</mo>
+                    </mrow>
+                </mrow>
+                <mo id="p1.1.m1.1.6.1.1" xref="p1.1.m1.1.6.1.1.cmml">⁢</mo>
+                <mrow id="p1.1.m1.1.2.8.2" xref="p1.1.m1.1.2.1.cmml">
+                    <mpadded width="-1.7pt" id="p1.1.m1.1.2.2" xref="p1.1.m1.1.2.2.1.1.cmml">
+                        <msub id="p1.1.m1.1.2.2.1.5" xref="p1.1.m1.1.2.2.1.1.cmml">
+                            <mi id="p1.1.m1.1.2.2.1.2" xref="p1.1.m1.1.2.2.1.1.1.cmml">Y</mi>
+                            <mi id="p1.1.m1.1.2.2.1.3.1" xref="p1.1.m1.1.2.2.1.3.1.cmml">ν</mi>
+                        </msub>
+                    </mpadded>
+                    <mo id="p1.1.m1.1.2.8.2a" xref="p1.1.m1.1.2.1.cmml">⁡</mo>
+                    <mrow id="p1.1.m1.1.2.8.2.1" xref="p1.1.m1.1.2.1.cmml">
+                        <mo id="p1.1.m1.1.2.5" xref="p1.1.m1.1.2.1.cmml">(</mo>
+                        <mrow id="p1.1.m1.1.2.6" xref="p1.1.m1.1.2.6.cmml">
+                            <mi id="p1.1.m1.1.2.6.1" xref="p1.1.m1.1.2.6.1.cmml">λ</mi>
+                            <mo id="p1.1.m1.1.2.6.3" xref="p1.1.m1.1.2.6.3.cmml">⁢</mo>
+                            <mi id="p1.1.m1.1.2.6.2" xref="p1.1.m1.1.2.6.2.cmml">x</mi>
+                        </mrow>
+                        <mo id="p1.1.m1.1.2.7" xref="p1.1.m1.1.2.1.cmml">)</mo>
+                    </mrow>
+                </mrow>
+            </mrow>
+            <mo id="p1.1.m1.1.3" xref="p1.1.m1.1.3.cmml">-</mo>
+            <mrow id="p1.1.m1.1.6.2" xref="p1.1.m1.1.6.2.cmml">
+                <mrow id="p1.1.m1.1.4.8.2" xref="p1.1.m1.1.4.1.cmml">
+                    <mpadded width="-1.7pt" id="p1.1.m1.1.4.2" xref="p1.1.m1.1.4.2.1.1.cmml">
+                        <msubsup id="p1.1.m1.1.4.2.1.2" xref="p1.1.m1.1.4.2.1.1.cmml">
+                            <mi id="p1.1.m1.1.4.2.1.2.2.1.2" xref="p1.1.m1.1.4.2.1.2.2.1.1.1.cmml">Y</mi>
+                            <mi id="p1.1.m1.1.4.2.1.2.2.1.3.1" xref="p1.1.m1.1.4.2.1.2.2.1.3.1.cmml">ν</mi>
+                            <mi mathsize="142%" id="p1.1.m1.1.4.2.1.2.3" xref="p1.1.m1.1.4.2.1.1.1.cmml">′</mi>
+                        </msubsup>
+                    </mpadded>
+                    <mo id="p1.1.m1.1.4.8.2a" xref="p1.1.m1.1.4.1.cmml">⁡</mo>
+                    <mrow id="p1.1.m1.1.4.8.2.1" xref="p1.1.m1.1.4.1.cmml">
+                        <mo id="p1.1.m1.1.4.5" xref="p1.1.m1.1.4.1.cmml">(</mo>
+                        <mi id="p1.1.m1.1.4.6" xref="p1.1.m1.1.4.6.cmml">x</mi>
+                        <mo id="p1.1.m1.1.4.7" xref="p1.1.m1.1.4.1.cmml">)</mo>
+                    </mrow>
+                </mrow>
+                <mo id="p1.1.m1.1.6.2.1" xref="p1.1.m1.1.6.2.1.cmml">⁢</mo>
+                <mrow id="p1.1.m1.1.5.8.2" xref="p1.1.m1.1.5.1.cmml">
+                    <mpadded width="-1.7pt" id="p1.1.m1.1.5.2" xref="p1.1.m1.1.5.2.1.1.cmml">
+                        <msub id="p1.1.m1.1.5.2.1.5" xref="p1.1.m1.1.5.2.1.1.cmml">
+                            <mi id="p1.1.m1.1.5.2.1.2" xref="p1.1.m1.1.5.2.1.1.1.cmml">J</mi>
+                            <mi id="p1.1.m1.1.5.2.1.3.1" xref="p1.1.m1.1.5.2.1.3.1.cmml">ν</mi>
+                        </msub>
+                    </mpadded>
+                    <mo id="p1.1.m1.1.5.8.2a" xref="p1.1.m1.1.5.1.cmml">⁡</mo>
+                    <mrow id="p1.1.m1.1.5.8.2.1" xref="p1.1.m1.1.5.1.cmml">
+                        <mo id="p1.1.m1.1.5.5" xref="p1.1.m1.1.5.1.cmml">(</mo>
+                        <mrow id="p1.1.m1.1.5.6" xref="p1.1.m1.1.5.6.cmml">
+                            <mi id="p1.1.m1.1.5.6.1" xref="p1.1.m1.1.5.6.1.cmml">λ</mi>
+                            <mo id="p1.1.m1.1.5.6.3" xref="p1.1.m1.1.5.6.3.cmml">⁢</mo>
+                            <mi id="p1.1.m1.1.5.6.2" xref="p1.1.m1.1.5.6.2.cmml">x</mi>
+                        </mrow>
+                        <mo id="p1.1.m1.1.5.7" xref="p1.1.m1.1.5.1.cmml">)</mo>
+                    </mrow>
+                </mrow>
+            </mrow>
+        </mrow>
+        <annotation-xml encoding="MathML-Content" id="p1.1.m1.1b">
+            <apply id="p1.1.m1.1.6.cmml" xref="p1.1.m1.1.6">
+                <minus id="p1.1.m1.1.3.cmml" xref="p1.1.m1.1.3"/>
+                <apply id="p1.1.m1.1.6.1.cmml" xref="p1.1.m1.1.6.1">
+                    <times id="p1.1.m1.1.6.1.1.cmml" xref="p1.1.m1.1.6.1.1"/>
+                    <apply id="p1.1.m1.1.1.1.cmml" xref="p1.1.m1.1.1.8.2">
+                        <apply id="p1.1.m1.1.1.2.1.1.cmml" xref="p1.1.m1.1.1.2">
+                            <csymbol cd="latexml" id="p1.1.m1.1.1.2.1.1.1.cmml" xref="p1.1.m1.1.1.2.1.2.3">diffop</csymbol>
+                            <apply id="p1.1.m1.1.1.2.1.2.2.1.1.cmml" xref="p1.1.m1.1.1.2">
+                                <csymbol cd="dlmf" id="p1.1.m1.1.1.2.1.2.2.1.1.1.cmml" xref="p1.1.m1.1.1.2.1.2.2.1.2">Bessel-J</csymbol>
+                                <csymbol cd="latexml" id="p1.1.m1.1.1.2.1.2.2.1.3.1.cmml" xref="p1.1.m1.1.1.2.1.2.2.1.3.1">Q11567</csymbol>
+                            </apply>
+                            <cn type="integer" id="p1.1.m1.1.1.2.1.1.3.cmml" xref="p1.1.m1.1.1.2.1.2.3">1</cn>
+                        </apply>
+                        <csymbol cd="latexml" id="p1.1.m1.1.1.6.cmml" xref="p1.1.m1.1.1.6">Q12916</csymbol>
+                    </apply>
+                    <apply id="p1.1.m1.1.2.1.cmml" xref="p1.1.m1.1.2.8.2">
+                        <apply id="p1.1.m1.1.2.2.1.1.cmml" xref="p1.1.m1.1.2.2">
+                            <csymbol cd="dlmf" id="p1.1.m1.1.2.2.1.1.1.cmml" xref="p1.1.m1.1.2.2.1.2">Bessel-Y-Weber</csymbol>
+                            <csymbol cd="latexml" id="p1.1.m1.1.2.2.1.3.1.cmml" xref="p1.1.m1.1.2.2.1.3.1">Q11567</csymbol>
+                        </apply>
+                        <apply id="p1.1.m1.1.2.6.cmml" xref="p1.1.m1.1.2.6">
+                            <times id="p1.1.m1.1.2.6.3.cmml" xref="p1.1.m1.1.2.6.3"/>
+                            <csymbol cd="latexml" id="p1.1.m1.1.2.6.1.cmml" xref="p1.1.m1.1.2.6.1">Q12916</csymbol>
+                            <csymbol cd="latexml" id="p1.1.m1.1.2.6.2.cmml" xref="p1.1.m1.1.2.6.2">Q12916</csymbol>
+                        </apply>
+                    </apply>
+                </apply>
+                <apply id="p1.1.m1.1.6.2.cmml" xref="p1.1.m1.1.6.2">
+                    <times id="p1.1.m1.1.6.2.1.cmml" xref="p1.1.m1.1.6.2.1"/>
+                    <apply id="p1.1.m1.1.4.1.cmml" xref="p1.1.m1.1.4.8.2">
+                        <apply id="p1.1.m1.1.4.2.1.1.cmml" xref="p1.1.m1.1.4.2">
+                            <csymbol cd="latexml" id="p1.1.m1.1.4.2.1.1.1.cmml" xref="p1.1.m1.1.4.2.1.2.3">diffop</csymbol>
+                            <apply id="p1.1.m1.1.4.2.1.2.2.1.1.cmml" xref="p1.1.m1.1.4.2">
+                                <csymbol cd="dlmf" id="p1.1.m1.1.4.2.1.2.2.1.1.1.cmml" xref="p1.1.m1.1.4.2.1.2.2.1.2">Bessel-Y-Weber</csymbol>
+                                <csymbol cd="latexml" id="p1.1.m1.1.4.2.1.2.2.1.3.1.cmml" xref="p1.1.m1.1.4.2.1.2.2.1.3.1">Q11567</csymbol>
+                            </apply>
+                            <cn type="integer" id="p1.1.m1.1.4.2.1.1.3.cmml" xref="p1.1.m1.1.4.2.1.2.3">1</cn>
+                        </apply>
+                        <csymbol cd="latexml" id="p1.1.m1.1.4.6.cmml" xref="p1.1.m1.1.4.6">Q12916</csymbol>
+                    </apply>
+                    <apply id="p1.1.m1.1.5.1.cmml" xref="p1.1.m1.1.5.8.2">
+                        <apply id="p1.1.m1.1.5.2.1.1.cmml" xref="p1.1.m1.1.5.2">
+                            <csymbol cd="dlmf" id="p1.1.m1.1.5.2.1.1.1.cmml" xref="p1.1.m1.1.5.2.1.2">Bessel-J</csymbol>
+                            <csymbol cd="latexml" id="p1.1.m1.1.5.2.1.3.1.cmml" xref="p1.1.m1.1.5.2.1.3.1">Q11567</csymbol>
+                        </apply>
+                        <apply id="p1.1.m1.1.5.6.cmml" xref="p1.1.m1.1.5.6">
+                            <times id="p1.1.m1.1.5.6.3.cmml" xref="p1.1.m1.1.5.6.3"/>
+                            <csymbol cd="latexml" id="p1.1.m1.1.5.6.1.cmml" xref="p1.1.m1.1.5.6.1">Q12916</csymbol>
+                            <csymbol cd="latexml" id="p1.1.m1.1.5.6.2.cmml" xref="p1.1.m1.1.5.6.2">Q12916</csymbol>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+        </annotation-xml>
+        <annotation encoding="application/x-tex" id="p1.1.m1.1c">\BesselJ{\nu}'@{x}\BesselY{\nu}@{\lambda x}-\BesselY{\nu}'@{x}\BesselJ{\nu}@{%
+            \lambda x}</annotation>
+    </semantics>
+</math>
