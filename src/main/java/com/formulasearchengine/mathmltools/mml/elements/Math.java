@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import com.formulasearchengine.mathmltools.xmlhelper.PartialLocalEntityResolver;
+import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -47,9 +48,7 @@ public class Math {
             buildDom(inputXMLString, documentBuilder);
         } catch (Exception e) {
             log.warn("Error parsing input \n{}\n. Adding MathML3 Document headers.", inputXMLString);
-            inputXMLString = inputXMLString.replaceAll("<\\?[xX][mM][lL].*\\?>", "");
-            inputXMLString = DOCTYPE
-                    + inputXMLString;
+            inputXMLString = tryFixHeader(inputXMLString);
             try {
                 buildDom(inputXMLString, documentBuilder);
             } catch (SAXException | IOException e1) {
@@ -57,6 +56,14 @@ public class Math {
                 throw e;
             }
         }
+    }
+
+    public static String tryFixHeader(String inputXMLString) {
+        final StringBuffer input = new StringBuffer(inputXMLString);
+        XMLHelper.removeXmlDeclaration(input);
+        XMLHelper.removeDoctype(input);
+        inputXMLString = DOCTYPE + input;
+        return inputXMLString;
     }
 
     private void buildDom(String inputXMLString, DocumentBuilder documentBuilder) throws SAXException, IOException {
