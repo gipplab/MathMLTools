@@ -1,17 +1,41 @@
 package com.formulasearchengine.mathmltools.xmlhelper;
 
-import com.formulasearchengine.mathmltools.mml.CMMLInfo;
-import org.apache.commons.io.IOUtils;
-import org.junit.Test;
-import org.w3c.dom.Node;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.*;
+import com.formulasearchengine.mathmltools.mml.CMMLInfo;
+import javax.xml.parsers.ParserConfigurationException;
+import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.Test;
+import org.w3c.dom.Node;
 
 public class XMLHelperTest {
+    @Test
+    public void removeDoctype() throws Exception {
+        StringBuffer xml =  new StringBuffer("");
+        XMLHelper.removeDoctype(xml);
+        assertEquals("", xml.toString());
+        xml.append("<!DOCTYPE blah \\+=\"" +
+                " >content");
+        XMLHelper.removeDoctype(xml);
+        assertEquals("content", xml.toString());
+    }
+
+    @Test
+    public void removeXmlDeclaration() throws Exception {
+        StringBuffer xml = new StringBuffer("");
+        XMLHelper.removeXmlDeclaration(xml);
+        assertEquals("", xml.toString());
+        xml = xml.append("<?xML blah \\+=\"\n" +
+                " ?>content");
+        XMLHelper.removeXmlDeclaration(xml);
+        assertEquals("content", xml.toString());
+    }
 
     @Test
     public void testMainElement() throws Exception {
