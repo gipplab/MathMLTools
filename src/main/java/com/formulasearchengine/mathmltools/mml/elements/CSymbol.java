@@ -26,6 +26,6 @@ class CSymbol {
 
     @Override
     public String toString() {
-        return getCd()+":"+getCName();
+        return getCd() + ":" + getCName();
     }
 }
