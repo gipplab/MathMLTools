@@ -44,6 +44,13 @@ class MathTest {
         new Math(sampleMML);
     }
 
+    @Test
+    void altTest() throws IOException, ParserConfigurationException, SAXException {
+        final String sampleMML = getFileContents(MML_TEST_DIR + "measurable-space.xml");
+        final String fixed = Math.tryFixHeader(sampleMML);
+        new Math(fixed);
+    }
+
     @ParameterizedTest()
     @ValueSource(strings = {
             "<!DOCTYPE math PUBLIC \"-//W3C//DTD MATHML 3.0 Transitional//EN\" \n"

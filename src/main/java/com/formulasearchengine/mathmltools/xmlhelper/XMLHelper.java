@@ -1,15 +1,21 @@
 package com.formulasearchengine.mathmltools.xmlhelper;
 
+import static com.formulasearchengine.mathmltools.mml.CMMLInfo.NS_MATHML;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
-import net.sf.saxon.Configuration;
-import net.sf.saxon.s9api.*;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,20 +29,26 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.xpath.*;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static com.formulasearchengine.mathmltools.mml.CMMLInfo.NS_MATHML;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import net.sf.saxon.Configuration;
+import net.sf.saxon.s9api.DOMDestination;
+import net.sf.saxon.s9api.Processor;
+import net.sf.saxon.s9api.SaxonApiException;
+import net.sf.saxon.s9api.XQueryCompiler;
+import net.sf.saxon.s9api.XQueryEvaluator;
+import net.sf.saxon.s9api.XQueryExecutable;
+import net.sf.saxon.s9api.XdmNode;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  * XMLHelper contains utility functions to handle
@@ -46,8 +58,11 @@ import static com.formulasearchengine.mathmltools.mml.CMMLInfo.NS_MATHML;
  */
 @SuppressWarnings("UnusedDeclaration")
 public final class XMLHelper {
+    private static final Logger log = LogManager.getLogger("XMLHelper");
 
     public static final Pattern ANNOTATION_XML_PATTERN = Pattern.compile("annotation(-xml)?");
+    public static final Pattern XML_DECLARATION = Pattern.compile("<\\?[xX][mM][lL].*\\?>", Pattern.DOTALL);
+    public static final Pattern DOCTYPE_DECLARATION = Pattern.compile("<!DOCTYPE.*>", Pattern.DOTALL + Pattern.CASE_INSENSITIVE);
     public static final String MATH_SEMANTICS_ANNOTATION = "m:math/m:semantics/m:annotation-xml[@encoding='MathML-Content']";
 
     private XMLHelper() {
@@ -621,5 +636,23 @@ public final class XMLHelper {
         public Iterator<Node> iterator() {
             return nodes.iterator();
         }
+    }
+
+
+    private static void removePattern(Pattern pattern, StringBuffer xml) {
+        final Matcher matcher = pattern.matcher(xml);
+        while (matcher.find()) {
+            log.trace(" Removing {}", matcher.group(0));
+            xml.delete(matcher.start(0), matcher.end(0));
+            matcher.reset();
+        }
+    }
+
+    public static void removeDoctype(StringBuffer xml) {
+        removePattern(DOCTYPE_DECLARATION, xml);
+    }
+
+    public static void removeXmlDeclaration(StringBuffer xml) {
+        removePattern(XML_DECLARATION, xml);
     }
 }
