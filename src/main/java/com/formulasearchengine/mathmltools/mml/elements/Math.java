@@ -28,6 +28,7 @@ import org.xmlunit.validation.Languages;
 import org.xmlunit.validation.ValidationProblem;
 import org.xmlunit.validation.ValidationResult;
 import org.xmlunit.validation.Validator;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Math {
     private static final Logger log = LogManager.getLogger("Math");
@@ -71,6 +72,11 @@ public class Math {
         return inputXMLString;
     }
 
+    /**
+     * NOTE! Currently no new annotations are added
+     *
+     * @param newTeX
+     */
     void changeTeXAnnotation(String newTeX) {
         dom.getDocumentElement().setAttribute("alttext", newTeX);
         if (getAnnotationElements().getLength() > 0) {
@@ -81,7 +87,8 @@ public class Math {
                     node.setTextContent(newTeX);
                 }
             }
-
+        } else {
+            throw new NotImplementedException();
         }
     }
 
@@ -95,7 +102,7 @@ public class Math {
         dom = documentBuilder.parse(is);
     }
 
-    public Iterable<ValidationProblem> getValidationProblems() throws ParserConfigurationException, IOException, SAXException, URISyntaxException {
+    Iterable<ValidationProblem> getValidationProblems() throws ParserConfigurationException, IOException, SAXException, URISyntaxException {
         ValidationResult result = getValidationResult();
         return result.getProblems();
     }
