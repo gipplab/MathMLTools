@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -48,7 +49,10 @@ class MathTest {
     void altTest() throws IOException, ParserConfigurationException, SAXException {
         final String sampleMML = getFileContents(MML_TEST_DIR + "measurable-space.xml");
         final String fixed = Math.tryFixHeader(sampleMML);
-        new Math(fixed);
+        final Math math = new Math(fixed);
+        math.changeTeXAnnotation("asdf");
+        assertThat(math.toString(), new StringContains("alttext=\"asdf\""));
+        assertThat(math.toString(), StringContains.containsString("asdf</annotation>"));
     }
 
     @ParameterizedTest()

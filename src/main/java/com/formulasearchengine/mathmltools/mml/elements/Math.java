@@ -11,14 +11,18 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xmlunit.builder.Input;
+import org.xmlunit.util.IterableNodeList;
 import org.xmlunit.validation.JAXPValidator;
 import org.xmlunit.validation.Languages;
 import org.xmlunit.validation.ValidationProblem;
@@ -30,6 +34,7 @@ public class Math {
     private static final String DOCTYPE = "<!DOCTYPE math PUBLIC \"-//W3C//DTD MATHML 3.0 Transitional//EN\" \n"
             + "     \"http://www.w3.org/Math/DTD/mathml3/mathml3.dtd\">\n";
     private static final String MATHML3_XSD = "https://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd";
+    private static final String APPLICATION_X_TEX = "application/x-tex";
     private static Validator v;
     private Source source;
     private Document dom;
@@ -58,12 +63,30 @@ public class Math {
         }
     }
 
-    public static String tryFixHeader(String inputXMLString) {
+    static String tryFixHeader(String inputXMLString) {
         final StringBuffer input = new StringBuffer(inputXMLString);
         XMLHelper.removeXmlDeclaration(input);
         XMLHelper.removeDoctype(input);
         inputXMLString = DOCTYPE + input;
         return inputXMLString;
+    }
+
+    void changeTeXAnnotation(String newTeX) {
+        dom.getDocumentElement().setAttribute("alttext", newTeX);
+        if (getAnnotationElements().getLength() > 0) {
+            log.trace("Found annotation elements");
+            for (Node node : new IterableNodeList(getAnnotationElements())) {
+                if (node.getAttributes().getNamedItem("encoding").getNodeValue().equals(APPLICATION_X_TEX)) {
+                    log.trace("Found annotation elements with encoding {}", APPLICATION_X_TEX);
+                    node.setTextContent(newTeX);
+                }
+            }
+
+        }
+    }
+
+    private NodeList getAnnotationElements() {
+        return dom.getElementsByTagName("annotation");
     }
 
     private void buildDom(String inputXMLString, DocumentBuilder documentBuilder) throws SAXException, IOException {
@@ -116,4 +139,13 @@ public class Math {
         return dbf;
     }
 
+    @Override
+    public String toString() {
+        try {
+            return XMLHelper.printDocument(dom);
+        } catch (TransformerException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
