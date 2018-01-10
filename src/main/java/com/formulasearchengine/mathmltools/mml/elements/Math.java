@@ -4,6 +4,9 @@ import static org.xmlunit.util.Convert.toInputSource;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 import com.formulasearchengine.mathmltools.xmlhelper.PartialLocalEntityResolver;
 import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
@@ -18,6 +21,7 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -39,6 +43,7 @@ public class Math {
     private static Validator v;
     private Source source;
     private Document dom;
+    private List<CSymbol> cSymbols = null;
 
     /**
      * Generates a Math tag from a valid xml String.
@@ -128,7 +133,7 @@ public class Math {
         return v;
     }
 
-    public static DocumentBuilder getDocumentBuilder() throws ParserConfigurationException {
+    static DocumentBuilder getDocumentBuilder() throws ParserConfigurationException {
         DocumentBuilderFactory dbf = getDocumentBuilderFactory();
         DocumentBuilder db = dbf.newDocumentBuilder();
         db.setErrorHandler(new ThrowAllErrorHandler());
@@ -146,13 +151,38 @@ public class Math {
         return dbf;
     }
 
+    String serializeDom() throws TransformerException {
+        return XMLHelper.printDocument(dom);
+    }
+
     @Override
     public String toString() {
         try {
-            return XMLHelper.printDocument(dom);
+            return serializeDom();
         } catch (TransformerException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    void fixGoldCd() {
+        getSymbolsFromCd("latexml").filter(n -> n.getCName().startsWith("Q")).forEach(cSymbol -> {
+            log.trace("Processing symbol {}", cSymbol);
+            cSymbol.setCd("wikidata");
+        });
+
+    }
+
+    private Stream<CSymbol> getSymbolsFromCd(String cd) {
+        return getCSymbols().stream().filter(n -> n.getCd().equals(cd));
+    }
+
+    List<CSymbol> getCSymbols() {
+        if (cSymbols == null) {
+            final IterableNodeList nodeList = new IterableNodeList(dom.getElementsByTagName("csymbol"));
+            cSymbols = new ArrayList<>();
+            nodeList.forEach(n -> cSymbols.add(new CSymbol((Element) n, false)));
+        }
+        return cSymbols;
     }
 }
