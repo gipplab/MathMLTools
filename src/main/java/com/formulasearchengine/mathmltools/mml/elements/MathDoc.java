@@ -10,8 +10,8 @@ import java.util.stream.Stream;
 
 import com.formulasearchengine.mathmltools.xmlhelper.PartialLocalEntityResolver;
 import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
+import com.formulasearchengine.mathosphere.pomlp.xml.XmlDocumentReader;
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
@@ -54,7 +54,7 @@ public class MathDoc {
      * @throws IOException
      */
     public MathDoc(String inputXMLString) throws ParserConfigurationException, SAXException, IOException {
-        DocumentBuilder documentBuilder = getDocumentBuilder();
+        DocumentBuilder documentBuilder = XmlDocumentReader.getDocumentBuilder();
         try {
             buildDom(inputXMLString, documentBuilder);
         } catch (Exception e) {
@@ -69,7 +69,7 @@ public class MathDoc {
         }
     }
 
-    static String tryFixHeader(String inputXMLString) {
+    public static String tryFixHeader(String inputXMLString) {
         final StringBuffer input = new StringBuffer(inputXMLString);
         XMLHelper.removeXmlDeclaration(input);
         XMLHelper.removeDoctype(input);
@@ -133,24 +133,6 @@ public class MathDoc {
         return v;
     }
 
-    static DocumentBuilder getDocumentBuilder() throws ParserConfigurationException {
-        DocumentBuilderFactory dbf = getDocumentBuilderFactory();
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        db.setErrorHandler(new ThrowAllErrorHandler());
-        db.setEntityResolver(new PartialLocalEntityResolver());
-        return db;
-    }
-
-    private static DocumentBuilderFactory getDocumentBuilderFactory() throws ParserConfigurationException {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setValidating(true);
-        dbf.setFeature("http://xml.org/sax/features/validation", true);
-        dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
-        dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-        dbf.setNamespaceAware(true);
-        return dbf;
-    }
-
     String serializeDom() throws TransformerException {
         return XMLHelper.printDocument(dom);
     }
@@ -184,5 +166,9 @@ public class MathDoc {
             nodeList.forEach(n -> cSymbols.add(new CSymbol((Element) n, false)));
         }
         return cSymbols;
+    }
+
+    public Document getDom() {
+        return dom;
     }
 }
