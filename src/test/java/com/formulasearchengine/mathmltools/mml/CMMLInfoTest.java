@@ -4,8 +4,9 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.xmlunit.matchers.CompareMatcher.isIdenticalTo;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 
 import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
@@ -211,7 +212,7 @@ public class CMMLInfoTest {
         int i = 0;
         for (String rawTest : rawTests) {
             CMMLInfo cmmlElement = CMMLInfo.newFromSnippet(rawTest);
-            assertEquals("Test " + i + " failed", isEquation[i], cmmlElement.isEquation());
+            assertEquals( isEquation[i], cmmlElement.isEquation(),"Test " + i + " failed");
             i++;
         }
     }
@@ -226,7 +227,7 @@ public class CMMLInfoTest {
         int i = 0;
         for (final String rawTest : rawTests) {
             final CMMLInfo cmmlElement = CMMLInfo.newFromSnippet(rawTest);
-            assertEquals("Test " + i + " failed", identifiers[i], cmmlElement.getElements());
+            assertEquals(identifiers[i], cmmlElement.getElements(), "Test " + i + " failed");
             i++;
         }
     }
@@ -247,10 +248,11 @@ public class CMMLInfoTest {
         int i = 0;
         for (final String rawTest : rawTests) {
             final CMMLInfo cmmlElement = CMMLInfo.newFromSnippet(rawTest);
-            assertEquals("Test " + i + " failed", abstractCDs[i], cmmlElement.abstract2CDs().toString());
+            assertEquals(cmmlElement.abstract2CDs().toString(), abstractCDs[i], "Test " + i + " failed");
             i++;
         }
     }
+
 
     @Test
     public final void testStrictCmml1() throws Exception {
@@ -286,6 +288,7 @@ public class CMMLInfoTest {
         Integer depth = cmml.getDepth(iQuery);
         assertEquals(8, (int) depth);
     }
+
 
     @Test
     public final void testIsEquation2() throws Exception {

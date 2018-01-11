@@ -3,20 +3,21 @@ package com.formulasearchengine.mathmltools.mathmlquerygenerator;
 import com.formulasearchengine.mathmlquerygenerator.BasicXQueryGenerator;
 import com.formulasearchengine.mathmltools.mml.CMMLInfo;
 import org.apache.commons.io.IOUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 
 public class BasicXQueryGeneratorTest {
 
     @Test
     public void testNoMath() throws Exception {
         BasicXQueryGenerator qg = new BasicXQueryGenerator();
-        assertNull("Input without math should return null", qg.toString());
-        assertNull("Input without math document should return null", qg.generateQuery((Document) null));
+        assertNull(qg.toString(), "Input without math should return null");
+        assertNull(qg.generateQuery((Document) null), "Input without math document should return null");
     }
 
     @Test
