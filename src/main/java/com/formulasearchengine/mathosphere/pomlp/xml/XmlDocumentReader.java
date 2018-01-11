@@ -104,18 +104,18 @@ public class XmlDocumentReader {
         } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
         }
+        try {
+            return parse(source);
+        } catch (ParserConfigurationException | IOException | SAXException e) {
+            e.printStackTrace();
+        }
         return oldgetDocumentFromXMLString(xml);
     }
 
-    private static Document parse(Source s) {
-        try {
-            DocumentBuilder b =
-                    DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            return b.parse(Convert.toInputSource(s));
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    private static Document parse(Source s) throws ParserConfigurationException, IOException, SAXException {
+        DocumentBuilder b =
+                DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        return b.parse(Convert.toInputSource(s));
     }
 
     public static Node getNodeFromXML(Path xmlF) {
