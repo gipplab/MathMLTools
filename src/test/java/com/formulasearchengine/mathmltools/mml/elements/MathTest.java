@@ -33,7 +33,7 @@ class MathTest {
     @Test
     void isValid() throws Exception {
         final String sampleMML = getFileContents(MML_TEST_DIR + "Emc2.xml");
-        Math math = new Math(sampleMML);
+        MathDoc math = new MathDoc(sampleMML);
         assertThat(math.getValidationProblems().spliterator().getExactSizeIfKnown(), is(equalTo(0L)));
         //assertTrue(math.isValid());
     }
@@ -44,20 +44,20 @@ class MathTest {
             "<math/>",
             "<math><mi>a</mi></math>"})
     void noWhitespaceTests(String tag) throws Exception {
-        new Math(tag);
+        new MathDoc(tag);
     }
 
     @Test
     void EmcTest() throws IOException, ParserConfigurationException, SAXException {
         final String sampleMML = getFileContents(MML_TEST_DIR + "Emc2.xml");
-        new Math(sampleMML);
+        new MathDoc(sampleMML);
     }
 
     @Test
     void altTest() throws IOException, ParserConfigurationException, SAXException {
         final String sampleMML = getFileContents(MML_TEST_DIR + "measurable-space.xml");
-        final String fixed = Math.tryFixHeader(sampleMML);
-        final Math math = new Math(fixed);
+        final String fixed = MathDoc.tryFixHeader(sampleMML);
+        final MathDoc math = new MathDoc(fixed);
         math.changeTeXAnnotation("asdf");
         assertThat(math.toString(), new StringContains("alttext=\"asdf\""));
         assertThat(math.toString(), StringContains.containsString("asdf</annotation>"));
@@ -66,8 +66,8 @@ class MathTest {
     @Test
     void cdRewriter() throws IOException, ParserConfigurationException, SAXException {
         final String sampleMML = getFileContents(MML_TEST_DIR + "Van_der_Waerden.xml");
-        final String fixed = Math.tryFixHeader(sampleMML);
-        final Math math = new Math(fixed);
+        final String fixed = MathDoc.tryFixHeader(sampleMML);
+        final MathDoc math = new MathDoc(fixed);
         math.fixGoldCd();
         assertThat(math.toString(), new StringContains("cd=\"wikidata\""));
     }
@@ -75,20 +75,20 @@ class MathTest {
     @Test
     void latexMLMacroExtracter() throws IOException, ParserConfigurationException, SAXException {
         final String sampleMML = getFileContents(MML_TEST_DIR + "measurable-space.xml");
-        final String fixed = Math.tryFixHeader(sampleMML);
-        final Math math = new Math(fixed);
+        final String fixed = MathDoc.tryFixHeader(sampleMML);
+        final MathDoc math = new MathDoc(fixed);
         math.fixGoldCd();
     }
 
     @Test
     void altTestFail() throws IOException, ParserConfigurationException, SAXException {
-        final Math math = new Math(SIMPLE_WITH_DOCTYPE);
+        final MathDoc math = new MathDoc(SIMPLE_WITH_DOCTYPE);
         assertThrows(NotImplementedException.class, () -> math.changeTeXAnnotation("asdf"));
     }
 
     @Test()
     void testToString() throws TransformerException {
-        final Math math = mock(Math.class);
+        final MathDoc math = mock(MathDoc.class);
         doThrow(new TransformerException("test")).when(math).serializeDom();
         when(math.toString()).thenCallRealMethod();
         try {
@@ -110,7 +110,7 @@ class MathTest {
             "<ns:math/>",
             "<math><XMLDocument >a</XMLDocument></math>"})
     void failingExamples(String tag) {
-        assertThrows(Exception.class, () -> new Math(tag));
+        assertThrows(Exception.class, () -> new MathDoc(tag));
     }
 }
 
