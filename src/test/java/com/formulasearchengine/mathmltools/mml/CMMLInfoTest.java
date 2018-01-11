@@ -1,6 +1,9 @@
 package com.formulasearchengine.mathmltools.mml;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.xmlunit.matchers.CompareMatcher.isIdenticalTo;
@@ -8,6 +11,8 @@ import static org.xmlunit.matchers.CompareMatcher.isIdenticalTo;
 import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
@@ -21,6 +26,7 @@ import net.sf.saxon.s9api.XQueryExecutable;
 
 @SuppressWarnings("JavaDoc")
 public class CMMLInfoTest {
+    private static final Logger LOG = LogManager.getLogger("CMMLInfoTest");
     public static final String MML_TEST_DIR = "com/formulasearchengine/mathmltools/mml/";
     private final String rawTests[] = {"<annotation-xml encoding=\"MathML-Content\" id=\"I1.i2.p1.1.m1.1.cmml\" xref=\"I1.i2.p1.1.m1.1\">\n" +
             "  <apply id=\"I1.i2.p1.1.m1.1.6.cmml\" xref=\"I1.i2.p1.1.m1.1.6\">\n" +
@@ -297,7 +303,8 @@ public class CMMLInfoTest {
         CMMLInfo strict = new CMMLInfo(sampleMML).toStrictCmml();
         XQueryExecutable CDQuery = strict.getXQuery();
         CMMLInfo cmmlElement = new CMMLInfo(sampleMML);
-        System.out.println(cmmlElement.toStrictCmml().getXQuery().getUnderlyingCompiledQuery().getExpression().toString());
+        final String s = cmmlElement.toStrictCmml().getXQuery().getUnderlyingCompiledQuery().getExpression().toString();
+        assertThat(s, containsString("firstItem"));
     }
 
 
@@ -305,8 +312,16 @@ public class CMMLInfoTest {
     public final void testStrictQueryTest() throws Exception {
         final String sampleMML = getFileContents(MML_TEST_DIR + "query1.xml");
         CMMLInfo mml = new CMMLInfo(sampleMML);
-        System.out.println(TreeWriter.compactForm(mml.toStrictCmml().abstract2CDs()));
+        final String s = TreeWriter.compactForm(mml.toStrictCmml().abstract2CDs());
+        assertThat(s, containsString("qvar"));
+    }
 
+    @Test
+    public final void testTransformations() throws Exception {
+        final String sampleMML = getFileContents(MML_TEST_DIR + "query1.xml");
+        CMMLInfo mml = new CMMLInfo(sampleMML);
+        final Multiset<String> elements = mml.toDataCmml().getElements();
+        assertThat(elements.size(),is(greaterThan(0)));
     }
 
     @Test
