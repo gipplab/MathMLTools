@@ -23,8 +23,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.xml.sax.SAXException;
 
-class MathTest {
-    private static final String SIMPLE_WITH_DOCTYPE = "<!DOCTYPE math PUBLIC \"-//W3C//DTD MATHML 3.0 Transitional//EN\" \n"
+public class MathTest {
+    public static final String SIMPLE_WITH_DOCTYPE = "<!DOCTYPE math PUBLIC \"-//W3C//DTD MATHML 3.0 Transitional//EN\" \n"
             + "     \"http://www.w3.org/Math/DTD/mathml3/mathml3.dtd\">\n"
             + "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
             + "     <ci>some content 1</ci>\n"
