@@ -1,7 +1,7 @@
 package com.formulasearchengine.mathmltools.xmlhelper;
 
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.ls.LSInput;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,16 +24,16 @@ public class PartialLocalEntityResolverTest {
     public void resolveEntity() throws Exception {
 
         final PartialLocalEntityResolver resolver = new PartialLocalEntityResolver();
-        Assert.assertNull(resolver.resolveEntity("a", "b"));
-        Assert.assertNotNull(resolver.resolveEntity("a", "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd"));
+        assertNull(resolver.resolveEntity("a", "b"));
+        assertNotNull(resolver.resolveEntity("a", "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd"));
     }
 
     @Test
     public void resolvePublicID() throws Exception {
 
         final PartialLocalEntityResolver resolver = new PartialLocalEntityResolver();
-        Assert.assertNull(resolver.resolveEntity("a", "b"));
-        Assert.assertNotNull(resolver.resolveEntity("-//W3C//ENTITIES HTML MathML Set//EN//XML", "local path"));
+        assertNull(resolver.resolveEntity("a", "b"));
+        assertNotNull(resolver.resolveEntity("-//W3C//ENTITIES HTML MathML Set//EN//XML", "local path"));
     }
 
     @Test

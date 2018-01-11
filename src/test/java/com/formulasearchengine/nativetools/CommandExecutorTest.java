@@ -1,7 +1,7 @@
 package com.formulasearchengine.nativetools;
 
 import org.apache.logging.log4j.Level;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
 

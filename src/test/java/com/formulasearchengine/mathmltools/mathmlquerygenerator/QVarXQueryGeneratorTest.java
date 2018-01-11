@@ -1,11 +1,13 @@
 package com.formulasearchengine.mathmltools.mathmlquerygenerator;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.fail;
+
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,14 +18,13 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
 
-import org.apache.commons.io.IOUtils;
-import org.junit.Test;
-import org.w3c.dom.Document;
-
 import com.formulasearchengine.mathmlquerygenerator.QVarXQueryGenerator;
 import com.formulasearchengine.mathmlquerygenerator.XQueryGenerator;
 import com.formulasearchengine.mathmltools.mml.CMMLInfo;
 import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
+import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.Test;
+import org.w3c.dom.Document;
 
 public class QVarXQueryGeneratorTest {
 
@@ -78,7 +79,7 @@ public class QVarXQueryGeneratorTest {
                 xQueryGenerator.addDefaultHeader();
                 xQueryGenerator.setAddQvarMap(true);
                 xQueryGenerator.setFindRootApply(findRootApply);
-                assertEquals("Example " + nextFile.getName() + " does not match reference.", reference, xQueryGenerator.toString());
+                assertEquals(reference, xQueryGenerator.toString(), "Example " + nextFile.getName() + " does not match reference.");
             }
         }
     }
@@ -86,8 +87,8 @@ public class QVarXQueryGeneratorTest {
     @Test
     public void testNoMath2() throws Exception {
         XQueryGenerator qg = new QVarXQueryGenerator();
-        assertNull("Input without math should return null", qg.toString());
-        assertNull("Input without math document should return null", qg.generateQuery((Document) null));
+        assertNull(qg.toString(), "Input without math should return null");
+        assertNull(qg.generateQuery((Document) null), "Input without math document should return null");
     }
 
     @Test
@@ -184,7 +185,7 @@ public class QVarXQueryGeneratorTest {
     public void testNoMath() throws Exception {
         final String input = "<?xml version=\"1.0\"?>\n<noMath />";
         QVarXQueryGenerator qg = new QVarXQueryGenerator();
-        assertNull("Input without math should return null", qg.toString());
+        assertNull(qg.toString(), "Input without math should return null");
     }
 
     @Test

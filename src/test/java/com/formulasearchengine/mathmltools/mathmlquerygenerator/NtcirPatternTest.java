@@ -1,20 +1,25 @@
 package com.formulasearchengine.mathmltools.mathmlquerygenerator;
 
-import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
-import org.junit.Test;
 
 import com.formulasearchengine.mathmlquerygenerator.NtcirPattern;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.xml.sax.SAXException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class NtcirPatternTest {
 
-    private NtcirPattern topic;
+    private NtcirPattern topic = new NtcirTopicReaderTest().getFirstTopic();
 
-    @Before
-    public void setUp() throws Exception {
-        topic = (new NtcirTopicReaderTest()).getFirstTopic();
+    public NtcirPatternTest() throws ParserConfigurationException, IOException, SAXException, XPathExpressionException, URISyntaxException {
     }
+
 
     @Test
     public void testGetNum() throws Exception {

@@ -1,17 +1,11 @@
 package com.formulasearchengine.mathmltools.mml;
 
-import javax.xml.parsers.ParserConfigurationException;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.number.OrderingComparison.greaterThan;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
-import java.util.AbstractMap;
-import java.util.ArrayList;
 
-import javax.xml.xpath.XPathExpressionException;
-import org.junit.Test;
+import javax.xml.parsers.ParserConfigurationException;
+import org.junit.jupiter.api.Test;
 
 public class TreeWriterTest {
 

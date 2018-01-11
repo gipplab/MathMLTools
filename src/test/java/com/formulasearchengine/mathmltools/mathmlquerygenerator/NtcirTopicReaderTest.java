@@ -1,7 +1,7 @@
 package com.formulasearchengine.mathmltools.mathmlquerygenerator;
 
 import static com.formulasearchengine.mathmltools.mathmlquerygenerator.QVarXQueryGeneratorTest.getFileContents;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -30,9 +30,10 @@ public class NtcirTopicReaderTest {
 
     @Test
     public void testExtractPatterns() throws Exception {
-        assertEquals("Count in Wikipedia testfile incorrect", 100, countFormulaeInTopics(WIKIPEDIA_RESOURCE));
-        assertEquals("Count in arXiv testfile incorrect", 55, countFormulaeInTopics(ARXIV_RESOURCE));
+        assertEquals(100, countFormulaeInTopics(WIKIPEDIA_RESOURCE), "Count in Wikipedia testfile incorrect");
+        assertEquals(55, countFormulaeInTopics(ARXIV_RESOURCE), "Count in arXiv testfile incorrect");
     }
+
 
     private int countFormulaeInTopics(String resourceName) throws URISyntaxException, IOException, SAXException, ParserConfigurationException, XPathExpressionException {
         final List<NtcirPattern> ntcirPatterns = getTopicReader(resourceName).extractPatterns();
