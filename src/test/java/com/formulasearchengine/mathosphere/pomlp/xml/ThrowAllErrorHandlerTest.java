@@ -1,9 +1,9 @@
-package com.formulasearchengine.mathmltools.mml.elements;
+package com.formulasearchengine.mathosphere.pomlp.xml;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.LocatorImpl;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ThrowAllErrorHandlerTest {
     @Test
