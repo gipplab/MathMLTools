@@ -1,5 +1,6 @@
 package com.formulasearchengine.mathosphere.pomlp.xml;
 
+import com.formulasearchengine.mathmltools.mml.elements.MathDoc;
 import com.formulasearchengine.mathmltools.mml.elements.MathTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -54,7 +55,8 @@ class XmlDocumentReaderTest {
     @ParameterizedTest
     @MethodSource("xmlResources")
     void testResourcesAsString(Path f) throws IOException {
-        final String s = new String(Files.readAllBytes(f));
+        String s = new String(Files.readAllBytes(f));
+        s = MathDoc.tryFixHeader(s);
         final Document xml = XmlDocumentReader.getDocumentFromXMLString(s);
         assertNotNull(xml);
     }
