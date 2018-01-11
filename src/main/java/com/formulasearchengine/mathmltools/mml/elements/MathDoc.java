@@ -34,7 +34,7 @@ import org.xmlunit.validation.ValidationProblem;
 import org.xmlunit.validation.ValidationResult;
 import org.xmlunit.validation.Validator;
 
-public class Math {
+public class MathDoc {
     private static final Logger log = LogManager.getLogger("Math");
     private static final String DOCTYPE = "<!DOCTYPE math PUBLIC \"-//W3C//DTD MATHML 3.0 Transitional//EN\" \n"
             + "     \"http://www.w3.org/Math/DTD/mathml3/mathml3.dtd\">\n";
@@ -53,7 +53,7 @@ public class Math {
      * @throws SAXException
      * @throws IOException
      */
-    public Math(String inputXMLString) throws ParserConfigurationException, SAXException, IOException {
+    public MathDoc(String inputXMLString) throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilder documentBuilder = getDocumentBuilder();
         try {
             buildDom(inputXMLString, documentBuilder);
