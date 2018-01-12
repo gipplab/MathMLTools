@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -90,6 +91,15 @@ public class CommandExecutor {
     public CommandExecutor(String serviceName, List<String> args) {
         this.pb = new ProcessBuilder(args);
         this.serviceName = serviceName;
+    }
+
+    /**
+     * Specify a working directory for the process. Obviously, needs to be done
+     * before any executions.
+     * @param directoryPath must be a directory path
+     */
+    public void setWorkingDirectoryForProcess( Path directoryPath ){
+        pb.directory( directoryPath.toFile() );
     }
 
     /**

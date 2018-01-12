@@ -3,6 +3,7 @@ package com.formulasearchengine.nativetools;
 import org.apache.logging.log4j.Level;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Paths;
 import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,6 +31,15 @@ public class CommandExecutorTest {
     public void simpleEchoWithTimeoutTest(){
         CommandExecutor executor = new CommandExecutor("JUnit-Test", ROBUST_ECHO_COMMAND, TEST_STRING);
         NativeResponse response = executor.exec( 1000, Level.DEBUG );
+        assertEchoNativeResponse( response );
+    }
+
+    @Test
+    public void changeWorkingDirectoryTest(){
+        CommandExecutor executor = new CommandExecutor("JUnit-Test", ROBUST_ECHO_COMMAND, TEST_STRING);
+        String homeDir = System.getProperty( "user.home" );
+        executor.setWorkingDirectoryForProcess(Paths.get( homeDir ));
+        NativeResponse response = executor.execWithoutTimeout();
         assertEchoNativeResponse( response );
     }
 
