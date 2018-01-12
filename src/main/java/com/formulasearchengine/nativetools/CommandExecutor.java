@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * A native command executor. Note that it assumes the results of the native code will
  * be printed to the standard output streams while errors and also logging information
  * will be printed in the error output stream.
- *
+ * <p>
  * This command executor is very simple and doesn't allow further communications with the
  * native code (such as listening for inputs) yet.
  *
@@ -96,10 +96,11 @@ public class CommandExecutor {
     /**
      * Specify a working directory for the process. Obviously, needs to be done
      * before any executions.
+     *
      * @param directoryPath must be a directory path
      */
-    public void setWorkingDirectoryForProcess( Path directoryPath ){
-        pb.directory( directoryPath.toFile() );
+    public void setWorkingDirectoryForProcess(Path directoryPath) {
+        pb.directory(directoryPath.toFile());
     }
 
     /**
@@ -245,6 +246,7 @@ public class CommandExecutor {
 
     /**
      * Has to be done in the end manually. Close all streams manually.
+     *
      * @param process process with open streams
      * @throws IOException if something went wrong due closing streams
      */
