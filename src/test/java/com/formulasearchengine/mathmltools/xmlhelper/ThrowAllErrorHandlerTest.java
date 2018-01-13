@@ -1,6 +1,8 @@
-package com.formulasearchengine.mathosphere.pomlp.xml;
+package com.formulasearchengine.mathmltools.xmlhelper;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import com.formulasearchengine.mathmltools.xmlhelper.ThrowAllErrorHandler;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.LocatorImpl;

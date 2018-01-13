@@ -1,4 +1,4 @@
-package com.formulasearchengine.mathosphere.pomlp.xml;
+package com.formulasearchengine.mathmltools.xmlhelper;
 
 import com.formulasearchengine.mathmltools.mml.elements.MathDoc;
 import com.formulasearchengine.mathmltools.mml.elements.MathTest;
