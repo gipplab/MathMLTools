@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 import com.formulasearchengine.mathmltools.xmlhelper.PartialLocalEntityResolver;
 import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
-import com.formulasearchengine.mathosphere.pomlp.xml.XmlDocumentReader;
+import com.formulasearchengine.mathmltools.xmlhelper.XmlDocumentReader;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;

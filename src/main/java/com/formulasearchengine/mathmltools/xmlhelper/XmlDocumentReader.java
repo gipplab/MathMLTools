@@ -1,4 +1,4 @@
-package com.formulasearchengine.mathosphere.pomlp.xml;
+package com.formulasearchengine.mathmltools.xmlhelper;
 
 import static org.xmlunit.util.Convert.toInputSource;
 
@@ -8,7 +8,6 @@ import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import com.formulasearchengine.mathmltools.xmlhelper.PartialLocalEntityResolver;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;

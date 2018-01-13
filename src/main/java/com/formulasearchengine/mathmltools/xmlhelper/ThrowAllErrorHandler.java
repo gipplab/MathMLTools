@@ -1,4 +1,4 @@
-package com.formulasearchengine.mathosphere.pomlp.xml;
+package com.formulasearchengine.mathmltools.xmlhelper;
 
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
