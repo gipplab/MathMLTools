@@ -82,7 +82,7 @@ public class MathDoc {
      *
      * @param newTeX
      */
-    void changeTeXAnnotation(String newTeX) {
+    public void changeTeXAnnotation(String newTeX) {
         dom.getDocumentElement().setAttribute("alttext", newTeX);
         if (getAnnotationElements().getLength() > 0) {
             log.trace("Found annotation elements");
@@ -147,7 +147,7 @@ public class MathDoc {
         return null;
     }
 
-    void fixGoldCd() {
+    public void fixGoldCd() {
         getSymbolsFromCd("latexml").filter(n -> n.getCName().startsWith("Q")).forEach(cSymbol -> {
             log.trace("Processing symbol {}", cSymbol);
             cSymbol.setCd("wikidata");
