@@ -35,6 +35,9 @@ public class BasicXQueryGenerator extends XQueryGenerator<BasicXQueryGenerator> 
                 .addFooter("}\n</result>");
     }
 
+    public BasicXQueryGenerator() {
+    }
+
     @Override
     public String generateQuery(Document document) {
         if (document == null) {

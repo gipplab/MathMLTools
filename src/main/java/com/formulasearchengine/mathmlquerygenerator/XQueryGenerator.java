@@ -90,7 +90,7 @@ public abstract class XQueryGenerator<T extends XQueryGenerator> {
     }
 
 
-    Node getMainElement() {
+    public Node getMainElement() {
         return mainElement;
     }
 

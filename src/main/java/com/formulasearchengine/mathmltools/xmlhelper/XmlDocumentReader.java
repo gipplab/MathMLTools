@@ -1,17 +1,5 @@
 package com.formulasearchengine.mathmltools.xmlhelper;
 
-import static org.xmlunit.util.Convert.toInputSource;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Source;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
@@ -20,6 +8,18 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xmlunit.builder.Input;
 import org.xmlunit.util.Convert;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Source;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static org.xmlunit.util.Convert.toInputSource;
 
 /**
  * Helper class to format XML files to Document and Node types
@@ -41,15 +41,13 @@ public class XmlDocumentReader {
 
     public static Document getDocumentFromXML(Path xmlF) {
         final Source source = Input.fromFile(xmlF.toAbsolutePath().toString()).build();
-        final InputSource is = toInputSource(source);
+        String orig = null;
         try {
-            return getDocument(is); //getDocument(is);
-        } catch (ParserConfigurationException | IOException | SAXException e) {
-            LOG.warn("Cannot parse XML file with grammar: " + xmlF.toString(), e);
+            orig = new String(Files.readAllBytes(xmlF));
+        } catch (IOException ioe) {
+            LOG.fatal("Cannot read xml file " + xmlF.toString());
         }
-        return oldgetDocumentFromXML(xmlF);
-
-
+        return getDocumentFromSource(source, orig);
     }
 
     private static Document getDocument(InputSource inputStream) throws ParserConfigurationException, IOException, SAXException {
@@ -97,18 +95,22 @@ public class XmlDocumentReader {
 
     public static Document getDocumentFromXMLString(String xml) {
         Source source = Input.fromString(xml).build();
+        return getDocumentFromSource(source, xml);
+    }
+
+    private static Document getDocumentFromSource(Source source, String orig) {
         final InputSource is = toInputSource(source);
         try {
             return getDocument(is);
         } catch (ParserConfigurationException | IOException | SAXException e) {
-            e.printStackTrace();
+            LOG.warn("Cannot parse document directly '{}'.", e.getMessage());
         }
         try {
             return parse(source);
         } catch (ParserConfigurationException | IOException | SAXException e) {
-            e.printStackTrace();
+            LOG.warn("Cannot parse on second attempt '{}'.", e.getMessage());
         }
-        return oldgetDocumentFromXMLString(xml);
+        return oldgetDocumentFromXMLString(orig);
     }
 
     private static Document parse(Source s) throws ParserConfigurationException, IOException, SAXException {
@@ -131,7 +133,7 @@ public class XmlDocumentReader {
 
     private static DocumentBuilderFactory getDocumentBuilderFactory() throws ParserConfigurationException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setValidating(true);
+        dbf.setValidating(false);
         dbf.setFeature("http://xml.org/sax/features/validation", true);
         dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
         dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
