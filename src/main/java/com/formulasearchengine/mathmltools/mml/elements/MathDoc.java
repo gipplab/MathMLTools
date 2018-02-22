@@ -10,7 +10,6 @@ import java.util.stream.Stream;
 
 import com.formulasearchengine.mathmltools.xmlhelper.PartialLocalEntityResolver;
 import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
-import com.formulasearchengine.mathmltools.xmlhelper.XmlDocumentReader;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
@@ -19,6 +18,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 
+import com.formulasearchengine.mathmltools.xmlhelper.XmlDocumentReader;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,11 +37,9 @@ import org.xmlunit.validation.ValidationResult;
 import org.xmlunit.validation.Validator;
 
 public class MathDoc {
-    private static final Logger log = LogManager.getLogger(MathDoc.class.getName());
-    private static final String DOCTYPE =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
-                    + "<!DOCTYPE math PUBLIC \"-//W3C//DTD MATHML 3.0 Transitional//EN\" \n"
-                    + "     \"http://www.w3.org/Math/DTD/mathml3/mathml3.dtd\">\n";
+    private static final Logger log = LogManager.getLogger("Math");
+    private static final String DOCTYPE = "<!DOCTYPE math PUBLIC \"-//W3C//DTD MATHML 3.0 Transitional//EN\" \n"
+            + "     \"http://www.w3.org/Math/DTD/mathml3/mathml3.dtd\">\n";
     private static final String MATHML3_XSD = "https://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd";
     private static final String APPLICATION_X_TEX = "application/x-tex";
     private static Validator v;
@@ -62,15 +60,13 @@ public class MathDoc {
         try {
             buildDom(inputXMLString, documentBuilder);
         } catch (Exception e) {
-            log.warn("Exception during parsing process. Adding MathML3 Document headers and try again.");
+            log.warn("Error parsing input \n{}\n. Adding MathML3 Document headers.", inputXMLString);
             inputXMLString = tryFixHeader(inputXMLString);
             try {
                 buildDom(inputXMLString, documentBuilder);
             } catch (SAXException | IOException e1) {
-                log.error(
-                        "Try to fix header but it didn't help. Still invalid document"
-                                + System.lineSeparator()
-                                + inputXMLString, e1);
+                // Throw the exception caused by the original input, not by the corrected input.
+                throw e;
             }
         }
     }
@@ -88,7 +84,7 @@ public class MathDoc {
      *
      * @param newTeX
      */
-    public void changeTeXAnnotation(String newTeX) {
+    void changeTeXAnnotation(String newTeX) {
         dom.getDocumentElement().setAttribute("alttext", newTeX);
         if (getAnnotationElements().getLength() > 0) {
             log.trace("Found annotation elements");
@@ -153,7 +149,7 @@ public class MathDoc {
         return null;
     }
 
-    public void fixGoldCd() {
+    void fixGoldCd() {
         getSymbolsFromCd("latexml").filter(n -> n.getCName().startsWith("Q")).forEach(cSymbol -> {
             log.trace("Processing symbol {}", cSymbol);
             cSymbol.setCd("wikidata");
