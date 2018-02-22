@@ -1,0 +1,15 @@
+apply:
+ plus:
+ apply:
+  root:
+  cn:3
+ apply:
+  divide:
+  apply:
+   plus:
+   ci:𝑎
+   cn:1
+  apply:
+   minus:
+   ci:𝑏
+   cn:2

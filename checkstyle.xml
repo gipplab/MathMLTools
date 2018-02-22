@@ -184,7 +184,7 @@
         <!--<property name="format" value="^\s*$"/>-->
         <!--</module>-->
         <!-- Make the @SuppressWarnings annotations available to Checkstyle -->
-        <module name="FileContentsHolder"/>
+        <!--module name="FileContentsHolder"/-->
         <module name="SuppressWarningsHolder"/>
     </module>
 

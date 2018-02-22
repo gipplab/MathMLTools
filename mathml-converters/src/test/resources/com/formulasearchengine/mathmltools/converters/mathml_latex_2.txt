@@ -1,0 +1,19 @@
+<formula xmlns="http://www.tei-c.org/ns/1.0"
+         n="(1)"
+         notation="TeX"
+         rend="display"
+         xml:id="M1">\documentclass[10pt]{article}
+    \usepackage{amsmath}
+    \usepackage{wasysym}
+    \usepackage{amsfonts}
+    \usepackage{amssymb}
+    \usepackage{amsbsy}
+    \usepackage{mathrsfs}
+    \usepackage{pmc}
+    \usepackage[Euler]{upgreek}
+    \pagestyle{empty}
+
+    \oddsidemargin -1.0in
+
+    \begin{document}
+    \begin{equation*}J(t)=a(t/t_{0})^{{\mathrm{b}}},\end{equation*}\end{document}</formula>
