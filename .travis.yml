@@ -1,6 +1,17 @@
 language: java
+dist: trusty
+sudo: required
 jdk:
   - oraclejdk8
+
+before_script:
+  - curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+  - sudo apt-get install -y latexml nodejs librsvg2-dev
+  - npm i git+https://git@github.com/physikerwelt/mathoid-server.git
+  - cd node_modules/mathoid
+  - sudo chmod +x server.js
+  - ./server.js -c ../../config.dev.yaml &
+  - cd ../..
 
 before_install:
   - mvn clean -q
@@ -12,6 +23,10 @@ install:
 
 after_success:
   - mvn clean test jacoco:report coveralls:report
+
+env:
+  global:
+  - secure: fX1/AIAPMvRLrriO+yeHCT/fA4y0zq4hWx31Z/VRAb+noGkXm1lVC58u6qFfyY17FUOfL+PZ5XVlseS9jkUPhZ9fNgdkT1MtslcIHKWYqPZInw2En47mtOdKreA2rb9cdzApSNccA8Ezro7EEk2y4e/VaqhdQ6kKC4aq322Djv2+ks1xz0fkkUbBGZtMZ3CATopbgTs3SRJyfuGzHJTztgmyUp/t1+w6OspuRpCcohoDvgxQhhDB2Npitpavfvce98VHdfnAIvRqUyv6C+IO/QVyb/DC3kaguji+P+mFn+m8aHPfWNtwMhhcjQPC8oix87WBSx+x50KYWPqXmDFe4ApUhmVA59yyUQksXd/Kggdvnb3JBQ2wMotqU+ahKdYacg7HMKTXbeCmEbnzOK/juzE2isJiGngVvOkQtX4nNRoSenfikWqopfPoW/B2PfEIZOnSEOxjC3gm4plfLFT5XLZfsiTkfRf62XkugRQ1tOr+U5eRxL8hwK/6cd56aCjXb8wASznkx7ENhv6/2hqwQJQy3ONsSnyeNFxRP9gK2qZNJzEhv0yATjaQvNyCySwSb5BCM2+MA6WnV0WKTxTu8dx+bpNzf5lRNvPXrcCzEMWaHUcyR7JSVWWOyrPudyUEW7ESDr6qrMxUmcGSAT/aGuJnnEET2HfOaPONPWW+kNQ=
 
 deploy:
   -
