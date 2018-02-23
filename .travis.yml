@@ -10,7 +10,7 @@ before_script:
   - npm i git+https://git@github.com/physikerwelt/mathoid-server.git
   - cd node_modules/mathoid
   - sudo chmod +x server.js
-  - ./server.js -c ../../config.dev.yaml &
+  - ./server.js -c ../../.travis/config.dev.yaml &
   - cd ../..
 
 before_install:
