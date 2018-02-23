@@ -1,8 +1,9 @@
 # MathML Tools - Java API
 
-[![Build Status](https://travis-ci.org/ag-gipp/MathMLTools.svg?branch=master)](https://travis-ci.org/ag-gipp/MathMLTools)
+[![Build Status](https://travis-ci.org/ag-gipp/MathMLTools.svg?branch=refactor)](https://travis-ci.org/ag-gipp/MathMLTools)
+[![Coverage Status](https://coveralls.io/repos/github/ag-gipp/MathMLTools/badge.svg?branch=refactor)](https://coveralls.io/github/ag-gipp/MathMLTools?branch=refactor)
+[![Maintainability](https://api.codeclimate.com/v1/badges/41afd4eab2afc1b28b4b/maintainability)](https://codeclimate.com/github/ag-gipp/MathMLTools/maintainability)
 [![MavenCentral](https://maven-badges.herokuapp.com/maven-central/com.formulasearchengine/mathmltools/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.formulasearchengine/mathmltools/)
-[![Coverage Status](https://coveralls.io/repos/github/ag-gipp/MathMLTools/badge.svg?branch=master)](https://coveralls.io/github/ag-gipp/MathMLTools?branch=master)
 
 This project provides various tools for processing MathML documents and strings using Java. 
 It is organized in specialized submodules.
