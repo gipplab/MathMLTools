@@ -1,0 +1,23 @@
+{
+  "definitions" : {
+    "X" : [ {
+      "Q36161" : "set (fundamental mathematical concept related to the notions of belonging or inclusion)"
+    } ],
+    "\\Sigma" : [ {
+      "Q739925" : "Family of sets (a collection of some of the subsets of a set)"
+    } ]
+  },
+  "constraints" : [ ],
+  "math_inputtex" : "(X,\\Sigma)",
+  "math_inputtex_semantic" : "\\measurableSpace{\\XSet}{\\SetFamily}",
+  "correct_tex" : "(X,\\Sigma)",
+  "correct_mml" : "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" id=\"p1.1.m1.1\" class=\"ltx_Math\" alttext=\"\\measurableSpace{\\XSet}{\\SetFamily}\" display=\"inline\">\n  <semantics id=\"p1.1.m1.1a\">\n    <mrow id=\"p1.1.m1.1.1.7\" xref=\"p1.1.m1.1.1.1.cmml\">\n      <mo stretchy=\"false\" id=\"p1.1.m1.1.1.2\" xref=\"p1.1.m1.1.1.1.1.cmml\">(</mo>\n      <mi id=\"p1.1.m1.1.1.3\" xref=\"p1.1.m1.1.1.3.cmml\">X</mi>\n      <mo id=\"p1.1.m1.1.1.4\" xref=\"p1.1.m1.1.1.1.1.cmml\">,</mo>\n      <mi mathvariant=\"normal\" id=\"p1.1.m1.1.1.5.1.2\" xref=\"p1.1.m1.1.1.5.1.1.cmml\">Σ</mi>\n      <mo stretchy=\"false\" id=\"p1.1.m1.1.1.6\" xref=\"p1.1.m1.1.1.1.1.cmml\">)</mo>\n    </mrow>\n    <annotation-xml encoding=\"MathML-Content\" id=\"p1.1.m1.1b\">\n      <apply id=\"p1.1.m1.1.1.1.cmml\" xref=\"p1.1.m1.1.1.7\">\n        <csymbol cd=\"wikidata\" id=\"p1.1.m1.1.1.1.1.cmml\" xref=\"p1.1.m1.1.1.2\">Q3058218</csymbol>\n        <csymbol cd=\"wikidata\" id=\"p1.1.m1.1.1.3.cmml\" xref=\"p1.1.m1.1.1.3\">Q36161</csymbol>\n        <csymbol cd=\"wikidata\" id=\"p1.1.m1.1.1.5.1.1.cmml\" xref=\"p1.1.m1.1.1.5.1.2\">Q739925</csymbol>\n      </apply>\n    </annotation-xml>\n    <annotation encoding=\"application/x-tex\" id=\"p1.1.m1.1c\">\\measurableSpace{\\XSet}{\\SetFamily}</annotation>\n  </semantics>\n</math>",
+  "uri" : "https://en.formulasearchengine.com/w/index.php?oldid=4050#math4050.189",
+  "title" : "Bounded_variation",
+  "comment" : "",
+  "type" : "general formula",
+  "check" : {
+    "tree" : true,
+    "qid" : true
+  }
+}
