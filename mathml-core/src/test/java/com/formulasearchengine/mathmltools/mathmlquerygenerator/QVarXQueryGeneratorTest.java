@@ -18,15 +18,15 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
 
-import com.formulasearchengine.mathmlquerygenerator.QVarXQueryGenerator;
-import com.formulasearchengine.mathmlquerygenerator.XQueryGenerator;
 import com.formulasearchengine.mathmltools.mml.CMMLInfo;
-import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
+import com.formulasearchengine.mathmltools.utils.xmlhelper.XMLHelper;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 
 public class QVarXQueryGeneratorTest {
+
+    private static String QUERY_GEN_STRING = "com/formulasearchengine/mathmltools/mathmlquerygenerator/";
 
     @SuppressWarnings("SameParameterValue")
     static public String getFileContents(String fname) throws IOException {
@@ -122,22 +122,22 @@ public class QVarXQueryGeneratorTest {
 
     @Test
     public void testMwsConversion() {
-        runTestCollection("com/formulasearchengine/mathmlquerygenerator/mws", false);
+        runTestCollection(QUERY_GEN_STRING + "mws", false);
     }
 
     @Test
     public void testCmmlConversion() {
-        runTestCollection("com/formulasearchengine/mathmlquerygenerator/cmml", false);
+        runTestCollection(QUERY_GEN_STRING + "cmml", false);
     }
 
     @Test
     public void testFormatsConversion() {
-        runTestCollection("com/formulasearchengine/mathmlquerygenerator/formats", false);
+        runTestCollection(QUERY_GEN_STRING + "formats", false);
     }
 
     @Test
     public void testRecurseConversion() {
-        runTestCollection("com/formulasearchengine/mathmlquerygenerator/recursive", true);
+        runTestCollection(QUERY_GEN_STRING + "recursive", true);
     }
 
     @Test
@@ -145,7 +145,7 @@ public class QVarXQueryGeneratorTest {
         final String testNamespace = "declare default element namespace \"http://www.w3.org/1998/Math/MathML\";";
         final String testPathToRoot = "//*:root";
         final String testResultFormat = "<hit>{$x}</hit>";
-        final String testInput = getFileContents("com/formulasearchengine/mathmlquerygenerator/cmml/q1.xml");
+        final String testInput = getFileContents(QUERY_GEN_STRING + "cmml/q1.xml");
         final String expectedOutput = "declare default element namespace \"http://www.w3.org/1998/Math/MathML\";\n" +
                 "for $m in //*:root return\n" +
                 "for $x in $m//*:ci\n" +
@@ -166,7 +166,7 @@ public class QVarXQueryGeneratorTest {
 
     @Test
     public void testNoRestriction() throws Exception {
-        final String testInput = getFileContents("com/formulasearchengine/mathmlquerygenerator/mws/qqx2x.xml");
+        final String testInput = getFileContents(QUERY_GEN_STRING + "mws/qqx2x.xml");
         final String expectedOutput = "declare function local:qvarMap($x) {\n" +
                 " map {\"x\" : (data($x/*[2]/*[2]/@xml:id),data($x/*[3]/@xml-id))}\n" + "};\n" +
                 "for $m in //*:root return\n" + "for $x in $m//*:apply\n" +
@@ -192,7 +192,7 @@ public class QVarXQueryGeneratorTest {
     public void testqVarGetter() throws Exception {
         final String expectedVariableName = "x";
         final String firstExpectedLocation = "/*[2]/*[2]";
-        final String testInput = getFileContents("com/formulasearchengine/mathmlquerygenerator/mws/qqx2x.xml");
+        final String testInput = getFileContents(QUERY_GEN_STRING + "mws/qqx2x.xml");
         Document query = XMLHelper.string2Doc(testInput, false);
         QVarXQueryGenerator xQueryGenerator = new QVarXQueryGenerator(query);
         xQueryGenerator.setAddQvarMap(true);

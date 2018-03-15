@@ -1,7 +1,7 @@
 package com.formulasearchengine.mathmltools.similarity.similarity.util;
 
 import com.formulasearchengine.mathmltools.mml.CMMLInfo;
-import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
+import com.formulasearchengine.mathmltools.utils.xmlhelper.XMLHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Node;

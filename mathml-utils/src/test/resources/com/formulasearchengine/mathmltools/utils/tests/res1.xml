@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<result xmlns="http://www.w3.org/1998/Math/MathML">
+    <element>
+        <x>
+            <ci id="I1.i2.p1.1.m3.1.4.cmml" xref="I1.i2.p1.1.m3.1.4">I</ci>
+        </x>
+        <p>math/semantics/annotation-xml/apply/apply/apply/apply/ci</p>
+    </element>
+    <element>
+        <x>
+            <ci id="I1.i2.p1.1.m3.1.10.cmml" xref="I1.i2.p1.1.m3.1.10">I</ci>
+        </x>
+        <p>math/semantics/annotation-xml/apply/apply/apply/apply/ci</p>
+    </element>
+</result>

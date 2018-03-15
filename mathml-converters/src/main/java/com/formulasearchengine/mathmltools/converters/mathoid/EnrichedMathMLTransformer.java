@@ -1,8 +1,8 @@
 package com.formulasearchengine.mathmltools.converters.mathoid;
 
 import com.formulasearchengine.mathmltools.mml.CMMLInfo;
-import com.formulasearchengine.mathmltools.xmlhelper.NonWhitespaceNodeList;
-import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
+import com.formulasearchengine.mathmltools.utils.xmlhelper.NonWhitespaceNodeList;
+import com.formulasearchengine.mathmltools.utils.xmlhelper.XMLHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

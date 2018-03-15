@@ -7,9 +7,9 @@ import com.formulasearchengine.mathmltools.converters.mathoid.EnrichedMathMLTran
 import com.formulasearchengine.mathmltools.converters.mathoid.MathoidConverter;
 import com.formulasearchengine.mathmltools.converters.util.MathConverterException;
 import com.formulasearchengine.mathmltools.mml.CMMLInfo;
-import com.formulasearchengine.mathmltools.xmlhelper.NonWhitespaceNodeList;
-import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
-import com.formulasearchengine.mathmltools.xmlhelper.XmlNamespaceTranslator;
+import com.formulasearchengine.mathmltools.utils.xmlhelper.NonWhitespaceNodeList;
+import com.formulasearchengine.mathmltools.utils.xmlhelper.XMLHelper;
+import com.formulasearchengine.mathmltools.utils.xmlhelper.XmlNamespaceTranslator;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -216,7 +216,7 @@ public class MathMLConverter {
         try {
             node.getAttributes().removeNamedItem(name);
         } catch (DOMException | NullPointerException e) {
-            //Ignore any errors thrown if element does not exist
+            //Ignore any error thrown if element does not exist
         }
     }
 
@@ -323,7 +323,7 @@ public class MathMLConverter {
      * Converts from pmml to enriched Math and then to well formed MathML
      * that contains pMML and cMML semantics. <br/>
      * This method relies on the EnrichedMathMLTransformer
-     * which is prone to errors. In the future this should be worked on.
+     * which is prone to error. In the future this should be worked on.
      *
      * @param mathEle math node
      * @return well formatted mathml

@@ -13,9 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import com.formulasearchengine.mathmlquerygenerator.NtcirPattern;
-import com.formulasearchengine.mathmlquerygenerator.NtcirTopicReader;
-import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
+import com.formulasearchengine.mathmltools.utils.xmlhelper.XMLHelper;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;

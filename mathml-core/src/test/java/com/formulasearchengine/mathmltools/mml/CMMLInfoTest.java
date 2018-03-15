@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 
+import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.xmlunit.matchers.CompareMatcher.isIdenticalTo;
@@ -17,12 +18,14 @@ import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 
-import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
+import com.formulasearchengine.mathmltools.utils.reader.ResourceLoader;
+import com.formulasearchengine.mathmltools.utils.xmlhelper.XMLHelper;
 import com.google.common.collect.ImmutableMultiset;
 import com.google.common.collect.Multiset;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import net.sf.saxon.s9api.XQueryExecutable;
+import org.w3c.dom.Node;
 
 
 @SuppressWarnings("JavaDoc")
@@ -325,6 +328,12 @@ public class CMMLInfoTest {
         CMMLInfo mml = new CMMLInfo(sampleMML);
         final Multiset<String> elements = mml.toDataCmml().getElements();
         assertThat(elements.size(),is(greaterThan(0)));
+    }
+
+    @Test
+    public void testMainElement() throws Exception {
+        Node mainElement = XMLHelper.getMainElement(new CMMLInfo(ResourceLoader.getResourceFile(this.getClass(), "mathml_mainelement.xml")));
+        assertThat(mainElement, notNullValue());
     }
 
     @Test

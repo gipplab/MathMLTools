@@ -10,7 +10,12 @@ import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Collectors;
 
 /**
  * Prepares the {@link MathMLCanonicalizer} based on our custom configuration.
@@ -60,5 +65,15 @@ public final class MathMLCanUtil {
 //        result = StringUtils.remove(result, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         // 2. switch to the line separator used by the system
         return result.replaceAll("\\r\\n", System.getProperty("line.separator"));
+    }
+
+    public static void main(String[] args) throws Exception {
+        URI fileLocation = MathMLCanUtil.class.getClassLoader().getResource("com/formulasearchengine/mathmltools/converters/canonicalize/test.mml").toURI();
+        Path p = Paths.get(fileLocation);
+
+        String mml = Files.lines(p).collect(Collectors.joining());
+        String can = MathMLCanUtil.canonicalize(mml);
+
+        System.out.println(can);
     }
 }

@@ -4,7 +4,7 @@ import com.formulasearchengine.mathmltools.mml.CMMLInfo;
 import com.formulasearchengine.mathmltools.similarity.distances.earthmover.EarthMoverDistanceWrapper;
 import com.formulasearchengine.mathmltools.similarity.distances.earthmover.JFastEMD;
 import com.formulasearchengine.mathmltools.similarity.distances.earthmover.Signature;
-import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
+import com.formulasearchengine.mathmltools.utils.xmlhelper.XMLHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Node;
@@ -178,7 +178,7 @@ public class Distances {
 
 
     /**
-     * this cleanup is necessary due to errors in the xslt conversion script (contentmathmml to strict cmml)
+     * this cleanup is necessary due to error in the xslt conversion script (contentmathmml to strict cmml)
      *
      * @param tagName
      * @param histogram

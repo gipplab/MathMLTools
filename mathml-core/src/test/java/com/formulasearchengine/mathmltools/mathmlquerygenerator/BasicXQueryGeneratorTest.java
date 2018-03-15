@@ -1,6 +1,5 @@
 package com.formulasearchengine.mathmltools.mathmlquerygenerator;
 
-import com.formulasearchengine.mathmlquerygenerator.BasicXQueryGenerator;
 import com.formulasearchengine.mathmltools.mml.CMMLInfo;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;

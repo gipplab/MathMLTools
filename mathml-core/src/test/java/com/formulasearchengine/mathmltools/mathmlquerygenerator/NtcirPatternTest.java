@@ -2,10 +2,9 @@ package com.formulasearchengine.mathmltools.mathmlquerygenerator;
 
 
 
-import com.formulasearchengine.mathmlquerygenerator.NtcirPattern;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
-import org.junit.jupiter.api.BeforeAll;
+
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 import static org.junit.jupiter.api.Assertions.assertEquals;

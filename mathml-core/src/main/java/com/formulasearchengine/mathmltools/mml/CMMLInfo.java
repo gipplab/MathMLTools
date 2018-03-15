@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.formulasearchengine.mathmlquerygenerator.FirstXQueryGenerator;
-import com.formulasearchengine.mathmlquerygenerator.QVarXQueryGenerator;
-import com.formulasearchengine.mathmlquerygenerator.XQueryGenerator;
-import com.formulasearchengine.mathmltools.xmlhelper.NonWhitespaceNodeList;
-import com.formulasearchengine.mathmltools.xmlhelper.XMLHelper;
-import com.formulasearchengine.mathmltools.xmlhelper.XmlNamespaceTranslator;
+import com.formulasearchengine.mathmltools.mathmlquerygenerator.FirstXQueryGenerator;
+import com.formulasearchengine.mathmltools.mathmlquerygenerator.QVarXQueryGenerator;
+import com.formulasearchengine.mathmltools.mathmlquerygenerator.XQueryGenerator;
+import com.formulasearchengine.mathmltools.utils.xmlhelper.NonWhitespaceNodeList;
+import com.formulasearchengine.mathmltools.utils.xmlhelper.XMLHelper;
+import com.formulasearchengine.mathmltools.utils.xmlhelper.XmlNamespaceTranslator;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Sets;
@@ -227,7 +227,7 @@ public class CMMLInfo extends CMMLInfoBase implements Document {
         try {
             math.getAttributes().removeNamedItem("xmlns");
         } catch (final DOMException e) {
-            //Remove if it exists, ignore any errors thrown if it does not exist
+            //Remove if it exists, ignore any error thrown if it does not exist
         }
         new XmlNamespaceTranslator()
                 .setDefaultNamespace(NS_MATHML)
@@ -239,7 +239,7 @@ public class CMMLInfo extends CMMLInfoBase implements Document {
         try {
             math.getAttributes().removeNamedItem("xmlns:m");
         } catch (final DOMException e) {
-            //Ignore any errors thrown if element does not exist
+            //Ignore any error thrown if element does not exist
         }
     }
 
