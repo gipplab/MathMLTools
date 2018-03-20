@@ -2,6 +2,7 @@ package com.formulasearchengine.mathmltools.converters.latexml;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.formulasearchengine.mathmltools.nativetools.NativeResponse;
 
 /**
  * Object representation of the JSON response
@@ -10,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Vincent Stange
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LaTeXMLServiceResponse {
+public class LaTeXMLServiceResponse extends NativeResponse {
 
     @JsonProperty("status_code")
     private int statusCode = 0;
@@ -31,6 +32,7 @@ public class LaTeXMLServiceResponse {
         this.log = log;
     }
 
+    @Override
     public int getStatusCode() {
         return statusCode;
     }
@@ -47,6 +49,7 @@ public class LaTeXMLServiceResponse {
         this.status = status;
     }
 
+    @Override
     public String getResult() {
         return result;
     }
@@ -61,5 +64,11 @@ public class LaTeXMLServiceResponse {
 
     public void setLog(String log) {
         this.log = log;
+    }
+
+    @Override
+    public String getMessage() {
+        String msg = super.getMessage();
+        return msg == null ? this.status + " - LOG: " + this.log : msg;
     }
 }

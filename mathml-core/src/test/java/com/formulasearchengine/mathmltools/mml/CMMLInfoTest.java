@@ -1,37 +1,34 @@
 package com.formulasearchengine.mathmltools.mml;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
-
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.xmlunit.matchers.CompareMatcher.isIdenticalTo;
-
-import java.io.IOException;
-
+import com.formulasearchengine.mathmltools.helper.XMLHelper;
+import com.google.common.collect.ImmutableMultiset;
+import com.google.common.collect.Multiset;
+import net.sf.saxon.s9api.XQueryExecutable;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
-import com.formulasearchengine.mathmltools.utils.reader.ResourceLoader;
-import com.formulasearchengine.mathmltools.utils.xmlhelper.XMLHelper;
-import com.google.common.collect.ImmutableMultiset;
-import com.google.common.collect.Multiset;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
-import net.sf.saxon.s9api.XQueryExecutable;
-import org.w3c.dom.Node;
+import java.io.IOException;
+
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.xmlunit.matchers.CompareMatcher.isIdenticalTo;
 
 
 @SuppressWarnings("JavaDoc")
 public class CMMLInfoTest {
     private static final Logger LOG = LogManager.getLogger("CMMLInfoTest");
-    public static final String MML_TEST_DIR = "com/formulasearchengine/mathmltools/mml/";
+    public static final String MML_TEST_DIR = "com/formulasearchengine/mathmltools/mml/tests/";
     private final String rawTests[] = {"<annotation-xml encoding=\"MathML-Content\" id=\"I1.i2.p1.1.m1.1.cmml\" xref=\"I1.i2.p1.1.m1.1\">\n" +
             "  <apply id=\"I1.i2.p1.1.m1.1.6.cmml\" xref=\"I1.i2.p1.1.m1.1.6\">\n" +
             "    <list id=\"I1.i2.p1.1.m1.1.6.1.cmml\"/>\n" +
@@ -332,7 +329,7 @@ public class CMMLInfoTest {
 
     @Test
     public void testMainElement() throws Exception {
-        Node mainElement = XMLHelper.getMainElement(new CMMLInfo(ResourceLoader.getResourceFile(this.getClass(), "mathml_mainelement.xml")));
+        Node mainElement = XMLHelper.getMainElement(new CMMLInfo(getFileContents(MML_TEST_DIR + "mathml_mainelement.xml")));
         assertThat(mainElement, notNullValue());
     }
 

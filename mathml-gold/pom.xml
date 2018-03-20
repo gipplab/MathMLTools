@@ -15,27 +15,11 @@
     <version>1.0.0</version>
     <name>MathML Gold Standard</name>
 
-    <properties>
-        <jackson.version>2.9.3</jackson.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.formulasearchengine.mathmltools</groupId>
             <artifactId>mathml-utils</artifactId>
             <version>1.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
 
         <!-- Spring REST to communicate with GitHub -->

@@ -6,10 +6,13 @@ package com.formulasearchengine.mathmltools.nativetools;
  * @author Andre Greiner-Petter
  */
 public class NativeResponse {
+
     private int responseCode;
-    private String result;
     private String message;
+    private String result;
     private Throwable exception;
+
+    public NativeResponse() { }
 
     protected NativeResponse(String result) {
         this.responseCode = 0;

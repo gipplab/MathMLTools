@@ -2,14 +2,14 @@ package com.formulasearchengine.mathmltools.converters;
 
 import com.formulasearchengine.mathmltools.converters.canonicalize.MathMLCanUtil;
 import com.formulasearchengine.mathmltools.converters.latexml.LaTeXMLConverter;
-import com.formulasearchengine.mathmltools.converters.latexml.LaTeXMLServiceResponse;
 import com.formulasearchengine.mathmltools.converters.mathoid.EnrichedMathMLTransformer;
 import com.formulasearchengine.mathmltools.converters.mathoid.MathoidConverter;
-import com.formulasearchengine.mathmltools.converters.util.MathConverterException;
+import com.formulasearchengine.mathmltools.converters.error.MathConverterException;
 import com.formulasearchengine.mathmltools.mml.CMMLInfo;
-import com.formulasearchengine.mathmltools.utils.xmlhelper.NonWhitespaceNodeList;
-import com.formulasearchengine.mathmltools.utils.xmlhelper.XMLHelper;
-import com.formulasearchengine.mathmltools.utils.xmlhelper.XmlNamespaceTranslator;
+import com.formulasearchengine.mathmltools.nativetools.NativeResponse;
+import com.formulasearchengine.mathmltools.xml.NonWhitespaceNodeList;
+import com.formulasearchengine.mathmltools.helper.XMLHelper;
+import com.formulasearchengine.mathmltools.xml.XmlNamespaceTranslator;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -304,13 +304,13 @@ public class MathMLConverter {
     String convertLatex(String latexContent) throws MathConverterException {
         LaTeXMLConverter converter = new LaTeXMLConverter(config.getLatexml());
         try {
-            LaTeXMLServiceResponse rep = converter.convertLatexml(latexContent);
+            NativeResponse rep = converter.convertLatexml(latexContent);
             if (rep.getStatusCode() == 0) {
                 return rep.getResult();
             } else {
                 logger.error(String.format("LaTeXMLServiceResponse follows:\n"
-                                + "statusCode: %s\nstatus: %s\nlog: %s\nresult: %s",
-                        rep.getStatusCode(), rep.getStatus(), rep.getLog(), rep.getResult()));
+                                + "statusCode: %s\nlog: %s\nresult: %s",
+                        rep.getStatusCode(), rep.getMessage(), rep.getResult()));
                 throw new MathConverterException("latexml conversion had an error");
             }
         } catch (Exception e) {

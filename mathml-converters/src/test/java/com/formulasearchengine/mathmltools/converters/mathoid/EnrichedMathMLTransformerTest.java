@@ -1,6 +1,6 @@
 package com.formulasearchengine.mathmltools.converters.mathoid;
 
-import com.formulasearchengine.mathmltools.utils.xmlhelper.XMLHelper;
+import com.formulasearchengine.mathmltools.helper.XMLHelper;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

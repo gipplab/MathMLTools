@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.formulasearchengine.mathmltools.nativetools.NativeResponse;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +36,7 @@ public class LaTeXMLConverterTest {
 
         // test local installation
         String latex = "\\sqrt{3}+\\frac{a+1}{b-2}";
-        LaTeXMLServiceResponse serviceResponse = converter.runLatexmlc(latex);
+        NativeResponse serviceResponse = converter.runLatexmlc(latex);
 
         // validate
         String expected = getResourceContent("latexmlc_result1_expected.txt");
@@ -51,7 +52,7 @@ public class LaTeXMLConverterTest {
 
         // test online service
         String latex = "\\frac{1}{(1-2^{1-s})}";
-        LaTeXMLServiceResponse serviceResponse = converter.convertLatexmlService(latex);
+        NativeResponse serviceResponse = converter.convertLatexmlService(latex);
 
         // validate
         String expected = getResourceContent("latexml_service_expected.txt");
@@ -67,7 +68,7 @@ public class LaTeXMLConverterTest {
 
         // test online service
         String latex = "a+2 b";
-        LaTeXMLServiceResponse serviceResponse = converter.convertLatexmlService(latex);
+        NativeResponse serviceResponse = converter.convertLatexmlService(latex);
 
         // validate
         String expected = getResourceContent("latexml_service_3_expected.txt");
@@ -83,7 +84,7 @@ public class LaTeXMLConverterTest {
 
         // test online service
         String latex = getResourceContent("latexml_service_2_test.txt");
-        LaTeXMLServiceResponse serviceResponse = converter.convertLatexmlService(latex);
+        NativeResponse serviceResponse = converter.convertLatexmlService(latex);
 
         // validate
         String expected = getResourceContent("latexml_service_2_expected.txt");

@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.formulasearchengine.mathmltools.mathmlquerygenerator.FirstXQueryGenerator;
-import com.formulasearchengine.mathmltools.mathmlquerygenerator.QVarXQueryGenerator;
-import com.formulasearchengine.mathmltools.mathmlquerygenerator.XQueryGenerator;
-import com.formulasearchengine.mathmltools.utils.xmlhelper.NonWhitespaceNodeList;
-import com.formulasearchengine.mathmltools.utils.xmlhelper.XMLHelper;
-import com.formulasearchengine.mathmltools.utils.xmlhelper.XmlNamespaceTranslator;
+import com.formulasearchengine.mathmltools.querygenerator.FirstXQueryGenerator;
+import com.formulasearchengine.mathmltools.querygenerator.QVarXQueryGenerator;
+import com.formulasearchengine.mathmltools.querygenerator.XQueryGenerator;
+import com.formulasearchengine.mathmltools.xml.NonWhitespaceNodeList;
+import com.formulasearchengine.mathmltools.helper.XMLHelper;
+import com.formulasearchengine.mathmltools.xml.XmlNamespaceTranslator;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Sets;

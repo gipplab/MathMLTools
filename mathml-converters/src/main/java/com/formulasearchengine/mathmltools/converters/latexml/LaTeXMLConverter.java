@@ -1,10 +1,7 @@
 package com.formulasearchengine.mathmltools.converters.latexml;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
-
+import com.formulasearchengine.mathmltools.nativetools.CommandExecutor;
+import com.formulasearchengine.mathmltools.nativetools.NativeResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +9,10 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.formulasearchengine.mathmltools.converters.util.CommandExecutor;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Main approach for conversion from a latex formula to
@@ -21,6 +21,8 @@ import com.formulasearchengine.mathmltools.converters.util.CommandExecutor;
  * @author Vincent Stange
  */
 public class LaTeXMLConverter {
+
+    private static final String PROC_NAME = "latexmlc";
 
     private static Logger logger = LogManager.getLogger(LaTeXMLConverter.class);
 
@@ -39,7 +41,7 @@ public class LaTeXMLConverter {
      * @return MathML output in the result of LaTeXMLServiceResponse
      * @throws Exception Execution of latexmlc failed.
      */
-    public LaTeXMLServiceResponse convertLatexml(String latex) throws Exception {
+    public NativeResponse convertLatexml(String latex) throws Exception {
         // no url = use the local installation of latexml, otherwise use: url = online service
         if (StringUtils.isEmpty(lateXMLConfig.getUrl())) {
             logger.debug("local latex conversion");
@@ -59,8 +61,9 @@ public class LaTeXMLConverter {
      * @return MathML output in the result of LaTeXMLServiceResponse
      * @throws Exception Execution of latexmlc failed.
      */
-    public LaTeXMLServiceResponse runLatexmlc(String latex) throws Exception {
-        CommandExecutor latexmlmath = new CommandExecutor("latexmlc",
+    public NativeResponse runLatexmlc(String latex) throws Exception {
+        CommandExecutor latexmlmath = new CommandExecutor("LaTeXML",
+                PROC_NAME,
                 "--includestyles",
                 "--format=xhtml",
                 "--whatsin=math",
@@ -83,7 +86,7 @@ public class LaTeXMLConverter {
                 "--preload", "[ids]latexml.sty",
                 "--preload", "texvc",
                 "literal:" + latex);
-        return new LaTeXMLServiceResponse(latexmlmath.exec(2000L), "Conversion via local installation of latexmlc");
+        return latexmlmath.exec(2000L);
     }
 
     /**
@@ -144,13 +147,11 @@ public class LaTeXMLConverter {
         }
     }
 
+    /**
+     * Test whether latexmlc is available on the current system.
+     * @return
+     */
     public static boolean latexmlcPresent() {
-        CommandExecutor executor = new CommandExecutor("which", "latexmlc");
-        try {
-            executor.exec(100);
-        } catch (Exception e) {
-            return false;
-        }
-        return executor.getProcess().exitValue() == 0;
+        return CommandExecutor.commandCheck(PROC_NAME);
     }
 }

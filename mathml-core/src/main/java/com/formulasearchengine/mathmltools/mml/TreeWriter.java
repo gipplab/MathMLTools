@@ -1,6 +1,6 @@
 package com.formulasearchengine.mathmltools.mml;
 
-import com.formulasearchengine.mathmltools.utils.xmlhelper.XMLHelper;
+import com.formulasearchengine.mathmltools.helper.XMLHelper;
 import org.w3c.dom.Node;
 
 import javax.xml.xpath.XPathExpressionException;

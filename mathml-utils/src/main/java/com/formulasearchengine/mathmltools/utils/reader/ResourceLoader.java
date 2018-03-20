@@ -14,8 +14,4 @@ public final class ResourceLoader {
     public static String getResourceFile(Class clazz, String filename) throws IOException {
         return IOUtils.toString(clazz.getResourceAsStream(filename), "UTF-8");
     }
-
-    public static void main(String[] arg) {
-        System.out.println("EY!");
-    }
 }
