@@ -45,9 +45,9 @@ public class SaveTranslatorWrapper {
         Path jar = Paths.get(forwardJARPath);
         Path referenceDirPath = Paths.get(mlpReferenceDir);
 
-        LOG.debug("Check existence of given JAR.");
+        LOG.debug("Check existence of given JAR and reference directory.");
         if (!Files.exists(jar) || !Files.exists(referenceDirPath)) {
-            throw new IllegalArgumentException("Given jar for the forward translation cannot be found!");
+            throw new IllegalArgumentException("Given jar for the forward translation or the reference directory cannot be found!");
         }
 
         try {

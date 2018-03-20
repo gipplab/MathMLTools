@@ -3,7 +3,7 @@ package com.formulasearchengine.mathmltools.gold.pojo;
 /**
  * @author Andre Greiner-Petter
  */
-public class JsonGouldiTextDefinienBean extends JsonGouldiWikidataDefinienBean{
+public class JsonGouldiTextDefinienBean extends JsonGouldiWikidataDefinienBean {
     private String discription;
 
     @Override
