@@ -18,7 +18,7 @@
     <description>Collection of utilities and service calls to convert from various input formats to MathML</description>
 
     <properties>
-        <jackson.version>2.8.11</jackson.version>
+
     </properties>
 
     <dependencies>
@@ -44,11 +44,6 @@
         </dependency>
 
         <!-- Web request transformation used by spring-web -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>

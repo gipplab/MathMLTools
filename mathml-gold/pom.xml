@@ -28,5 +28,17 @@
             <artifactId>spring-web</artifactId>
             <version>5.0.2.RELEASE</version>
         </dependency>
+
+        <!-- Web request transformation used by spring-web -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
     </dependencies>
 </project>
