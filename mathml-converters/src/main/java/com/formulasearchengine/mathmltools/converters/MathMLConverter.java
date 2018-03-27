@@ -178,7 +178,7 @@ public class MathMLConverter {
                     .setDefaultNamespace(DEFAULT_NAMESPACE)
                     .addTranslation("m", "http://www.w3.org/1998/Math/MathML")
                     .addTranslation("mml", "http://www.w3.org/1998/Math/MathML")
-                    .translateNamespaces(tempDoc);
+                    .translateNamespaces(tempDoc, "");
             Element root = (Element) tempDoc.getFirstChild();
             removeAttribute(root, "xmlns:mml");
             removeAttribute(root, "xmlns:m");

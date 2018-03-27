@@ -1,4 +1,4 @@
-package com.formulasearchengine.mathmltools.reader;
+package com.formulasearchengine.mathmltools.io;
 
 import com.formulasearchengine.mathmltools.mml.MathDoc;
 import com.formulasearchengine.mathmltools.mml.MathTest;

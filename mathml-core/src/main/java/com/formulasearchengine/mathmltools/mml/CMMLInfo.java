@@ -235,7 +235,7 @@ public class CMMLInfo extends CMMLInfoBase implements Document {
                 .addTranslation("mws", "http://search.mathweb.org/ns")
                 //TODO: make option to keep it
                 .addUnwantedAttribute("xml:id")
-                .translateNamespaces(cmmlDoc);
+                .translateNamespaces(cmmlDoc, "");
         try {
             math.getAttributes().removeNamedItem("xmlns:m");
         } catch (final DOMException e) {

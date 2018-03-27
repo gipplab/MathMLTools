@@ -1,10 +1,13 @@
 package com.formulasearchengine.mathmltools.converters.canonicalize;
 
+import com.formulasearchengine.mathmltools.io.XmlDocumentReader;
+import com.formulasearchengine.mathmltools.io.XmlDocumentWriter;
 import cz.muni.fi.mir.mathmlcanonicalization.ConfigException;
 import cz.muni.fi.mir.mathmlcanonicalization.MathMLCanonicalizer;
 import cz.muni.fi.mir.mathmlcanonicalization.modules.ModuleException;
 import org.apache.commons.io.IOUtils;
 import org.jdom2.JDOMException;
+import org.w3c.dom.Document;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayOutputStream;
@@ -64,7 +67,10 @@ public final class MathMLCanUtil {
         // 1. omit xml header since it will not be used
 //        result = StringUtils.remove(result, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         // 2. switch to the line separator used by the system
-        return result.replaceAll("\\r\\n", System.getProperty("line.separator"));
+
+        result = result.replaceAll("\\r\\n|\\r|\\n", System.getProperty("line.separator"));
+
+        return result;
     }
 
     public static void main(String[] args) throws Exception {
@@ -73,7 +79,11 @@ public final class MathMLCanUtil {
 
         String mml = Files.lines(p).collect(Collectors.joining());
         String can = MathMLCanUtil.canonicalize(mml);
-
         System.out.println(can);
+
+        Document doc = XmlDocumentReader.getDocumentFromXMLString(can);
+        String beauty = XmlDocumentWriter.stringify(doc);
+
+        System.out.println(beauty);
     }
 }

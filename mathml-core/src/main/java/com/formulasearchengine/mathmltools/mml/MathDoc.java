@@ -1,25 +1,9 @@
 package com.formulasearchengine.mathmltools.mml;
 
-import static org.xmlunit.util.Convert.toInputSource;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
+import com.formulasearchengine.mathmltools.helper.XMLHelper;
+import com.formulasearchengine.mathmltools.io.XmlDocumentReader;
 import com.formulasearchengine.mathmltools.utils.mml.CSymbol;
 import com.formulasearchengine.mathmltools.xml.PartialLocalEntityResolver;
-import com.formulasearchengine.mathmltools.helper.XMLHelper;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Source;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.SchemaFactory;
-
-import com.formulasearchengine.mathmltools.reader.XmlDocumentReader;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,16 +15,36 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xmlunit.builder.Input;
 import org.xmlunit.util.IterableNodeList;
-import org.xmlunit.validation.JAXPValidator;
-import org.xmlunit.validation.Languages;
-import org.xmlunit.validation.ValidationProblem;
-import org.xmlunit.validation.ValidationResult;
-import org.xmlunit.validation.Validator;
+import org.xmlunit.validation.*;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Source;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.SchemaFactory;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
+import static org.xmlunit.util.Convert.toInputSource;
 
 public class MathDoc {
     private static final Logger log = LogManager.getLogger("Math");
-    private static final String DOCTYPE = "<!DOCTYPE math PUBLIC \"-//W3C//DTD MATHML 3.0 Transitional//EN\" \n"
-            + "     \"http://www.w3.org/Math/DTD/mathml3/mathml3.dtd\">\n";
+    private static final String DOCTYPE =
+            "<!DOCTYPE math PUBLIC \"-//W3C//DTD MATHML 3.0 Transitional//EN\" \n"
+                    + "     \"http://www.w3.org/Math/DTD/mathml3/mathml3.dtd\">\n";
+
+    private static final String DOCTYPE_PREFIX =
+            "<!DOCTYPE !!PREFIX!!:math\n"
+                    + "     PUBLIC \"-//W3C//DTD MATHML 3.0 Transitional//EN\" \n"
+                    + "            \"http://www.w3.org/Math/DTD/mathml3/mathml3.dtd\" [\n"
+                    + "     <!ENTITY % MATHML.prefixed \"INCLUDE\">\n"
+                    + "     <!ENTITY % MATHML.prefix \"!!PREFIX!!\">\n"
+                    + "]>";
+
     private static final String MATHML3_XSD = "https://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd";
     private static final String APPLICATION_X_TEX = "application/x-tex";
     private static Validator v;
@@ -72,6 +76,10 @@ public class MathDoc {
         }
     }
 
+    public MathDoc(Document dom) {
+        this.dom = dom;
+    }
+
     public static String tryFixHeader(String inputXMLString) {
         final StringBuffer input = new StringBuffer(inputXMLString);
         XMLHelper.removeXmlDeclaration(input);
@@ -80,12 +88,43 @@ public class MathDoc {
         return inputXMLString;
     }
 
+    public static String tryFixHeader(String inputXMLString, String prefix) {
+        if (prefix == null || prefix.isEmpty()) {
+            return tryFixHeader(inputXMLString);
+        }
+
+        final StringBuffer input = new StringBuffer(inputXMLString);
+        String docType = new String(DOCTYPE_PREFIX);
+        docType = docType.replace("!!PREFIX!!", prefix);
+
+        XMLHelper.removeXmlDeclaration(input);
+        XMLHelper.removeDoctype(input);
+        inputXMLString = docType + input;
+        return inputXMLString;
+    }
+
+    private static Validator getXsdValidator() throws ParserConfigurationException, IOException, SAXException, URISyntaxException {
+        if (v == null) {
+            SchemaFactory schemaFactory = SchemaFactory.newInstance(Languages.W3C_XML_SCHEMA_NS_URI);
+            final PartialLocalEntityResolver resolver = new PartialLocalEntityResolver();
+            schemaFactory.setResourceResolver(resolver);
+            v = new JAXPValidator(Languages.W3C_XML_SCHEMA_NS_URI, schemaFactory);
+            final InputSource inputSource = resolver.resolveEntity("math", MATHML3_XSD);
+            assert inputSource != null;
+            final StreamSource streamSource = new StreamSource(inputSource.getByteStream());
+            streamSource.setPublicId(inputSource.getPublicId());
+            streamSource.setSystemId(inputSource.getSystemId());
+            v.setSchemaSource(streamSource);
+        }
+        return v;
+    }
+
     /**
      * NOTE! Currently no new annotations are added
      *
      * @param newTeX
      */
-    void changeTeXAnnotation(String newTeX) {
+    public void changeTeXAnnotation(String newTeX) {
         dom.getDocumentElement().setAttribute("alttext", newTeX);
         if (getAnnotationElements().getLength() > 0) {
             log.trace("Found annotation elements");
@@ -120,22 +159,6 @@ public class MathDoc {
         return v.validateInstance(Input.fromDocument(dom).build());
     }
 
-    private static Validator getXsdValidator() throws ParserConfigurationException, IOException, SAXException, URISyntaxException {
-        if (v == null) {
-            SchemaFactory schemaFactory = SchemaFactory.newInstance(Languages.W3C_XML_SCHEMA_NS_URI);
-            final PartialLocalEntityResolver resolver = new PartialLocalEntityResolver();
-            schemaFactory.setResourceResolver(resolver);
-            v = new JAXPValidator(Languages.W3C_XML_SCHEMA_NS_URI, schemaFactory);
-            final InputSource inputSource = resolver.resolveEntity("math", MATHML3_XSD);
-            assert inputSource != null;
-            final StreamSource streamSource = new StreamSource(inputSource.getByteStream());
-            streamSource.setPublicId(inputSource.getPublicId());
-            streamSource.setSystemId(inputSource.getSystemId());
-            v.setSchemaSource(streamSource);
-        }
-        return v;
-    }
-
     String serializeDom() throws TransformerException {
         return XMLHelper.printDocument(dom);
     }
@@ -150,7 +173,7 @@ public class MathDoc {
         return null;
     }
 
-    void fixGoldCd() {
+    public void fixGoldCd() {
         getSymbolsFromCd("latexml").filter(n -> n.getCName().startsWith("Q")).forEach(cSymbol -> {
             log.trace("Processing symbol {}", cSymbol);
             cSymbol.setCd("wikidata");

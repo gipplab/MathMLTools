@@ -75,7 +75,7 @@ public class XmlNamespaceTranslator {
         return this;
     }
 
-    public void translateNamespaces(Document xmlDoc) {
+    public void     translateNamespaces(Document xmlDoc, String prefix) {
         Stack<Node> nodes = new Stack<Node>();
         nodes.push(xmlDoc.getDocumentElement());
 
@@ -98,7 +98,7 @@ public class XmlNamespaceTranslator {
                         node = xmlDoc.renameNode(node, value.getValue(), node.getNodeName());
                     }
                     if (node.getPrefix() != null && node.getNamespaceURI().equals(defaultNamespace)) {
-                        node.setPrefix("");
+                        node.setPrefix(prefix);
                     }
                     break;
                 case Node.TEXT_NODE:

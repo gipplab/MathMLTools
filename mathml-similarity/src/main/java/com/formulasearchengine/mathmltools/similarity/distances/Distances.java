@@ -1,11 +1,11 @@
 package com.formulasearchengine.mathmltools.similarity.distances;
 
+import com.formulasearchengine.mathmltools.helper.XMLHelper;
 import com.formulasearchengine.mathmltools.mml.CMMLInfo;
-import com.formulasearchengine.mathmltools.utils.mml.ValidCSymbols;
 import com.formulasearchengine.mathmltools.similarity.distances.earthmover.EarthMoverDistanceWrapper;
 import com.formulasearchengine.mathmltools.similarity.distances.earthmover.JFastEMD;
 import com.formulasearchengine.mathmltools.similarity.distances.earthmover.Signature;
-import com.formulasearchengine.mathmltools.helper.XMLHelper;
+import com.formulasearchengine.mathmltools.utils.mml.ValidCSymbols;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Node;
@@ -19,7 +19,6 @@ import java.util.*;
  * Created by Felix Hamborg <felixhamborg@gmail.com> on 05.12.16.
  */
 public class Distances {
-
     private static final Logger LOG = LogManager.getLogger(Distances.class.getName());
 
     private static final DecimalFormat decimalFormat = new DecimalFormat("#.###");
@@ -95,7 +94,7 @@ public class Distances {
      * @param nodes
      * @return
      */
-    protected static HashMap<String, Double> contentElementsToHistogram(NodeList nodes) {
+    public static HashMap<String, Double> contentElementsToHistogram(NodeList nodes) {
         final HashMap<String, Double> histogram = new HashMap<>();
 
         for (int i = 0; i < nodes.getLength(); i++) {
@@ -120,9 +119,7 @@ public class Distances {
     /**
      * Adds all elements from all histogram
      *
-     * @param histograms
-     *
-     * @return .
+     * @return
      */
     @SafeVarargs
     public static Map<String, Double> histogramsPlus(Map<String, Double>... histograms) {
@@ -132,8 +129,9 @@ public class Distances {
                 // return null;
             case 1:
                 return histograms[0];
-            default:
+            default: // standard
         }
+
 
         final Set<String> mergedKeys = new HashSet<>();
         for (Map<String, Double> histogram : histograms) {
@@ -164,7 +162,6 @@ public class Distances {
         return contentElementsToHistogram(elements);
     }
 
-
     /**
      * converts content math ml to a histogram for the given tagname, e.g., cn
      *
@@ -177,9 +174,45 @@ public class Distances {
         return contentElementsToHistogram(elements);
     }
 
+    public static double computeCosineDistance(Map<String, Double> h1, Map<String, Double> h2) {
+        final Set<String> mergedKeys = new HashSet<>(h1.keySet());
+        mergedKeys.addAll(h2.keySet());
+
+        // if both histograms are empty, they are same
+        if (h1.size() + h2.size() == 0) {
+            return -10.0; // tmp value for development, TODO, replace with 1.0 once finished.
+        }
+
+        // if at least one histogram is not empty but no keys are shared, the documents will be completely different
+        if (mergedKeys.isEmpty()) {
+            return 0.0;
+        }
+
+        // https://en.wikipedia.org/wiki/Cosine_similarity
+        double numerator = 0.0;
+        for (String key : mergedKeys) {
+            numerator = numerator + (h1.getOrDefault(key, 0.0) * h2.getOrDefault(key, 0.0));
+        }
+
+        double denominator1 = 0.0;
+        for (String key : h1.keySet()) {
+            double value = h1.get(key);
+            denominator1 = denominator1 + (value * value);
+        }
+        denominator1 = Math.sqrt(denominator1);
+
+        double denominator2 = 0.0;
+        for (String key : h2.keySet()) {
+            double value = h2.get(key);
+            denominator2 = denominator2 + (value * value);
+        }
+        denominator2 = Math.sqrt(denominator2);
+
+        return numerator / (denominator1 * denominator2);
+    }
 
     /**
-     * this cleanup is necessary due to error in the xslt conversion script (contentmathmml to strict cmml)
+     * this cleanup is necessary due to errors in the xslt conversion script (contentmathmml to strict cmml)
      *
      * @param tagName
      * @param histogram
@@ -187,6 +220,7 @@ public class Distances {
     private static void cleanupHistogram(String tagName, Map<String, Double> histogram) {
         switch (tagName) {
             case "csymbol":
+                histogram.remove("based_integer");
                 for (String key : ValidCSymbols.VALID_CSYMBOLS) {
                     histogram.remove(key);
                 }
@@ -206,7 +240,7 @@ public class Distances {
                     histogram.remove(key);
                 }
                 break;
-            default:
+            default: // ignore others
         }
     }
 

@@ -1,5 +1,6 @@
-package com.formulasearchengine.mathmltools.reader;
+package com.formulasearchengine.mathmltools.io;
 
+import com.formulasearchengine.mathmltools.mml.MathDoc;
 import com.formulasearchengine.mathmltools.utils.error.ThrowAllErrorHandler;
 import com.formulasearchengine.mathmltools.xml.PartialLocalEntityResolver;
 import org.apache.logging.log4j.LogManager;
@@ -123,6 +124,22 @@ public class XmlDocumentReader {
         return getDocumentFromXML(xmlF).getDocumentElement();
     }
 
+    public static Document strictLoader(String xml) throws Exception {
+        DocumentBuilder builder = getDocumentBuilder();
+        InputSource input = new InputSource(new StringReader(xml));
+        Document doc = builder.parse(input);
+        return doc;
+    }
+
+    public static Document loadAndRepair(String xml, String prefix) throws Exception {
+        xml = MathDoc.tryFixHeader(xml, prefix);
+
+        DocumentBuilder builder = getDocumentBuilder();
+        InputSource input = new InputSource(new StringReader(xml));
+        Document doc = builder.parse(input);
+        return doc;
+    }
+
     public static DocumentBuilder getDocumentBuilder() throws ParserConfigurationException {
         DocumentBuilderFactory dbf = getDocumentBuilderFactory();
         DocumentBuilder db = dbf.newDocumentBuilder();
@@ -133,10 +150,22 @@ public class XmlDocumentReader {
 
     private static DocumentBuilderFactory getDocumentBuilderFactory() throws ParserConfigurationException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setValidating(false);
+        dbf.setValidating(true);
+
+        // for all features available check: http://xerces.apache.org/xerces-j/features.html
+
+        // enable validation (must specify a grammar)
         dbf.setFeature("http://xml.org/sax/features/validation", true);
-        dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
-        dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+
+        dbf.setFeature("http://apache.org/xml/features/validation/schema", true);
+        dbf.setFeature("http://xml.org/sax/features/namespaces", true);
+
+        dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", true);
+        dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true);
+
+        // delete whitespaces (might appear after canonicalize MML)
+        dbf.setFeature("http://apache.org/xml/features/dom/include-ignorable-whitespace", false);
+
         dbf.setNamespaceAware(true);
         return dbf;
     }
