@@ -4,7 +4,7 @@ import com.formulasearchengine.mathmltools.converters.canonicalize.MathMLCanUtil
 import com.formulasearchengine.mathmltools.converters.latexml.LaTeXMLConverter;
 import com.formulasearchengine.mathmltools.converters.mathoid.EnrichedMathMLTransformer;
 import com.formulasearchengine.mathmltools.converters.mathoid.MathoidConverter;
-import com.formulasearchengine.mathmltools.converters.error.MathConverterException;
+import com.formulasearchengine.mathmltools.converters.exceptions.MathConverterException;
 import com.formulasearchengine.mathmltools.mml.CMMLInfo;
 import com.formulasearchengine.mathmltools.nativetools.NativeResponse;
 import com.formulasearchengine.mathmltools.xml.NonWhitespaceNodeList;

@@ -4,7 +4,7 @@ import com.formulasearchengine.mathmltools.converters.latexml.LaTeXMLConverterTe
 import com.formulasearchengine.mathmltools.converters.latexml.LateXMLConfig;
 import com.formulasearchengine.mathmltools.converters.mathoid.MathoidConfig;
 import com.formulasearchengine.mathmltools.converters.mathoid.MathoidConverterTest;
-import com.formulasearchengine.mathmltools.converters.error.MathConverterException;
+import com.formulasearchengine.mathmltools.converters.exceptions.MathConverterException;
 import com.formulasearchengine.mathmltools.helper.XMLHelper;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Assertions;
