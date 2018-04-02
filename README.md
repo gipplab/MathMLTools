@@ -1,59 +1,52 @@
+# MathML Tools
+
+[![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://go.java/index.html)
+
+| License | Maven | Travis | Coveralls | Codeclimate |
+| :---: | :---: | :---: | :---: | :---: |
+| [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html) | [![MavenCentral](https://maven-badges.herokuapp.com/maven-central/com.formulasearchengine/mathmltools/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.formulasearchengine/mathmltools/) | [![Build Status](https://travis-ci.org/ag-gipp/MathMLTools.svg?branch=refactor)](https://travis-ci.org/ag-gipp/MathMLTools) | [![Coverage Status](https://coveralls.io/repos/github/ag-gipp/MathMLTools/badge.svg?branch=refactor)](https://coveralls.io/github/ag-gipp/MathMLTools?branch=refactor) | [![Maintainability](https://api.codeclimate.com/v1/badges/41afd4eab2afc1b28b4b/maintainability)](https://codeclimate.com/github/ag-gipp/MathMLTools/maintainability)|
+
 <img align="right" src="/mml3.svg" alt="MMLTools Logo" width="64" height="128" />
 
-# MathML Tools - Java API
+*MathML Tools* is an open source project for processing content MathML within Java.
+It provides tools to load, store, check validity and automatically repair and enhance 
+documents for the new MathML 3.0 standard.
+Furthermore, we provide Java adapters to convert LaTeX to MathML, 
+full compatibility for our developed [gold standard](https://mathmlben.wmflabs.org),
+programming language independent libraries of useful XPath and XQuery strings, and
+distance measure algorithms to compare two MathML documents.
 
-[![Build Status](https://travis-ci.org/ag-gipp/MathMLTools.svg?branch=refactor)](https://travis-ci.org/ag-gipp/MathMLTools)
-[![Coverage Status](https://coveralls.io/repos/github/ag-gipp/MathMLTools/badge.svg?branch=refactor)](https://coveralls.io/github/ag-gipp/MathMLTools?branch=refactor)
-[![Maintainability](https://api.codeclimate.com/v1/badges/41afd4eab2afc1b28b4b/maintainability)](https://codeclimate.com/github/ag-gipp/MathMLTools/maintainability)
-[![MavenCentral](https://maven-badges.herokuapp.com/maven-central/com.formulasearchengine/mathmltools/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.formulasearchengine/mathmltools/)
+## User guide
+The project is structured into specialized packages you can easily and separately include into your projects.
+For example, if you just want to process MathML documents, the core module perfectly fits your needs.
+We use maven for our build process and the entire project is available on Maven central. Note, automatically
+imports the core module. Therefore, if you wish to use our similarity module in your project, you only need to
+add the following snippet to your dependencies pom
+``` xml
+<dependency>
+    <groupId>com.formulasearchengine.mathmltools</groupId>
+    <artifactId>mathml-similarity</artifactId>
+    <version>2.0.0</version>
+</dependency>
+```
 
-This project provides various tools for processing content MathML documents using Java. 
-It is organized in the following specialized submodules:
+## Project Structure
 
-- __[MathML Converters](mathml-converters)__ (mathml-converters): 
-The converters module provides adapters for 3rd party tools for manipulating MathML and converting 
-LaTeX to MathML and content MathML. The adapters are written in Java and call native methods if necessary.
-This presumes that the wanted conversion tool is installed on your local machine. If not, an error will
-be thrown. MathML Converters also provides a simple adapter for MathMLCan, a canonicalizer for MathML documents.
-Our default configuration for this canonicalizer can be found in 
-[the resources](mathml-converters/src/resources/com/formulasearchengine/mathmltools/converters/canonicalize/).
-We implemented adapters for the following conversion tools:
-   - LaTeXML
-   - [LaTeX2MathML](https://github.com/Code-ReaQtor/latex2mathml)
-   - [Mathematical](https://github.com/gjtorikian/mathematical)
-   - [MathToWeb](http://www.mathtoweb.com/cgi-bin/mathtoweb_home.pl)
-   - SnuggleTeX
-   - Part-Of-Math Tagger
-   - Mathoid
-   - TeXZilla
+- __[MathML Converters](mathml-converters)__ (mathml-converters):
+Collection of tools for converting LaTeX to MathML. Also includes the canonicalization tool.
 
 - __[MathML Core](mathml-core)__ (mathml-core): 
-The core module provides essential tools to handle MathML and XML in Java. Internally we parse MathML 
-to Java Document Object Model (DOM) objects with namespaces, doctype and validation techniques. Each
-successfully parsed document will be a valid MathML 3.0 document. Furthermore, we provide tools to easily
-access representation and content parts of content MathML. Most of these access methods use XPath or XQuery.
-For used XPath strings check [MathML Libraries](mathml-libs).
+To load, store, check validity, repair and manipulate MathML documents.
 
-- __[MathML Gold Standard](mathml-gold)__ (mathml-core): 
-This submodule contains tools to load, parse and manipulate our recently developed 
-gold standard [MathMLBen](https://mathmlben.wmflabs.org/about). The gold standard works independently from
-the core package of MathMLTools and provide pojo java classes for each entry of the gold standard. With this
-submodule it is easy to use the gold standard for your own Java project.
+- __[MathML Gold Standard](mathml-gold)__ (mathml-gold): 
+Process the [MathMLBen](https://mathmlben.wmflabs.org) gold standard within Java.
 
 - __[MathML Libraries](mathml-libs)__ (mathml-libs): 
-The MathML Libraries is mainly not a Java project. It contains several useful strings to work with MathML.
-For example, valid headers, doctypes, a list of valid MathML 3.0 content tags and so on. Furthermore, we
-stored all used XPath strings also. The libraries are represented as YAML files. You can use these libraries
-to work with content MathML in other programming languages. If you want to use the libraries in a Java project,
-we also provide simple pojo projects to access and use the XPath strings.
+Collection of XPath and XQuery strings for content MathML (includes Java pojos).
 
 - __[MathML Similarity](mathml-similarity)__ (mathml-similarity): 
-This submodule provides calculation techniques to compare two MathML documents. We use a Java implementation of
-the robust algorithm for tree edit distances (RTED) to compute tree edit distances between MathML documents.
-Furthermore, we provide calculations for distances in the histogram and an earthmover distance. The
-Visualization Tool for Mathematical Expression Trees (VMEXT) has a [web application](https://vmext.wmflabs.org/mergedASTs)
-that visualizes differences between MathML trees with the MathML Similarity submodule.
+Collection of distance measurements for MathML documents.
 
 - __[MathML Utilities](mathml-utils)__ (mathml-utils): 
-The utilities is a simple small project containing some utility classes for MathMLTools. For example resource loaders,
-custom exceptions, and tools to call native programs from inside the JVM.
+Useful utility functions and definitions (always included in the other modules above).
+
