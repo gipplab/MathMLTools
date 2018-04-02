@@ -1,8 +1,7 @@
-package com.formulasearchengine.mathmltools.utils.error;
+package com.formulasearchengine.mathmltools.exceptions;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.formulasearchengine.mathmltools.utils.error.ThrowAllErrorHandler;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.LocatorImpl;

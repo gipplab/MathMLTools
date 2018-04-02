@@ -1,7 +1,7 @@
 package com.formulasearchengine.mathmltools.io;
 
 import com.formulasearchengine.mathmltools.mml.MathDoc;
-import com.formulasearchengine.mathmltools.utils.error.ThrowAllErrorHandler;
+import com.formulasearchengine.mathmltools.exceptions.ThrowAllErrorHandler;
 import com.formulasearchengine.mathmltools.xml.PartialLocalEntityResolver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
