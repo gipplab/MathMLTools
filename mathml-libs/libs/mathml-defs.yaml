@@ -1,0 +1,15 @@
+# Library of hyperlinks used in MML files
+namespaces:
+  xmlns: "http://www.w3.org/2000/xmlns/"
+  link: "https://www.w3.org/1998/Math/MathML/"
+  attribute: "xmlns"
+
+doctypes:
+  versions:
+    1.1: "<!DOCTYPE math SYSTEM \"http://www.w3.org/Math/DTD/mathml1/mathml.dtd\">"
+    2.0: |
+    <!DOCTYPE math PUBLIC "-//W3C//DTD MathML 2.0//EN"
+                          "http://www.w3.org/Math/DTD/mathml2/mathml2.dtd">
+    3.0: |
+    <!DOCTYPE math PUBLIC "-//W3C//DTD MATHML 3.0 Transitional//EN"
+                          "http://www.w3.org/Math/DTD/mathml3/mathml3.dtd">

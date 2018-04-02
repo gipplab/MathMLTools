@@ -1,0 +1,39 @@
+<math xmlns="http://www.w3.org/1998/Math/MathML"
+      alttext="x asterisk y"
+      display="inline">
+   <semantics>
+      <mrow data-semantic-children="0,2"
+            data-semantic-content="1"
+            data-semantic-id="3"
+            data-semantic-role="multiplication"
+            data-semantic-speech="x asterisk y"
+            data-semantic-type="infixop"
+            id="p3">
+         <mi data-semantic-font="italic"
+             data-semantic-id="0"
+             data-semantic-parent="3"
+             data-semantic-role="latinletter"
+             data-semantic-type="identifier"
+             id="p0">x</mi>
+         <mo data-semantic-id="1"
+             data-semantic-operator="infixop,*"
+             data-semantic-parent="3"
+             data-semantic-role="multiplication"
+             data-semantic-type="operator"
+             id="p1">*</mo>
+         <mi data-semantic-font="italic"
+             data-semantic-id="2"
+             data-semantic-parent="3"
+             data-semantic-role="latinletter"
+             data-semantic-type="identifier"
+             id="p2">y</mi>
+      </mrow>
+      <annotation-xml encoding="MathML-Content">
+         <apply id="c3" xref="p3">
+            <times cd="operator" id="c1" xref="p1">*</times>
+            <ci cd="identifier" id="c0" xref="p0">x</ci>
+            <ci cd="identifier" id="c2" xref="p2">y</ci>
+         </apply>
+      </annotation-xml>
+   </semantics>
+</math>

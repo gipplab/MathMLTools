@@ -1,0 +1,1 @@
+\EulerGamma@{z}=\Int{0}{\infty}@{t}{e^{-t}t^{z-1}}

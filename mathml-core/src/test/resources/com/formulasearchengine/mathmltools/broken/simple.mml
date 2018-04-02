@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+   <mi>W</mi>
+   <mfenced close=")" open="(">
+      <mn>2</mn>
+      <mi>k</mi>
+   </mfenced>
+   <mo>&gt;</mo>
+   <msup>
+      <mn>2</mn>
+      <mi>k</mi>
+   </msup>
+   <mo>/</mo>
+   <msup>
+      <mi>k</mi>
+      <mi>e</mi>
+   </msup>
+</math>

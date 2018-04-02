@@ -1,0 +1,30 @@
+{
+  "definitions" : {
+    "z" : [ {
+      "Q11567" : "complex number"
+    } ],
+    "\\theta" : [ "argument", "phase", {
+      "Q11352" : "angle",
+      "Q12916" : "real number"
+    } ],
+    "n" : [ {
+      "Q28920052" : "non-negative integer"
+    } ],
+    "r" : [ {
+      "Q18729403" : "non-negative real number",
+      "Q173817" : "radius"
+    } ]
+  },
+  "constraints" : [ "\\theta \\geq \\-cpi", "\\theta \\leq \\cpi", "r \\geq 0" ],
+  "math_inputtex" : "\\operatorname{ph}z=\\theta+2n\\pi,",
+  "math_inputtex_semantic" : "\\wf{Q47004582}{\\phase}@@{\\w{Q11567}{z}} = \\w{Q12916}{\\theta} + 2 \\w{Q28920052}{n} \\cpi",
+  "correct_tex" : "\\operatorname{ph}z=\\theta+2n\\pi",
+  "correct_mml" : "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" id=\"p1.1.m1.1\" class=\"ltx_Math\" alttext=\"\\phase@{z}=\\theta+2n\\cpi\" display=\"inline\">\n  <semantics id=\"p1.1.m1.1a\">\n    <mrow id=\"p1.1.m1.1.8\" xref=\"p1.1.m1.1.8.cmml\">\n      <mrow id=\"p1.1.m1.1.1.5\" xref=\"p1.1.m1.1.1.1.cmml\">\n        <mi id=\"p1.1.m1.1.1.2.1.3\" xref=\"p1.1.m1.1.1.2.1.1.cmml\">ph</mi>\n        <mo id=\"p1.1.m1.1.1.5a\" xref=\"p1.1.m1.1.1.1.cmml\">⁡</mo>\n        <mi id=\"p1.1.m1.1.1.4\" xref=\"p1.1.m1.1.1.4.cmml\">z</mi>\n      </mrow>\n      <mo id=\"p1.1.m1.1.2\" xref=\"p1.1.m1.1.2.cmml\">=</mo>\n      <mrow id=\"p1.1.m1.1.8.1\" xref=\"p1.1.m1.1.8.1.cmml\">\n        <mi id=\"p1.1.m1.1.3\" xref=\"p1.1.m1.1.3.cmml\">θ</mi>\n        <mo id=\"p1.1.m1.1.4\" xref=\"p1.1.m1.1.4.cmml\">+</mo>\n        <mrow id=\"p1.1.m1.1.8.1.1\" xref=\"p1.1.m1.1.8.1.1.cmml\">\n          <mn id=\"p1.1.m1.1.5\" xref=\"p1.1.m1.1.5.cmml\">2</mn>\n          <mo id=\"p1.1.m1.1.8.1.1.1\" xref=\"p1.1.m1.1.8.1.1.1.cmml\">⁢</mo>\n          <mi id=\"p1.1.m1.1.6\" xref=\"p1.1.m1.1.6.cmml\">n</mi>\n          <mo id=\"p1.1.m1.1.8.1.1.1a\" xref=\"p1.1.m1.1.8.1.1.1.cmml\">⁢</mo>\n          <mi id=\"p1.1.m1.1.7.2\" xref=\"p1.1.m1.1.7.1.cmml\">π</mi>\n        </mrow>\n      </mrow>\n    </mrow>\n    <annotation-xml encoding=\"MathML-Content\" id=\"p1.1.m1.1b\">\n      <apply id=\"p1.1.m1.1.8.cmml\" xref=\"p1.1.m1.1.8\">\n        <eq id=\"p1.1.m1.1.2.cmml\" xref=\"p1.1.m1.1.2\"/>\n        <apply id=\"p1.1.m1.1.1.1.cmml\" xref=\"p1.1.m1.1.1.5\">\n          <csymbol cd=\"dlmf\" id=\"p1.1.m1.1.1.2.1.1.cmml\" xref=\"p1.1.m1.1.1.2.1.3\">phase</csymbol>\n          <csymbol cd=\"latexml\" id=\"p1.1.m1.1.1.4.cmml\" xref=\"p1.1.m1.1.1.4\">Q11567</csymbol>\n        </apply>\n        <apply id=\"p1.1.m1.1.8.1.cmml\" xref=\"p1.1.m1.1.8.1\">\n          <plus id=\"p1.1.m1.1.4.cmml\" xref=\"p1.1.m1.1.4\"/>\n          <csymbol cd=\"latexml\" id=\"p1.1.m1.1.3.cmml\" xref=\"p1.1.m1.1.3\">Q12916</csymbol>\n          <apply id=\"p1.1.m1.1.8.1.1.cmml\" xref=\"p1.1.m1.1.8.1.1\">\n            <times id=\"p1.1.m1.1.8.1.1.1.cmml\" xref=\"p1.1.m1.1.8.1.1.1\"/>\n            <cn type=\"integer\" id=\"p1.1.m1.1.5.cmml\" xref=\"p1.1.m1.1.5\">2</cn>\n            <csymbol cd=\"latexml\" id=\"p1.1.m1.1.6.cmml\" xref=\"p1.1.m1.1.6\">Q28920052</csymbol>\n            <pi id=\"p1.1.m1.1.7.1.cmml\" xref=\"p1.1.m1.1.7.2\"/>\n          </apply>\n        </apply>\n      </apply>\n    </annotation-xml>\n  </semantics>\n</math>",
+  "uri" : "http://dlmf.nist.gov/1.9#E7",
+  "title" : "DLMF:_1.9_Calculus_of_a_Complex_Variable",
+  "type" : "definition",
+  "substitutions" : {
+    "z" : [ "z = r\\expe^{\\iunit\\theta}" ]
+  },
+  "specific_title" : "Phase"
+}

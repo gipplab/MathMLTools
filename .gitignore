@@ -1,16 +1,14 @@
-target
-.idea/workspace.xml
-.idea/libraries
-.idea/scopes
-.idea/.name
-.idea/encodings.xml
-.idea/uiDesigner.xml
-.idea/compiler.xml
-.idea/modules.xml
-.idea/misc.xml
-.idea/vcs.xml
-.idea/runConfigurations
-.idea/copyright
-.idea/checkstyle-idea.xml
-.idea/codeStyles/codeStyleConfig.xml
-mathmltools.iml
+### Intellij ###
+# TODO: Checkstyle?
+
+**/.idea/
+**/*.iml
+
+**/out/
+**/target/
+
+### Maven ###
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next

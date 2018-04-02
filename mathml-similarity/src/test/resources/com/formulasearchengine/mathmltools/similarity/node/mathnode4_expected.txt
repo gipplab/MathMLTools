@@ -1,0 +1,11 @@
+apply:+
+ operator:+
+ apply:sin
+  function:sin
+  identifier:x
+ apply:cos
+  function:cos
+  identifier:y
+ apply:tan
+  function:tan
+  number:1

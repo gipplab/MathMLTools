@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<math type="pom-exported">
+    <expression prime-tag="sequence">
+        <term prime-tag="letter" secondary-tags="Latin">W</term>
+        <term prime-tag="left parenthesis" secondary-tags="opening delimiter">(</term>
+        <term prime-tag="digit" secondary-tags="numeric">2</term>
+        <term prime-tag="comma" secondary-tags="punctuation">,</term>
+        <term prime-tag="letter" secondary-tags="Latin">k</term>
+        <term prime-tag="right parenthesis" secondary-tags="closing delimiter">)</term>
+        <term prime-tag="greater-than">&gt;</term>
+        <term prime-tag="digit" secondary-tags="numeric">2</term>
+        <expression prime-tag="caret" secondary-tags="superscript_operation">
+            <term prime-tag="letter" secondary-tags="Latin">k</term>
+        </expression>
+        <term prime-tag="forward slash">/</term>
+        <term prime-tag="letter" secondary-tags="Latin">k</term>
+        <expression prime-tag="caret" secondary-tags="superscript_operation">
+            <term prime-tag="latex-command">\varepsilon</term>
+        </expression>
+    </expression>
+</math>

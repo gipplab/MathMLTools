@@ -1,0 +1,93 @@
+<math xmlns="http://www.w3.org/1998/Math/MathML"
+      alttext="sine x plus cosine y"
+      display="block">
+   <semantics>
+      <mrow data-semantic-children="10,8"
+            data-semantic-content="3"
+            data-semantic-id="11"
+            data-semantic-role="addition"
+            data-semantic-type="infixop"
+            id="p11">
+         <mrow data-semantic-children="0,2"
+               data-semantic-content="9,0"
+               data-semantic-id="10"
+               data-semantic-parent="11"
+               data-semantic-role="prefix function"
+               data-semantic-type="appl"
+               id="p10">
+            <mi data-semantic-font="normal"
+                data-semantic-id="0"
+                data-semantic-operator="appl"
+                data-semantic-parent="10"
+                data-semantic-role="prefix function"
+                data-semantic-type="function"
+                id="p0">sin</mi>
+            <mo data-semantic-added="true"
+                data-semantic-id="9"
+                data-semantic-operator="appl"
+                data-semantic-parent="10"
+                data-semantic-role="application"
+                data-semantic-type="punctuation"
+                id="p9">⁡</mo>
+            <mi data-semantic-font="italic"
+                data-semantic-id="2"
+                data-semantic-parent="10"
+                data-semantic-role="latinletter"
+                data-semantic-type="identifier"
+                id="p2">x</mi>
+         </mrow>
+         <mo data-semantic-id="3"
+             data-semantic-operator="infixop,+"
+             data-semantic-parent="11"
+             data-semantic-role="addition"
+             data-semantic-type="operator"
+             id="p3">+</mo>
+         <mrow data-semantic-children="4,6"
+               data-semantic-content="7,4"
+               data-semantic-id="8"
+               data-semantic-parent="11"
+               data-semantic-role="prefix function"
+               data-semantic-type="appl"
+               id="p8">
+            <mi data-semantic-font="normal"
+                data-semantic-id="4"
+                data-semantic-operator="appl"
+                data-semantic-parent="8"
+                data-semantic-role="prefix function"
+                data-semantic-type="function"
+                id="p4">cos</mi>
+            <mo data-semantic-added="true"
+                data-semantic-id="7"
+                data-semantic-operator="appl"
+                data-semantic-parent="8"
+                data-semantic-role="application"
+                data-semantic-type="punctuation"
+                id="p7">⁡</mo>
+            <mi data-semantic-font="italic"
+                data-semantic-id="6"
+                data-semantic-parent="8"
+                data-semantic-role="latinletter"
+                data-semantic-type="identifier"
+                id="p6">y</mi>
+         </mrow>
+      </mrow>
+      <annotation encoding="application/x-tex">\sin x+\cos y</annotation>
+      <annotation-xml encoding="MathML-Content">
+         <apply id="c11" xref="p11">
+            <plus cd="operator" id="c3" xref="p3">+</plus>
+            <apply id="c10" xref="p10">
+               <ci cd="function" id="c0" xref="p0">sin</ci>
+               <ci cd="identifier" id="c2" xref="p2">x</ci>
+            </apply>
+            <apply id="c8" xref="p8">
+               <ci cd="function" id="c4" xref="p4">cos</ci>
+               <ci cd="identifier" id="c6" xref="p6">y</ci>
+            </apply>
+            <apply id="c12" xref="p12">
+               <ci cd="function" id="c8" xref="p8">tan</ci>
+               <cn cd="number" id="c10" xref="p10">1</cn>
+            </apply>
+         </apply>
+      </annotation-xml>
+   </semantics>
+</math>

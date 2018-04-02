@@ -1,0 +1,20 @@
+apply:plus
+ arith1:plus
+ apply:root
+  arith1:root
+  semantics:3
+   cn:3
+  semantics:2
+   cn:2
+ apply:divide
+  arith1:divide
+  apply:plus
+   arith1:plus
+   ci:𝑎
+   semantics:1
+    cn:1
+  apply:minus
+   arith1:minus
+   ci:𝑏
+   semantics:2
+    cn:2

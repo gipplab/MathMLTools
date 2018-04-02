@@ -1,0 +1,12 @@
+# This library contains useful xpath strings.
+# Each XPath string will have an explanation text.
+levels:
+  - "strict"
+  - "normal"
+  - "sloppy"
+content:
+  get:
+    apply:
+      strict: "m:math/m:semantics/m:annotation-xml[@encoding='MathML-Content']/m:apply"
+      normal: "*//m:semantics/m:apply"
+      sloppy: "m:math/m:apply"

@@ -1,0 +1,22 @@
+<math>
+   <mrow>
+      <mi>W</mi>
+      <mrow>
+         <mo>(</mo>
+         <mn>2</mn>
+         <mi>,</mi>
+         <mi>k</mi>
+         <mo>)</mo>
+      </mrow>
+      <mi>&gt;</mi>
+      <msup>
+         <mn>2</mn>
+         <mi>k</mi>
+      </msup>
+      <mo>/</mo>
+      <msup>
+         <mi>k</mi>
+         <mi>e</mi>
+      </msup>
+   </mrow>
+</math>
