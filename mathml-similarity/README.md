@@ -4,7 +4,11 @@
 [![MavenCentral](https://maven-badges.herokuapp.com/maven-central/com.formulasearchengine/MathMLSim/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.formulasearchengine/MathMLSim/)
 [![Coverage Status](https://coveralls.io/repos/github/ag-gipp/MathMLSim/badge.svg?branch=master)](https://coveralls.io/github/ag-gipp/MathMLSim?branch=master)
 
-Similarity calculation module for MathML formulae
+This submodule provides calculation techniques to compare two MathML documents. We use a Java implementation of
+the robust algorithm for tree edit distances (RTED) to compute tree edit distances between MathML documents.
+Furthermore, we provide calculations for distances in the histogram and an earthmover distance. The
+Visualization Tool for Mathematical Expression Trees (VMEXT) has a [web application](https://vmext.wmflabs.org/mergedASTs)
+that visualizes differences between MathML trees with the MathML Similarity submodule.
 
 ## Usage ##
 

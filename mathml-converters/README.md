@@ -16,6 +16,23 @@ The desired MathML output is always a well-formed MathML containing the presenta
 It also includes the MathMLCanonicalizer with a custom configuration, which is adapted
 to the required input format. This utility library canonicalizes an input MathML string.
 
+The converters module provides adapters for 3rd party tools for manipulating MathML and converting 
+LaTeX to MathML and content MathML. The adapters are written in Java and call native methods if necessary.
+This presumes that the wanted conversion tool is installed on your local machine. If not, an error will
+be thrown. MathML Converters also provides a simple adapter for MathMLCan, a canonicalizer for MathML documents.
+Our default configuration for this canonicalizer can be found in 
+[the resources](src/resources/com/formulasearchengine/mathmltools/converters/canonicalize/).
+We implemented adapters for the following conversion tools:
+   - LaTeXML
+   - [LaTeX2MathML](https://github.com/Code-ReaQtor/latex2mathml)
+   - [Mathematical](https://github.com/gjtorikian/mathematical)
+   - [MathToWeb](http://www.mathtoweb.com/cgi-bin/mathtoweb_home.pl)
+   - SnuggleTeX
+   - Part-Of-Math Tagger
+   - Mathoid
+   - TeXZilla
+
+
 ### Dependencies ###
 
 Note-worthy dependencies for this library.
