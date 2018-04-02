@@ -1,4 +1,4 @@
-package com.formulasearchengine.mathmltools.utils.error;
+package com.formulasearchengine.mathmltools.exceptions;
 
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
