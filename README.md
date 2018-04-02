@@ -1,3 +1,5 @@
+<img align="right" src="/mml3.svg" alt="MMLTools Logo" width="64" height="128" />
+
 # MathML Tools - Java API
 
 [![Build Status](https://travis-ci.org/ag-gipp/MathMLTools.svg?branch=refactor)](https://travis-ci.org/ag-gipp/MathMLTools)
