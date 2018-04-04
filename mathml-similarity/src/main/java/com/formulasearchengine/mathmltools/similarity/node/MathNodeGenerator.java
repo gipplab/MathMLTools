@@ -1,14 +1,14 @@
 package com.formulasearchengine.mathmltools.similarity.node;
 
-import com.formulasearchengine.mathmltools.mml.CMMLInfo;
 import com.formulasearchengine.mathmltools.helper.CMMLHelper;
+import com.formulasearchengine.mathmltools.mml.CMMLInfo;
 import com.formulasearchengine.mathmltools.similarity.util.XMLUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Node;
 
 import javax.xml.xpath.XPathExpressionException;
-import java.util.Optional;
+import java.util.Objects;
 
 /**
  * This class converts MathML (Content MathML) into our own
@@ -34,11 +34,11 @@ public class MathNodeGenerator {
      * @return first MathNode representing the root of the MEXT, or null
      */
     public static MathNode generateMathNode(CMMLInfo cmmlInfo) {
-        Optional.ofNullable(cmmlInfo).orElseThrow(() -> new NullPointerException("cmml document is null"));
+        Objects.requireNonNull(cmmlInfo, "cmml document is null");
         try {
             return generateMathNode(CMMLHelper.getFirstApplyNode(cmmlInfo));
         } catch (XPathExpressionException e) {
-            logger.error("could not generate a math node tree", e);
+            logger.error("could not generate math node tree", e);
             return null;
         }
     }
@@ -51,8 +51,7 @@ public class MathNodeGenerator {
      * @return first MathNode representing the root of the MEXT
      */
     public static MathNode generateMathNode(Node applyRoot) {
-        // null check
-        Optional.ofNullable(applyRoot).orElseThrow(() -> new NullPointerException("apply element is missing"));
+        Objects.requireNonNull(applyRoot, "apply element is missing");
 
         MathNode mathNode = createMathNode(applyRoot, 0);
         // compute the maximum depth at least once after creation to define it for each branch.
@@ -79,7 +78,7 @@ public class MathNodeGenerator {
             return null;
         }
         mathNode.setAttributes(node.getAttributes());
-        // TODO
+        // read the value / symbol of the current node. TODO this can maybe done in a better way
         mathNode.setValue(node.getFirstChild() != null ? node.getFirstChild().getTextContent().trim() : node.getTextContent().trim());
         mathNode.setDepth(depth);
         // iterate over all child elements - recursion
