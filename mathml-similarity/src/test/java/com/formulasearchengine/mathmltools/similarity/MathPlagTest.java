@@ -1,12 +1,10 @@
 package com.formulasearchengine.mathmltools.similarity;
 
 import com.formulasearchengine.mathmltools.similarity.result.Match;
-import com.formulasearchengine.mathmltools.similarity.MathPlag;
+import com.formulasearchengine.mathmltools.similarity.util.MathNodeException;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
 import java.util.List;
@@ -21,7 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class MathPlagTest {
 
     @Test
-    public void complexRun_all() throws IOException, ParserConfigurationException, TransformerException, XPathExpressionException {
+    public void complexRun_all() throws IOException, XPathExpressionException, MathNodeException {
         // prepare two mathml files, cmml is in the annotate element
         String refMathML = IOUtils.toString(this.getClass().getResourceAsStream("mathml_complex_1.xml"), "UTF-8");
         String compMathML = IOUtils.toString(this.getClass().getResourceAsStream("mathml_complex_2.xml"), "UTF-8");
@@ -51,7 +49,7 @@ public class MathPlagTest {
     }
 
     @Test
-    public void simpleRun_identical_1() throws IOException, ParserConfigurationException, TransformerException, XPathExpressionException {
+    public void simpleRun_identical_1() throws IOException, XPathExpressionException, MathNodeException {
         // prepare two mathml files, cmml is in the annotate element
         String refMathML = IOUtils.toString(this.getClass().getResourceAsStream("mathml_annotation_1.xml"), "UTF-8");
         String compMathML = IOUtils.toString(this.getClass().getResourceAsStream("mathml_annotation_2.xml"), "UTF-8");
@@ -74,7 +72,7 @@ public class MathPlagTest {
     }
 
     @Test
-    public void simpleRun_similar_1() throws IOException, ParserConfigurationException, TransformerException, XPathExpressionException {
+    public void simpleRun_similar_1() throws IOException, XPathExpressionException, MathNodeException {
         // prepare two mathml files, cmml is in the annotate element
         String refMathML = IOUtils.toString(this.getClass().getResourceAsStream("mathml_query_pure_1.xml"), "UTF-8");
         String compMathML = IOUtils.toString(this.getClass().getResourceAsStream("mathml_annotation_3.xml"), "UTF-8");

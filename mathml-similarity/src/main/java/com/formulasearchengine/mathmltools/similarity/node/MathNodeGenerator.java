@@ -2,6 +2,7 @@ package com.formulasearchengine.mathmltools.similarity.node;
 
 import com.formulasearchengine.mathmltools.helper.CMMLHelper;
 import com.formulasearchengine.mathmltools.mml.CMMLInfo;
+import com.formulasearchengine.mathmltools.similarity.util.MathNodeException;
 import com.formulasearchengine.mathmltools.similarity.util.XMLUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,13 +34,13 @@ public class MathNodeGenerator {
      * @param cmmlInfo CMMLInfo document
      * @return first MathNode representing the root of the MEXT, or null
      */
-    public static MathNode generateMathNode(CMMLInfo cmmlInfo) {
+    public static MathNode generateMathNode(CMMLInfo cmmlInfo) throws MathNodeException {
         Objects.requireNonNull(cmmlInfo, "cmml document is null");
         try {
             return generateMathNode(CMMLHelper.getFirstApplyNode(cmmlInfo));
         } catch (XPathExpressionException e) {
             logger.error("could not generate math node tree", e);
-            return null;
+            throw new MathNodeException("could not generate math node tree", e);
         }
     }
 
