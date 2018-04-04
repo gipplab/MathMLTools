@@ -1,26 +1,33 @@
 package com.formulasearchengine.mathmltools.similarity.result;
 
-import com.formulasearchengine.mathmltools.similarity.node.MathNode;
 import com.formulasearchengine.mathmltools.similarity.SubTreeComparison;
+import com.formulasearchengine.mathmltools.similarity.node.MathNode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * JSON wrapper for matches between two math expression trees.
- * The Id relates to the reference MEXT, where submatches refer
- * to the comparison MET.
+ * JSON wrapper for matches between two math expression trees
+ * from the perspective of the reference tree:
+ * <p>
+ * The id-attributes relates to the reference node, whereas sub-"matches" refer
+ * to the comparison node. Typically we assume a 1-on-1 match relation, but it
+ * is possible to match multiple occurrences inside the comparison math node.
  *
  * @author Vincent Stange
  */
 public class Match {
 
-    private String id = "";
+    /* id of the node inside the comparison tree */
+    private String id;
 
-    private int depth = 0;
+    /* depth level of the current sub-tree*/
+    private int depth;
 
-    private double coverage = 0;
+    /* coverage factor of the two sub-trees matched, from the perspective of the reference tree */
+    private double coverage;
 
+    /* list of match between the comparison math node */
     private List<SubMatch> matches = new ArrayList<>();
 
     /**
