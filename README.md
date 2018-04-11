@@ -1,6 +1,8 @@
 <a href="https://go.java/index.html"><img align="right" src="https://forthebadge.com/images/badges/made-with-java.svg" alt="Made With Java" height="32"></a>
 
-# MathML Tools
+# MathML Tools [![DOI](https://zenodo.org/badge/85396484.svg)](https://zenodo.org/badge/latestdoi/85396484)
+
+
 
 | License | Maven | Travis | Coveralls | Codeclimate |
 | :---: | :---: | :---: | :---: | :---: |
