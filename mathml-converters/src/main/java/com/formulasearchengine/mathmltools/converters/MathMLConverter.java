@@ -1,7 +1,7 @@
 package com.formulasearchengine.mathmltools.converters;
 
 import com.formulasearchengine.mathmltools.converters.canonicalize.MathMLCanUtil;
-import com.formulasearchengine.mathmltools.converters.latexml.LaTeXMLConverter;
+import com.formulasearchengine.mathmltools.converters.config.MathMLConverterConfig;
 import com.formulasearchengine.mathmltools.converters.mathoid.EnrichedMathMLTransformer;
 import com.formulasearchengine.mathmltools.converters.mathoid.MathoidConverter;
 import com.formulasearchengine.mathmltools.converters.exceptions.MathConverterException;
@@ -304,7 +304,7 @@ public class MathMLConverter {
     String convertLatex(String latexContent) throws MathConverterException {
         LaTeXMLConverter converter = new LaTeXMLConverter(config.getLatexml());
         try {
-            NativeResponse rep = converter.convertLatexml(latexContent);
+            NativeResponse rep = converter.parseAsService(latexContent);
             if (rep.getStatusCode() == 0) {
                 return rep.getResult();
             } else {

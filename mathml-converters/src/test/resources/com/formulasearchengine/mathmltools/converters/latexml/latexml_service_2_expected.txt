@@ -83,5 +83,6 @@
         </apply>
       </apply>
     </annotation-xml>
+    <annotation encoding="application/x-tex" id="p1.1.m1.1c">\Gamma\left(z\right)=\int_{0}^{\infty}{e^{-t}t^{z-1}}\,{\mathrm{d}}t</annotation>
   </semantics>
 </math>

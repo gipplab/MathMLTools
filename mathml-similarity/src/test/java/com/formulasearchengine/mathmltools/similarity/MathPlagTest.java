@@ -26,7 +26,7 @@ public class MathPlagTest {
         String refMathML = IOUtils.toString(this.getClass().getResourceAsStream("mathml_complex_1.xml"), "UTF-8");
         String compMathML = IOUtils.toString(this.getClass().getResourceAsStream("mathml_complex_2.xml"), "UTF-8");
 
-        // test the old comparison results
+        // test the old comparison services
         Map<String, Object> result = MathPlag.compareOriginalFactors(refMathML, compMathML);
         assertThat(result, notNullValue());
         assertThat(result.get("coverage"), is(1.0));
@@ -35,12 +35,12 @@ public class MathPlagTest {
         assertThat(result.get("dataMatch"), is(true));
         assertThat(result.get("isEquation"), is(true));
 
-        // test the identical mathplag results
+        // test the identical mathplag services
         List<Match> identMatch = MathPlag.compareIdenticalMathML(refMathML, compMathML);
         assertThat(identMatch, notNullValue());
         assertThat(identMatch.size(), is(3));
 
-        // test the similar mathplag results
+        // test the similar mathplag services
         List<Match> simMatch = MathPlag.compareSimilarMathML(refMathML, compMathML);
         assertThat(simMatch, notNullValue());
         assertThat(simMatch.size(), is(1));
@@ -56,7 +56,7 @@ public class MathPlagTest {
         String refMathML = IOUtils.toString(this.getClass().getResourceAsStream("mathml_annotation_1.xml"), "UTF-8");
         String compMathML = IOUtils.toString(this.getClass().getResourceAsStream("mathml_annotation_2.xml"), "UTF-8");
 
-        // test the old comparison results
+        // test the old comparison services
         Map<String, Object> result = MathPlag.compareOriginalFactors(refMathML, compMathML);
         assertThat(result, notNullValue());
         assertThat(result.get("coverage"), is(1.0));
@@ -65,7 +65,7 @@ public class MathPlagTest {
         assertThat(result.get("dataMatch"), is(true));
         assertThat(result.get("isEquation"), is(false));
 
-        // test the mathplag results
+        // test the mathplag services
         List<Match> matches = MathPlag.compareIdenticalMathML(refMathML, compMathML);
         assertThat(matches, notNullValue());
         assertThat(matches.size(), is(1));
@@ -78,7 +78,7 @@ public class MathPlagTest {
         // prepare two mathml files, cmml is in the annotate element
         String refMathML = IOUtils.toString(this.getClass().getResourceAsStream("mathml_query_pure_1.xml"), "UTF-8");
         String compMathML = IOUtils.toString(this.getClass().getResourceAsStream("mathml_annotation_3.xml"), "UTF-8");
-        // test the old comparison results
+        // test the old comparison services
         Map<String, Object> result = MathPlag.compareOriginalFactors(refMathML, compMathML);
         assertThat(result, notNullValue());
         assertThat(result.get("coverage"), is(0.0));
@@ -87,12 +87,12 @@ public class MathPlagTest {
         assertThat(result.get("dataMatch"), is(true));
         assertThat(result.get("isEquation"), is(true));
 
-        // test the identical mathplag results
+        // test the identical mathplag services
         List<Match> identMatch = MathPlag.compareIdenticalMathML(refMathML, compMathML);
         assertThat(identMatch, notNullValue());
         assertThat(identMatch.size(), is(0));
 
-        // test the similar mathplag results
+        // test the similar mathplag services
         List<Match> simMatch = MathPlag.compareSimilarMathML(refMathML, compMathML);
         assertThat(simMatch, notNullValue());
         assertThat(simMatch.size(), is(1));

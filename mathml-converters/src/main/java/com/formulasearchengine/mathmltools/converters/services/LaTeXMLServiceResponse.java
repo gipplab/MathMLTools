@@ -1,4 +1,4 @@
-package com.formulasearchengine.mathmltools.converters.latexml;
+package com.formulasearchengine.mathmltools.converters.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

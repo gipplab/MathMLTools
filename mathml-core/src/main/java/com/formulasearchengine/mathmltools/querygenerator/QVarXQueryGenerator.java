@@ -16,7 +16,7 @@ import com.google.common.collect.Lists;
  * Converts MathML queries into XQueries, given a namespace, a xquery/xpath to the root elements, and a xquery return format.
  * The variable $x always represents a hit, so you can refer to $x in the return format as the result node.
  * If addQvarMap is turned on, the function local:qvarMap($parentNode) always represents a map of qvars to their
- * respective formula ID, so you can refer to local:qvarMap($parentNode) in the footer to return qvar results.
+ * respective formula ID, so you can refer to local:qvarMap($parentNode) in the footer to return qvar services.
  * If findRootApply is turned on, the xquery takes on a recursive format. The variable $rootApply represents the root
  * apply node and the variable $depth represents the depth of the matched node. The root apply node has a depth of 0.
  * <br/>

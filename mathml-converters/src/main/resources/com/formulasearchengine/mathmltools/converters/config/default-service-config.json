@@ -1,0 +1,50 @@
+{
+  "url": "https://drmf-latexml.wmflabs.org",
+  "params-default": {
+    "whatsin": "math",
+    "whatsout": "math",
+    "format": "xhtml",
+    "includestyles": "",
+    "pmml": "",
+    "cmml": "",
+    "mathtex": "",
+    "quiet": "",
+    "nodefaultresources": "",
+    "linelength": "90"
+  },
+  "extra-params-content": {
+    "stylesheet": "DRMF.xsl"
+  },
+  "preload-default": [
+    "LaTeX.pool",
+    "article.cls",
+    "amsmath.sty",
+    "amsthm.sty",
+    "amstext.sty",
+    "amssymb.sty",
+    "eucal.sty",
+    "[dvipsnames]xcolor.sty",
+    "url.sty",
+    "hyperref.sty",
+    "[ids]latexml.sty",
+    "texvc"
+  ],
+  "preload-content": [
+    "LaTeX.pool",
+    "article.cls",
+    "amsmath.sty",
+    "amsthm.sty",
+    "amstext.sty",
+    "amssymb.sty",
+    "eucal.sty",
+    "[dvipsnames]xcolor.sty",
+    "url.sty",
+    "hyperref.sty",
+    "[ids]latexml.sty",
+    "DLMFmath.sty",
+    "DRMFfcns.sty",
+    "wikidata.sty",
+    "mleftright.sty",
+    "texvc"
+  ]
+}

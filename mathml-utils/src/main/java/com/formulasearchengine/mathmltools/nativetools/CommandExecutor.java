@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * A native command executor. Note that it assumes the results of the native code will
+ * A native command executor. Note that it assumes the services of the native code will
  * be printed to the standard output streams while error and also logging information
  * will be printed in the error output stream.
  * <p>
