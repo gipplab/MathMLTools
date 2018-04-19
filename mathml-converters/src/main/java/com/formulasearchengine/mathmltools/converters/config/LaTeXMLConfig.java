@@ -1,5 +1,6 @@
 package com.formulasearchengine.mathmltools.converters.config;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
@@ -39,6 +40,7 @@ public class LaTeXMLConfig {
         // empty constructor
     }
 
+    @JsonIgnore
     public static LaTeXMLConfig getDefaultConfiguration() {
         try {
             String config = IOUtils.toString(LaTeXMLConfig.class.getResourceAsStream("default-service-config.json"), "UTF-8");
@@ -120,6 +122,7 @@ public class LaTeXMLConfig {
         return this;
     }
 
+    @JsonIgnore
     private LinkedList<String> buildBasicArguments() {
         LinkedList<String> args = new LinkedList<>();
         args.add(NATIVE_CMD);
@@ -127,6 +130,7 @@ public class LaTeXMLConfig {
         return args;
     }
 
+    @JsonIgnore
     public LinkedList<String> getDefaultArguments() {
         LinkedList<String> args = buildBasicArguments();
         if (defaultPreloads == null) {
@@ -139,6 +143,7 @@ public class LaTeXMLConfig {
         return args;
     }
 
+    @JsonIgnore
     public LinkedList<String> getContentArguments() {
         LinkedList<String> args = buildBasicArguments();
         addParams(extraContentParams, args);
@@ -152,6 +157,7 @@ public class LaTeXMLConfig {
         return args;
     }
 
+    @JsonIgnore
     public String buildServiceRequest() {
         LinkedList<String> args = new LinkedList<>();
         addParamsForService(defaultParams, args);
