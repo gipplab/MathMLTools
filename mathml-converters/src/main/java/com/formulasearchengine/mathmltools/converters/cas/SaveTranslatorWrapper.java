@@ -33,10 +33,14 @@ public class SaveTranslatorWrapper {
     private static final String PACKAGE_TRANSLATOR = "gov.nist.drmf.interpreter.cas.translation.";
 
     private Object translatorObj;
+    private Object exceptionObj;
 
     private Method translateMethod;
     private Method getInfoMethod;
     private Method getTranslatedExpressionMethod;
+
+    private Method getExceptionMessageMethod;
+    private Method getExceptionReasonMethod;
 
     public SaveTranslatorWrapper() {
     }
@@ -61,6 +65,7 @@ public class SaveTranslatorWrapper {
             URLClassLoader urlCL = new URLClassLoader(new URL[] {jarF.toURI().toURL()}, System.class.getClassLoader());
 
             Class globalConstantsClass = urlCL.loadClass(PACKAGE_COMMON + "GlobalConstants");
+            Class translationExceptionClass = urlCL.loadClass(PACKAGE_COMMON + "TranslationException");
             Class translator = urlCL.loadClass(PACKAGE_TRANSLATOR + "SemanticLatexTranslator");
             Class globalPathsClass = urlCL.loadClass(PACKAGE_COMMON + "GlobalPaths");
             LOG.debug("Successfully loaded classes at runtime. Start to load objects at runtime.");
@@ -71,7 +76,7 @@ public class SaveTranslatorWrapper {
 
             Field f = globalPathsClass.getDeclaredField("PATH_LEXICONS");
             Object obj = f.get(null);
-            System.out.println(((Path) obj).toAbsolutePath().toString());
+            //System.out.println(((Path) obj).toAbsolutePath().toString());
 
             translatorObj = translator.getDeclaredConstructor(String.class, String.class).newInstance("LaTeX", cas);
 
@@ -79,6 +84,9 @@ public class SaveTranslatorWrapper {
             translateMethod = translator.getMethod("translate", String.class);
             getInfoMethod = translator.getMethod("getInfoLog");
             getTranslatedExpressionMethod = translator.getMethod("getTranslatedExpression");
+
+            getExceptionMessageMethod = translationExceptionClass.getMethod("getMessage");
+            getExceptionReasonMethod = translationExceptionClass.getMethod("getReason");
 
             LOG.debug("Successfully loaded all objects. Start to init translator.");
             initMethod.invoke(translatorObj, referenceDirPath);
@@ -93,16 +101,40 @@ public class SaveTranslatorWrapper {
         }
     }
 
-    public void translate(String latexString) throws InvocationTargetException, IllegalAccessException {
-        translateMethod.invoke(translatorObj, latexString);
+    private void reset() {
+        exceptionObj = null; // reset previous error
     }
 
-    public TranslationResponse getTranslationResult() throws InvocationTargetException, IllegalAccessException {
-        Object result = getTranslatedExpressionMethod.invoke(translatorObj);
-        Object log = getInfoMethod.invoke(translatorObj);
+    public void translate(String latexString) throws IllegalAccessException {
+        reset();
+        try {
+            translateMethod.invoke(translatorObj, latexString);
+        } catch (InvocationTargetException ie) {
+            exceptionObj = ie.getCause();
+        }
+    }
+
+    public TranslationResponse getTranslationResult() throws IllegalAccessException {
         TranslationResponse res = new TranslationResponse();
-        res.setResult((String) result);
-        res.setLog(log.toString());
-        return res;
+        try {
+            Object result;
+            Object log;
+            if (exceptionObj != null) {
+                result = "";
+                String msg = (String) getExceptionMessageMethod.invoke(exceptionObj);
+                msg += " - Reason: " + getExceptionReasonMethod.invoke(exceptionObj).toString();
+                log = msg;
+            } else {
+                result = getTranslatedExpressionMethod.invoke(translatorObj);
+                log = getInfoMethod.invoke(translatorObj);
+            }
+            res.setResult((String) result);
+            res.setLog(log.toString());
+            return res;
+        } catch (InvocationTargetException ie) {
+            res.setResult("");
+            res.setLog("Error during examination results - " + ie.getCause());
+            return res;
+        }
     }
 }
