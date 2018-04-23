@@ -1,20 +1,18 @@
 package com.formulasearchengine.mathmltools.converters.mathoid;
 
-import com.google.common.net.MediaType;
-
 /**
  * @author Andre Greiner-Petter
  */
 public enum MathoidEndpoints {
-    SVG_ENDPOINT("svg", MediaType.SVG_UTF_8),
-    PNG_ENDPOINT("png", MediaType.PNG),
-    MML_ENDPOINT("mml", MediaType.create("application", "mathml+xml")),
-    INFO_ENDPOINT("texvcinfo", MediaType.JSON_UTF_8);
+    SVG_ENDPOINT("svg", "image/svg+xml"),
+    PNG_ENDPOINT("png", "image/png"),
+    MML_ENDPOINT("mml", "application/mathml+xml"),
+    INFO_ENDPOINT("texvcinfo", "application/json");
 
     private final String endpoint;
-    private final MediaType responseMediaType;
+    private final String responseMediaType;
 
-    MathoidEndpoints(String endpoint, MediaType responseMediaType) {
+    MathoidEndpoints(String endpoint, String responseMediaType) {
         this.endpoint = endpoint;
         this.responseMediaType = responseMediaType;
     }
@@ -27,7 +25,7 @@ public enum MathoidEndpoints {
         return host + "/" + endpoint;
     }
 
-    public MediaType getResponseMediaType() {
+    public String getResponseMediaType() {
         return responseMediaType;
     }
 }
