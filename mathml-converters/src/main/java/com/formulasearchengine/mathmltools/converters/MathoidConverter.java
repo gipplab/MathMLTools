@@ -79,7 +79,7 @@ public class MathoidConverter implements Parser, Canonicalizable {
         try {
             MathoidInfoResponse response =
                     new RestTemplate().postForObject(url, request, MathoidInfoResponse.class);
-            logger.info(response);
+            logger.info("Successfully checked expression via Mathoid.");
             return response;
         } catch (HttpClientErrorException e) {
             logger.error(e.getResponseBodyAsString());
@@ -93,7 +93,7 @@ public class MathoidConverter implements Parser, Canonicalizable {
         try {
             String response =
                     new RestTemplate().postForObject(url, request, String.class);
-            logger.info(response);
+            logger.info("Successfully converted expression via Mathoid.");
             return response;
         } catch (HttpClientErrorException e) {
             logger.error(e.getResponseBodyAsString());
