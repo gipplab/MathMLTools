@@ -7,7 +7,8 @@ public enum MathoidTypes {
     TEX("tex"),
     INLINE_TEX("inline-tex"),
     MML("mml"),
-    ASCII("ascii");
+    ASCII("ascii"),
+    CHEM("chem");
 
     private String value;
 
