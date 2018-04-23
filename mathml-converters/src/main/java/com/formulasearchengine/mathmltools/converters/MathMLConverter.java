@@ -3,7 +3,6 @@ package com.formulasearchengine.mathmltools.converters;
 import com.formulasearchengine.mathmltools.converters.canonicalize.MathMLCanUtil;
 import com.formulasearchengine.mathmltools.converters.config.MathMLConverterConfig;
 import com.formulasearchengine.mathmltools.converters.mathoid.EnrichedMathMLTransformer;
-import com.formulasearchengine.mathmltools.converters.mathoid.MathoidConverter;
 import com.formulasearchengine.mathmltools.converters.exceptions.MathConverterException;
 import com.formulasearchengine.mathmltools.mml.CMMLInfo;
 import com.formulasearchengine.mathmltools.nativetools.NativeResponse;

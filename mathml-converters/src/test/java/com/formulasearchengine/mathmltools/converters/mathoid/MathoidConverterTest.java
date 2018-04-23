@@ -1,5 +1,6 @@
 package com.formulasearchengine.mathmltools.converters.mathoid;
 
+import com.formulasearchengine.mathmltools.converters.MathoidConverter;
 import com.formulasearchengine.mathmltools.converters.config.MathoidConfig;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
