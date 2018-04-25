@@ -4,15 +4,15 @@ package com.formulasearchengine.mathmltools.converters.mathoid;
  * @author Andre Greiner-Petter
  */
 public class MathoidInfoResponse {
-    private boolean success;
+    private boolean success = false;
 
-    private String checked;
+    private String checked = "";
 
-    private String[] requiredPackages;
+    private String[] requiredPackages = new String[0];
 
-    private String[] identifiers;
+    private String[] identifiers = new String[0];
 
-    private boolean endsWithDots;
+    private boolean endsWithDots = false;
 
     public MathoidInfoResponse() {
     }
