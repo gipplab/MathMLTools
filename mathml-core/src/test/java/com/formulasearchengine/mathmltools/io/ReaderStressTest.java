@@ -113,30 +113,6 @@ public class ReaderStressTest {
         }
     }
 
-    /*
-    @ParameterizedTest
-    @MethodSource("mmlResources")
-    void testLoadFromString(Path f) throws IOException {
-        String s = new String(Files.readAllBytes(f));
-        Document doc = XmlDocumentReader.getDocumentFromXMLString(s);
-        assertNotNull(doc);
-    }
-
-    @ParameterizedTest
-    @MethodSource("mmlResources")
-    void testLoadFromFile(Path f) throws IOException {
-        Document doc = XmlDocumentReader.getDocumentFromXML(f);
-        assertNotNull(doc);
-    }
-
-    @ParameterizedTest
-    @MethodSource("xmlResources")
-    void testLoadFromXMLFile(Path f) throws IOException {
-        Document doc = XmlDocumentReader.getDocumentFromXML(f);
-        assertNotNull(doc);
-    }
-    */
-
     private static Stream<Path> mmlResources() throws IOException {
         return fileResources().filter( p -> p.getFileName().toString().endsWith("mml") );
     }
