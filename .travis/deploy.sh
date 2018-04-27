@@ -6,5 +6,4 @@ else
     echo "not on a tag -> keep snapshot version in pom.xml"
 fi
 
-mvn clean verify gpg:sign -Dgpg.passphrase=$GPG_PASSPHRASE -DskipTests=true
-mvn deploy -Dmaven.javadoc.skip=true -DskipTests=true --settings .travis/settings.xml -B -U
+mvn verify gpg:sign deploy -Dgpg.passphrase=$GPG_PASSPHRASE -DskipTests=true --settings .travis/settings.xml -B -U

@@ -246,6 +246,7 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <phase>generate-sources</phase>
                         <configuration>
                             <additionalparam>-Xdoclint:none</additionalparam>
                         </configuration>
