@@ -6,4 +6,4 @@ else
     echo "not on a tag -> keep snapshot version in pom.xml"
 fi
 
-mvn verify gpg:sign
+mvn verify gpg:sign -Dgpg.passphrase=$GPG_PASSPHRASE
