@@ -1,25 +1,33 @@
 package com.formulasearchengine.mathmltools.similarity.result;
 
-import com.formulasearchengine.mathmltools.similarity.node.MathNode;
 import com.formulasearchengine.mathmltools.similarity.SubTreeComparison;
+import com.formulasearchengine.mathmltools.similarity.node.MathNode;
 
 /**
- * JSON wrapper for a single match between two math expression trees.
- * The Id relates to the comparison MEXT.
+ * JSON wrapper for a single match between two math expression trees from
+ * the perspective of the comparison tree.
+ * <p>
+ * The id-attribute relates to a node inside the comparison math node, which we assume
+ * is a mathematical expression tree.
  *
  * @author Vincent Stange
  */
 public class SubMatch {
 
-    private String id = "";
+    /* id of the node inside the comparison tree */
+    private String id;
 
-    private double assessment = 1.0;
+    /* assessment value for the current match */
+    private double assessment;
 
-    private int depth = 0;
+    /* depth level of the current sub-tree*/
+    private int depth;
 
-    private double coverage = 0;
+    /* coverage factor of the two sub-trees matched, from the perspective of the comparison tree */
+    private double coverage;
 
-    private String type = "similar";
+    /* Type of match */
+    private String type;
 
     /**
      * Create a sub-match. A sub-match is always part of a match.

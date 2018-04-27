@@ -5,12 +5,11 @@ import com.formulasearchengine.mathmltools.similarity.node.MathNode;
 import com.formulasearchengine.mathmltools.similarity.node.MathNodeGenerator;
 import com.formulasearchengine.mathmltools.similarity.result.Match;
 import com.formulasearchengine.mathmltools.similarity.result.SimilarityType;
+import com.formulasearchengine.mathmltools.similarity.util.MathNodeException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,10 +42,20 @@ public class MathPlag {
      * @param compMathML Comparison MathML string (must contain pMML and cMML)
      * @return list of matches / similarities, list can be empty.
      */
-    public static List<Match> compareIdenticalMathML(String refMathML, String compMathML) throws IOException, ParserConfigurationException {
+    public static List<Match> compareIdenticalMathML(String refMathML, String compMathML) throws MathNodeException {
         // switch from a string > CMMLInfo document > MathNode tree
-        MathNode refMathNode = MathNodeGenerator.generateMathNode(new CMMLInfo(refMathML));
-        MathNode compMathNode = MathNodeGenerator.generateMathNode(new CMMLInfo(compMathML));
+        MathNode refMathNode;
+        MathNode compMathNode;
+        try {
+            refMathNode = MathNodeGenerator.generateMathNode(new CMMLInfo(refMathML));
+        } catch (MathNodeException e) {
+            throw new MathNodeException("could not create math node for reference mathml: " + refMathML, e);
+        }
+        try {
+            compMathNode = MathNodeGenerator.generateMathNode(new CMMLInfo(compMathML));
+        } catch (MathNodeException e) {
+            throw new MathNodeException("could not create math node for comparison mathml: " + compMathML, e);
+        }
         return new SubTreeComparison(SimilarityType.identical).getSimilarities(refMathNode, compMathNode, true);
     }
 
@@ -60,10 +69,20 @@ public class MathPlag {
      * @param compMathML Comparison MathML string (must contain pMML and cMML)
      * @return list of matches / similarities, list can be empty.
      */
-    public static List<Match> compareSimilarMathML(String refMathML, String compMathML) throws IOException, ParserConfigurationException {
+    public static List<Match> compareSimilarMathML(String refMathML, String compMathML) throws MathNodeException {
         // switch from a string > CMMLInfo document > abstract MathNode tree
-        MathNode refMathNode = MathNodeGenerator.generateMathNode(new CMMLInfo(refMathML)).toAbstract();
-        MathNode compMathNode = MathNodeGenerator.generateMathNode(new CMMLInfo(compMathML)).toAbstract();
+        MathNode refMathNode;
+        MathNode compMathNode;
+        try {
+            refMathNode = MathNodeGenerator.generateMathNode(new CMMLInfo(refMathML)).toAbstract();
+        } catch (MathNodeException e) {
+            throw new MathNodeException("could not create math node for reference mathml: " + refMathML, e);
+        }
+        try {
+            compMathNode = MathNodeGenerator.generateMathNode(new CMMLInfo(compMathML)).toAbstract();
+        } catch (MathNodeException e) {
+            throw new MathNodeException("could not create math node for comparison mathml: " + compMathML, e);
+        }
         return new SubTreeComparison(SimilarityType.similar).getSimilarities(refMathNode, compMathNode, true);
     }
 
@@ -75,11 +94,9 @@ public class MathPlag {
      * @param refMathML  Reference MathML string (must contain pMML and cMML)
      * @param compMathML Comparison MathML string (must contain pMML and cMML)
      * @return map of all found factors (depth, coverage, structureMatch, dataMatch, isEquation)
-     * @throws ParserConfigurationException malformed mathml or even xml in most cases
-     * @throws XPathExpressionException     could hint towards a bug
-     * @throws IOException                  transformation exception between document and string
+     * @throws XPathExpressionException could hint towards a bug
      */
-    public static Map<String, Object> compareOriginalFactors(String refMathML, String compMathML) throws ParserConfigurationException, XPathExpressionException, IOException {
+    public static Map<String, Object> compareOriginalFactors(String refMathML, String compMathML) throws XPathExpressionException {
         try {
             CMMLInfo refDoc = new CMMLInfo(refMathML);
             CMMLInfo compDoc = new CMMLInfo(compMathML);

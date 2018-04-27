@@ -1,6 +1,5 @@
 package com.formulasearchengine.mathmltools.mml;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -75,7 +74,7 @@ public class CMMLInfo extends CMMLInfoBase implements Document {
         constructor(cmml, true, preserveAnnotations);
     }
 
-    public CMMLInfo(String s) throws IOException, ParserConfigurationException {
+    public CMMLInfo(String s) {
         Document cmml = XMLHelper.string2Doc(s, true);
         constructor(cmml, true, false);
     }
@@ -84,7 +83,7 @@ public class CMMLInfo extends CMMLInfoBase implements Document {
         cmmlDoc = (Document) other.cmmlDoc.cloneNode(true);
     }
 
-    public CMMLInfo(Node f2) throws TransformerException, IOException, ParserConfigurationException {
+    public CMMLInfo(Node f2) throws TransformerException {
         //TODO: Improve performance here
         Document cmml = XMLHelper.string2Doc(XMLHelper.printDocument(f2), true);
         constructor(cmml, true, false);
@@ -98,7 +97,7 @@ public class CMMLInfo extends CMMLInfoBase implements Document {
         new CMMLInfoBase();
     }
 
-    public static CMMLInfo newFromSnippet(String snippet) throws IOException, ParserConfigurationException {
+    public static CMMLInfo newFromSnippet(String snippet) {
         return new CMMLInfo(MATH_HEADER + snippet + MATH_FOOTER);
     }
 
@@ -370,9 +369,7 @@ public class CMMLInfo extends CMMLInfoBase implements Document {
         NonWhitespaceNodeList elementsB = new NonWhitespaceNodeList(XMLHelper.getElementsB(cmmlMain, xEquation));
         if (elementsB.getLength() > 0) {
             String name = elementsB.item(0).getLocalName();
-            if (FORMULA_INDICATORS.contains(name)) {
-                return true;
-            }
+            return FORMULA_INDICATORS.contains(name);
         }
         return false;
     }

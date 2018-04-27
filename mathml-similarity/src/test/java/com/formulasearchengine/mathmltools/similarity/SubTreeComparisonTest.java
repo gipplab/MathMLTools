@@ -1,16 +1,15 @@
 package com.formulasearchengine.mathmltools.similarity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.formulasearchengine.mathmltools.similarity.*;
 import com.formulasearchengine.mathmltools.mml.CMMLInfo;
 import com.formulasearchengine.mathmltools.similarity.node.MathNode;
 import com.formulasearchengine.mathmltools.similarity.node.MathNodeGenerator;
 import com.formulasearchengine.mathmltools.similarity.result.Match;
 import com.formulasearchengine.mathmltools.similarity.result.SimilarityType;
+import com.formulasearchengine.mathmltools.similarity.util.MathNodeException;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,14 +54,14 @@ public class SubTreeComparisonTest {
         assertThat(actual, equalToIgnoringWhiteSpace(expected));
     }
 
-    private MathNode readMathNodeFromFile(String filename) throws IOException, ParserConfigurationException {
+    private MathNode readMathNodeFromFile(String filename) throws IOException, MathNodeException {
         // switch from a string to the CMMLInfo document and on to our MathNode representation
         CMMLInfo doc = new CMMLInfo(IOUtils.toString(this.getClass().getResourceAsStream(filename), "UTF-8"));
         return MathNodeGenerator.generateMathNode(new CMMLInfo(doc));
     }
 
     @Test
-    public void isIdenticalTree_positive() throws Exception {
+    public void isIdenticalTree_positive() {
         MathNode apply = new MathNode("apply", "");
         apply.addChild(new MathNode("minus", null));
         apply.addChild(new MathNode("x", null));
@@ -73,9 +72,8 @@ public class SubTreeComparisonTest {
     }
 
     @Test
-    public void isIdenticalTree_positive_strict() throws Exception {
+    public void isIdenticalTree_positive_strict() {
         MathNode apply = new MathNode("apply", "arith1").setAbstractNode();
-        ;
         apply.addChild(new MathNode("arith1", "plus").setAbstractNode());
         apply.addChild(new MathNode("ci", "x").setAbstractNode());
         apply.addChild(new MathNode("cn", "1").setAbstractNode());
@@ -90,7 +88,7 @@ public class SubTreeComparisonTest {
     }
 
     @Test
-    public void isIdenticalTree_positive_order_insensitive() throws Exception {
+    public void isIdenticalTree_positive_order_insensitive() {
         MathNode apply1 = new MathNode("apply", "");
         apply1.addChild(new MathNode("plus", null));
         apply1.addChild(new MathNode("x", null));
@@ -106,7 +104,7 @@ public class SubTreeComparisonTest {
     }
 
     @Test
-    public void isIdenticalTree_negative() throws Exception {
+    public void isIdenticalTree_negative() {
         MathNode apply1 = new MathNode("apply", "");
         apply1.addChild(new MathNode("plus", null));
         apply1.addChild(new MathNode("x", null));
@@ -122,7 +120,7 @@ public class SubTreeComparisonTest {
     }
 
     @Test
-    public void filterSameChildren() throws Exception {
+    public void filterSameChildren() {
         SubTreeComparison similar = new SubTreeComparison(SimilarityType.similar);
         // prepare a list of children from an apply node
         List<MathNode> list = new ArrayList<>();
@@ -137,7 +135,7 @@ public class SubTreeComparisonTest {
     }
 
     @Test
-    public void getCoverage_identical() throws Exception {
+    public void getCoverage_identical() {
         // frist list of leafs from a tree
         List<MathNode> list1 = new ArrayList<>();
         list1.add(new MathNode("ci", "x"));
@@ -151,7 +149,7 @@ public class SubTreeComparisonTest {
     }
 
     @Test
-    public void getCoverage_similar() throws Exception {
+    public void getCoverage_similar() {
         // frist list of leafs from a tree
         List<MathNode> list1 = new ArrayList<>();
         list1.add(new MathNode("ci", "x").setAbstractNode());

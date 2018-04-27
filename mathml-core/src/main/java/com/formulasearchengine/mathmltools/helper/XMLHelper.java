@@ -207,10 +207,7 @@ public final class XMLHelper {
      * @param inputXMLString     the input xml string
      * @param namespaceAwareness the namespace awareness
      * @return parsed document
-     * @throws ParserConfigurationException the parser configuration exception
-     * @throws IOException                  Signals that an I/O exception has occurred.
      */
-
     public static Document string2Doc(String inputXMLString, boolean namespaceAwareness) {
         try {
             DocumentBuilder builder = getDocumentBuilder(namespaceAwareness);
