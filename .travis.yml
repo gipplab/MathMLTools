@@ -35,4 +35,6 @@ deploy:
     skip_cleanup: true
     on:
       repo: ag-gipp/MathMLTools
+      tags: true
+      all_branches: true
       jdk: oraclejdk8
