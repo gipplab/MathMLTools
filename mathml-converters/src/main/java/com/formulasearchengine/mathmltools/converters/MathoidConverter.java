@@ -9,13 +9,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.ClientHttpRequest;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.w3c.dom.Document;
 
+import java.net.URL;
 import java.nio.file.Path;
 
 /**
@@ -129,6 +133,22 @@ public class MathoidConverter implements Parser, Canonicalizable {
         } catch (HttpClientErrorException e) {
             logger.error(e.getResponseBodyAsString());
             throw e;
+        }
+    }
+
+    /**
+     * Returns true if the Mathoid service is reachable, otherwise false.
+     * @return
+     */
+    public boolean isReachable() {
+        try {
+            URL url = new URL(mathoidConfig.getUrl() + "/mml");
+            SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+            ClientHttpRequest req = factory.createRequest(url.toURI(), HttpMethod.POST);
+            req.execute();
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 

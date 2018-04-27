@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Vincent Stange
  */
+@AssumeLaTeXMLAvailability
 public class LaTeXMLConverterTest {
 
     public static final String HTTP_LATEXML_TEST = "https://drmf-latexml.wmflabs.org";

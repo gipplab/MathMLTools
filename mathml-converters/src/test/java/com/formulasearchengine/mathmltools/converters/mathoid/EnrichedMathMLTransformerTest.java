@@ -11,7 +11,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * @author Vincent Stange
  */
-public class    EnrichedMathMLTransformerTest {
+public class EnrichedMathMLTransformerTest {
 
     @Test
     public void copyIdField() throws Exception {
