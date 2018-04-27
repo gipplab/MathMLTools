@@ -1,10 +1,13 @@
 package com.formulasearchengine.mathmltools.converters;
 
+import com.formulasearchengine.mathmltools.converters.config.LaTeXMLConfig;
+import com.formulasearchengine.mathmltools.converters.config.MathMLConverterConfig;
+import com.formulasearchengine.mathmltools.converters.config.MathoidConfig;
+import com.formulasearchengine.mathmltools.converters.exceptions.MathConverterException;
+import com.formulasearchengine.mathmltools.converters.latexml.AssumeLaTeXMLAvailability;
 import com.formulasearchengine.mathmltools.converters.latexml.LaTeXMLConverterTest;
-import com.formulasearchengine.mathmltools.converters.latexml.LateXMLConfig;
-import com.formulasearchengine.mathmltools.converters.mathoid.MathoidConfig;
+import com.formulasearchengine.mathmltools.converters.mathoid.AssumeMathoidAvailability;
 import com.formulasearchengine.mathmltools.converters.mathoid.MathoidConverterTest;
-import com.formulasearchengine.mathmltools.converters.error.MathConverterException;
 import com.formulasearchengine.mathmltools.helper.XMLHelper;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Assertions;
@@ -26,8 +29,9 @@ import static org.hamcrest.text.IsEqualIgnoringWhiteSpace.equalToIgnoringWhiteSp
 public class MathMLConverterTest {
 
     // TODO: Failed with "enriched mathml transformation failed" message
-    @Disabled
     @Test
+    @Disabled
+    @AssumeMathoidAvailability(url = "http://localhost:10044")
     public void convertPmml() throws Exception, MathConverterException {
         // prepare configuration and objects
         Document mathNode = XMLHelper.string2Doc(getResourceContent("mathml_pmml.txt"), true);
@@ -39,10 +43,13 @@ public class MathMLConverterTest {
     }
 
     @Test
+    @AssumeLaTeXMLAvailability
     public void transform_latex_1() throws Exception, MathConverterException {
         // prepare configuration and objects
         Document formulaNode = XMLHelper.string2Doc(getResourceContent("mathml_latex_1.txt"), true);
-        MathMLConverterConfig mathConfig = new MathMLConverterConfig().setLatexml(LateXMLConfig.getDefaultConfiguration().setUrl(LaTeXMLConverterTest.HTTP_LATEXML_TEST));
+        LaTeXMLConfig laTeXMLConfig = LaTeXMLConfig.getDefaultConfiguration();
+        laTeXMLConfig.setUrl(LaTeXMLConverterTest.HTTP_LATEXML_TEST);
+        MathMLConverterConfig mathConfig = new MathMLConverterConfig().setLatexml(laTeXMLConfig);
         MathMLConverter mathMLConverter = new MathMLConverter(mathConfig);
         // test
         String result = mathMLConverter.transform((Element) formulaNode.getFirstChild());
@@ -50,10 +57,13 @@ public class MathMLConverterTest {
     }
 
     @Test
+    @AssumeLaTeXMLAvailability
     public void transform_latex_2() throws Exception {
         // prepare configuration and objects
         Document formulaNode = XMLHelper.string2Doc(getResourceContent("mathml_latex_2.txt"), true);
-        MathMLConverterConfig mathConfig = new MathMLConverterConfig().setLatexml(LateXMLConfig.getDefaultConfiguration().setUrl(LaTeXMLConverterTest.HTTP_LATEXML_TEST));
+        LaTeXMLConfig laTeXMLConfig = LaTeXMLConfig.getDefaultConfiguration();
+        laTeXMLConfig.setUrl(LaTeXMLConverterTest.HTTP_LATEXML_TEST);
+        MathMLConverterConfig mathConfig = new MathMLConverterConfig().setLatexml(laTeXMLConfig);
         MathMLConverter mathMLConverter = new MathMLConverter(mathConfig);
         // test
 

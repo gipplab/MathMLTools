@@ -1,4 +1,4 @@
-package com.formulasearchengine.mathmltools.converters.latexml;
+package com.formulasearchengine.mathmltools.converters.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -30,6 +30,21 @@ public class LaTeXMLServiceResponse extends NativeResponse {
     public LaTeXMLServiceResponse(String result, String log) {
         this.result = result;
         this.log = log;
+    }
+
+    public LaTeXMLServiceResponse(NativeResponse nr) {
+        this.statusCode = nr.getStatusCode();
+        this.status = nr.getMessage();
+        this.result = nr.getResult();
+        if (nr.getThrowedException() != null) {
+            log += "Exception: " + nr.getThrowedException();
+        }
+    }
+
+    public LaTeXMLServiceResponse(NativeResponse nr, String result, String log) {
+        this(nr);
+        this.result = result;
+        this.log = log + this.log;
     }
 
     @Override

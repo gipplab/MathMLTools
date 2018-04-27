@@ -20,5 +20,6 @@
         </apply>
       </apply>
     </annotation-xml>
+    <annotation encoding="application/x-tex" id="p1.1.m1.1c">a+2b</annotation>
   </semantics>
 </math>

@@ -28,7 +28,7 @@ public class JFastEMD {
      * This interface is similar to Rubner's interface. See:
      * http://www.cs.duke.edu/~tomasi/software/emd.htm
      * <p>
-     * To get the same results as Rubner's code you should set extra_mass_penalty to 0,
+     * To get the same services as Rubner's code you should set extra_mass_penalty to 0,
      * and divide by the minimum of the sum of the two signature's weights. However, I
      * suggest not to do this as you lose the metric property and more importantly, in my
      * experience the performance is better with emd_hat. for more on the difference

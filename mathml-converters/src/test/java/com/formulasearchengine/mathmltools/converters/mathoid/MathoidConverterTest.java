@@ -1,5 +1,7 @@
 package com.formulasearchengine.mathmltools.converters.mathoid;
 
+import com.formulasearchengine.mathmltools.converters.MathoidConverter;
+import com.formulasearchengine.mathmltools.converters.config.MathoidConfig;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +13,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * @author Vincent Stange
  */
+@AssumeMathoidAvailability(url = "http://localhost:10044")
 public class MathoidConverterTest {
 
     public static final String HTTP_MATHOID_TEXT = "http://localhost:10044/mml";

@@ -40,5 +40,6 @@
         </apply>
       </apply>
     </annotation-xml>
+    <annotation encoding="application/x-tex" id="p1.1.m1.1c">\sqrt{3}+\frac{a+1}{b-2}</annotation>
   </semantics>
 </math>

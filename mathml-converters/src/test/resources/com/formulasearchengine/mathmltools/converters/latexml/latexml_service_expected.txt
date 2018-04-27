@@ -38,5 +38,6 @@
         </apply>
       </apply>
     </annotation-xml>
+    <annotation encoding="application/x-tex" id="p1.1.m1.1c">\frac{1}{(1-2^{1-s})}</annotation>
   </semantics>
 </math>

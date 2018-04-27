@@ -1,7 +1,4 @@
-package com.formulasearchengine.mathmltools.converters;
-
-import com.formulasearchengine.mathmltools.converters.latexml.LateXMLConfig;
-import com.formulasearchengine.mathmltools.converters.mathoid.MathoidConfig;
+package com.formulasearchengine.mathmltools.converters.config;
 
 /**
  * General settings for math related transformations.
@@ -13,18 +10,18 @@ public class MathMLConverterConfig {
     /**
      * Configuration of Encoplot algorithm
      */
-    private LateXMLConfig latexml;
+    private LaTeXMLConfig latexml;
 
     /**
      * Configuration of Sherlock algorithm
      */
     private MathoidConfig mathoid;
 
-    public LateXMLConfig getLatexml() {
+    public LaTeXMLConfig getLatexml() {
         return latexml;
     }
 
-    public MathMLConverterConfig setLatexml(LateXMLConfig latexml) {
+    public MathMLConverterConfig setLatexml(LaTeXMLConfig latexml) {
         this.latexml = latexml;
         return this;
     }

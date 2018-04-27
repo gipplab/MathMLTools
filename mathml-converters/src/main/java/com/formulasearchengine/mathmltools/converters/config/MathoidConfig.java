@@ -1,4 +1,4 @@
-package com.formulasearchengine.mathmltools.converters.mathoid;
+package com.formulasearchengine.mathmltools.converters.config;
 
 /**
  * Configuration container for the Mathoid service.
