@@ -40,7 +40,7 @@ public class RepairMMLHelper {
 
     public static void setPrefixRecursive(Node node, String prefix) {
         if (node.getNodeType() == Node.ELEMENT_NODE || node.getNodeType() == Node.ATTRIBUTE_NODE) {
-            System.out.println("Change prefix for: " + node.getClass() + " / " + node.getNodeName());
+            LOG.debug("Change prefix for: " + node.getClass() + " / " + node.getNodeName());
             node.setPrefix(prefix);
         }
 
@@ -52,9 +52,8 @@ public class RepairMMLHelper {
 
     public static void renameNamespaceRecursive(Document doc, Node node,
                                                 String namespace, String prefix) {
-
         if (node.getNodeType() == Node.ELEMENT_NODE || node.getNodeType() == Node.ATTRIBUTE_NODE) {
-            System.out.println("Change prefix for: " + node.getClass() + " / " + node.getNodeName());
+            LOG.debug("Change prefix for: " + node.getClass() + " / " + node.getNodeName());
             //System.out.println("renaming type: " + node.getClass()
             //        + ", name: " + node.getNodeName());
             node.setPrefix(prefix);

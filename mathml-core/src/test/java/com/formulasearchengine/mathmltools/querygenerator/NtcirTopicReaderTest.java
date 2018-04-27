@@ -9,6 +9,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -19,6 +21,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
 public class NtcirTopicReaderTest {
+    private static final Logger LOG = LogManager.getLogger(NtcirTopicReaderTest.class.getName());
+
     public static final String BASEX_NAMESPACE = "declare default element namespace \"http://www.w3.org/1998/Math/MathML\";";
     public static final String BASEX_PATHTOROOT = "//*:expr";
     public static final String BASEX_RETURNFORMAT = "<a href=\"http://demo.formulasearchengine.com/index.php?curid={$m/@url}\">result</a>";
@@ -75,7 +79,7 @@ public class NtcirTopicReaderTest {
         for (final NtcirPattern ntcirPattern : tr.extractPatterns()) {
             sb.append(ntcirPattern.getxQueryExpression()).append("\n");
         }
-        System.out.println(sb.toString());
+        LOG.debug(sb.toString());
         assertEquals(referenceString, sb.toString());
     }
 
@@ -87,7 +91,7 @@ public class NtcirTopicReaderTest {
         tr.setReturnFormat(BASEX_RETURNFORMAT);
         for (final NtcirPattern ntcirPattern : tr.extractPatterns()) {
             if (ntcirPattern.getNum().endsWith("29")) {
-                System.out.println(ntcirPattern.getxQueryExpression());
+                LOG.debug(ntcirPattern.getxQueryExpression());
             }
         }
     }

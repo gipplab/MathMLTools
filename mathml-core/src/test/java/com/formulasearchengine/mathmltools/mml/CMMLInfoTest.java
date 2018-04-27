@@ -353,7 +353,7 @@ public class CMMLInfoTest {
                 "</result>";
         final String sampleMML = getFileContents(MML_TEST_DIR + "query1.xml");
         CMMLInfo mml = new CMMLInfo(sampleMML);
-        System.out.println(TreeWriter.compactForm(mml.toStrictCmml().abstract2DTs()));
+        LOG.debug(TreeWriter.compactForm(mml.toStrictCmml().abstract2DTs()));
         assertEquals(s, mml.getXQueryString());
     }
 

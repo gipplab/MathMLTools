@@ -4,6 +4,8 @@ import com.formulasearchengine.mathmltools.helper.CMMLHelper;
 import com.formulasearchengine.mathmltools.helper.RepairMMLHelper;
 import com.formulasearchengine.mathmltools.helper.XMLHelper;
 import com.formulasearchengine.mathmltools.mml.CMMLInfo;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -25,6 +27,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 public class ReaderStressTest {
 
+    private static final Logger LOG = LogManager.getLogger(ReaderStressTest.class.getName());
+
     private static final String TEST_DIR = "com/formulasearchengine/mathmltools/broken";
 
     @Test
@@ -42,7 +46,7 @@ public class ReaderStressTest {
             printAttrInfo( list.item(i) );
 
         String outxml = XmlDocumentWriter.stringify(doc);
-        System.out.println(outxml);
+        LOG.debug(outxml);
 
 //
         Document doc2 = XmlDocumentReader.strictLoader(outxml);
@@ -81,15 +85,15 @@ public class ReaderStressTest {
 
         XPath xpath = XMLHelper.namespaceAwareXpath("m", CMMLInfo.NS_MATHML);
         Node attrN = CMMLHelper.getElement(cmml, "*//m:mo/@stretchy", xpath);
-        System.out.println("ATTR: " + attrN);
+        LOG.debug("ATTR: " + attrN);
 
 
         printAttrInfo(n);
-        System.out.println(n.getNodeName());
+        LOG.debug(n.getNodeName());
 
 //        String outxml = XmlDocumentWriter.stringify(doc);
 
-        System.out.println(XMLHelper.printDocument(n));
+        LOG.debug(XMLHelper.printDocument(n));
         //System.out.println(outxml.toString());
     }
 
@@ -103,7 +107,7 @@ public class ReaderStressTest {
                 if (node.getNodeType() == Node.ATTRIBUTE_NODE)
                 {
                     String name = node.getNodeName();
-                    System.out.println(name + " " + node.getNamespaceURI());
+                    LOG.debug(name + " " + node.getNamespaceURI());
                 }
             }
         }

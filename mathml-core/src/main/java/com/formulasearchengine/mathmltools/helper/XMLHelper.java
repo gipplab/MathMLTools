@@ -60,7 +60,7 @@ import org.xml.sax.SAXException;
 public final class XMLHelper {
     public static final String NS_MATHML = "http://www.w3.org/1998/Math/MathML";
 
-    private static final Logger log = LogManager.getLogger("XMLHelper");
+    private static final Logger log = LogManager.getLogger(XMLHelper.class.getName());
 
     public static final Pattern ANNOTATION_XML_PATTERN = Pattern.compile("annotation(-xml)?");
     public static final Pattern XML_DECLARATION = Pattern.compile("<\\?[xX][mM][lL].*\\?>", Pattern.DOTALL);
@@ -215,7 +215,7 @@ public final class XMLHelper {
             is.setEncoding("UTF-8");
             return builder.parse(is);
         } catch (SAXException | ParserConfigurationException | IOException e) {
-            System.out.println("cannot parse following content\n\n" + inputXMLString);
+            log.error("cannot parse following content\n\n" + inputXMLString);
             e.printStackTrace();
             return null;
         }

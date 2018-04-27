@@ -17,10 +17,6 @@ public enum MathoidEndpoints {
         this.responseMediaType = responseMediaType;
     }
 
-    public static void main(String[] args) {
-        System.out.println(MML_ENDPOINT.getResponseMediaType().toString());
-    }
-
     public String getEndpoint(String host) {
         return host + "/" + endpoint;
     }
