@@ -5,6 +5,7 @@ import com.formulasearchengine.mathmltools.converters.config.MathoidConfig;
 import com.formulasearchengine.mathmltools.converters.mathoid.MathoidEndpoints;
 import com.formulasearchengine.mathmltools.converters.mathoid.MathoidInfoResponse;
 import com.formulasearchengine.mathmltools.converters.mathoid.MathoidTypes;
+import org.apache.commons.io.Charsets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpEntity;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
@@ -95,8 +97,10 @@ public class MathoidConverter implements Parser, Canonicalizable {
         HttpEntity<MultiValueMap<String, String>> request = buildRequest(input, null);
         String url = endpoint.getEndpoint(mathoidConfig.getUrl());
         try {
-            String response =
-                    new RestTemplate().postForObject(url, request, String.class);
+            RestTemplate template = new RestTemplate();
+            StringHttpMessageConverter converter = new StringHttpMessageConverter(Charsets.UTF_8);
+            template.getMessageConverters().add(0, converter);
+            String response = template.postForObject(url, request, String.class);
             logger.info("Successfully converted expression via Mathoid.");
             return response;
         } catch (HttpClientErrorException e) {
@@ -138,6 +142,7 @@ public class MathoidConverter implements Parser, Canonicalizable {
 
     /**
      * Returns true if the Mathoid service is reachable, otherwise false.
+     *
      * @return
      */
     public boolean isReachable() {
