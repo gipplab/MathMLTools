@@ -84,9 +84,9 @@ public final class Utility {
     }
 
     /**
-     * @param doc
-     * @param indent
-     * @return
+     * @param doc a
+     * @param indent a
+     * @return a
      */
     public static String documentToString(Document doc, boolean indent) {
         try {

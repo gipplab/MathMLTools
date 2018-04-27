@@ -46,7 +46,7 @@ public class NativeResponse {
     /**
      * Additional messages
      *
-     * @return
+     * @return a
      */
     public String getMessage() {
         return message;

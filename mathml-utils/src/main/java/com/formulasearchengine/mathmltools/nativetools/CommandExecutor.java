@@ -53,7 +53,7 @@ public class CommandExecutor {
      * <p>
      * For example, to find out weather a native program exists, you can
      * call
-     * new CommandExecutor("which", <native command name>").exec();
+     * new CommandExecutor("which", native command name").exec();
      *
      * @param args the commands for the native console
      */
@@ -67,7 +67,7 @@ public class CommandExecutor {
      * <p>
      * For example, to find out weather a native program exists, you can
      * call
-     * new CommandExecutor("CommandExists", "which", <native command name>").exec();
+     * new CommandExecutor("CommandExists", "which", native command name").exec();
      *
      * @param serviceName gives this command executor a name (or ID)
      * @param args        the commands for the native console
@@ -83,7 +83,7 @@ public class CommandExecutor {
      * <p>
      * For example, to find out weather a native program exists, you can
      * call
-     * new CommandExecutor("CommandExists", "which", <native command name>").exec();
+     * new CommandExecutor("CommandExists", "which", native command name").exec();
      *
      * @param serviceName gives this command executor a name (or ID)
      * @param args        the commands for the native console
@@ -125,8 +125,8 @@ public class CommandExecutor {
     /**
      * Execute with a given timeout there will be no logging information tagged.
      *
-     * @param timeoutMs
-     * @return
+     * @param timeoutMs a
+     * @return a
      */
     public NativeResponse exec(long timeoutMs) {
         return exec(timeoutMs, TimeUnit.MILLISECONDS);
@@ -136,9 +136,9 @@ public class CommandExecutor {
      * Execute with a given timeout and sets the log level for the
      * error output stream.
      *
-     * @param timeoutMs
-     * @param logLevel
-     * @return
+     * @param timeoutMs a
+     * @param logLevel a
+     * @return a
      */
     public NativeResponse exec(long timeoutMs, Level logLevel) {
         return exec(timeoutMs, TimeUnit.MILLISECONDS, logLevel);
@@ -147,9 +147,9 @@ public class CommandExecutor {
     /**
      * Specify the timeout for different time units.
      *
-     * @param timeout
-     * @param unit
-     * @return
+     * @param timeout a
+     * @param unit a
+     * @return a
      */
     public NativeResponse exec(long timeout, TimeUnit unit) {
         return exec(timeout, unit, null);
@@ -158,7 +158,7 @@ public class CommandExecutor {
     /**
      * Just wait as long as possible for the response.
      *
-     * @return
+     * @return a
      */
     public NativeResponse execWithoutTimeout() {
         return internalexec(0, null, null);
@@ -168,8 +168,8 @@ public class CommandExecutor {
      * Just wait as long as possible for the response and puts the error stream
      * to the given log level (log4j2).
      *
-     * @param logLevel
-     * @return
+     * @param logLevel a
+     * @return a
      */
     public NativeResponse execWithoutTimeout(Level logLevel) {
         return internalexec(0, null, logLevel);
@@ -178,10 +178,10 @@ public class CommandExecutor {
     /**
      * Combination of everything before.
      *
-     * @param timeout
-     * @param unit
-     * @param logLevel
-     * @return
+     * @param timeout a
+     * @param unit a
+     * @param logLevel a
+     * @return a
      */
     public NativeResponse exec(long timeout, TimeUnit unit, Level logLevel) {
         return internalexec(timeout, unit, logLevel);
