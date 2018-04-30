@@ -4,6 +4,7 @@ import com.formulasearchengine.mathmltools.helper.XMLHelper;
 import com.formulasearchengine.mathmltools.io.XmlDocumentReader;
 import com.formulasearchengine.mathmltools.utils.mml.CSymbol;
 import com.formulasearchengine.mathmltools.xml.PartialLocalEntityResolver;
+import com.sun.org.apache.xerces.internal.dom.DOMInputImpl;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -103,14 +104,22 @@ public class MathDoc {
         return inputXMLString;
     }
 
-    private static Validator getXsdValidator() throws ParserConfigurationException, IOException, SAXException, URISyntaxException {
+    public static DOMInputImpl getMathMLSchema() {
+        SchemaInput schemaInput = new SchemaInput().invoke();
+        InputSource inputSource = schemaInput.getInputSource();
+        final DOMInputImpl input = new DOMInputImpl();
+        input.setByteStream(inputSource.getByteStream());
+        input.setPublicId(inputSource.getPublicId());
+        input.setSystemId(inputSource.getSystemId());
+        return input;
+    }
+
+    private static Validator getXsdValidator() {
         if (v == null) {
-            SchemaFactory schemaFactory = SchemaFactory.newInstance(Languages.W3C_XML_SCHEMA_NS_URI);
-            final PartialLocalEntityResolver resolver = new PartialLocalEntityResolver();
-            schemaFactory.setResourceResolver(resolver);
+            SchemaInput schemaInput = new SchemaInput().invoke();
+            SchemaFactory schemaFactory = schemaInput.getSchemaFactory();
+            InputSource inputSource = schemaInput.getInputSource();
             v = new JAXPValidator(Languages.W3C_XML_SCHEMA_NS_URI, schemaFactory);
-            final InputSource inputSource = resolver.resolveEntity("math", MATHML3_XSD);
-            assert inputSource != null;
             final StreamSource streamSource = new StreamSource(inputSource.getByteStream());
             streamSource.setPublicId(inputSource.getPublicId());
             streamSource.setSystemId(inputSource.getSystemId());
@@ -196,5 +205,27 @@ public class MathDoc {
 
     public Document getDom() {
         return dom;
+    }
+
+    private static class SchemaInput {
+        private SchemaFactory schemaFactory;
+        private InputSource inputSource;
+
+        SchemaFactory getSchemaFactory() {
+            return schemaFactory;
+        }
+
+        InputSource getInputSource() {
+            return inputSource;
+        }
+
+        SchemaInput invoke() {
+            schemaFactory = SchemaFactory.newInstance(Languages.W3C_XML_SCHEMA_NS_URI);
+            final PartialLocalEntityResolver resolver = new PartialLocalEntityResolver();
+            schemaFactory.setResourceResolver(resolver);
+            inputSource = resolver.resolveEntity("math", MATHML3_XSD);
+            assert inputSource != null;
+            return this;
+        }
     }
 }
