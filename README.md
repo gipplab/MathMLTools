@@ -48,7 +48,7 @@ Now you can install the project locally via maven, which automatically runs the 
 mvn clean install
 ```
 Don't panic if you see error messages. We have written tests that expects exceptions.
-If everything this process finished without errors you should something like this in the end of the log.
+If this process finished without errors you should see something like this in the end of the log.
 ```
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Summary:
