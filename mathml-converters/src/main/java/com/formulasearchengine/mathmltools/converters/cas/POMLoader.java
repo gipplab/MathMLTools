@@ -55,7 +55,7 @@ public class POMLoader {
         LOG.debug("Loading MathTerm..");
         mathTerm = urlCL.loadClass(PACKAGE_MLP + "MathTerm");
 
-        LOG.debug("Instantiate Parser..");
+        LOG.debug("Instantiate IConverter..");
         pomParserObject = pomParser.getDeclaredConstructor(Path.class).newInstance(referenceDir);
 
         LOG.debug("Loading methods..");

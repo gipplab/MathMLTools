@@ -18,6 +18,8 @@ import java.util.regex.Pattern;
  * Static utility class for some typical functions we need
  */
 public final class Utility {
+    public static final String NL = System.lineSeparator();
+
     // Possible line endings
     public static final char CR = (char) 0x0D;   // Mac (pre-OSX)
     public static final char LF = (char) 0x0A;   // Unix, Mac (OSX)

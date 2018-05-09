@@ -152,7 +152,9 @@
         <module name="EmptyForInitializerPad"/>
         <module name="MethodParamPad"/>
         <module name="CovariantEquals"/>
-        <module name="ModifiedControlVariable"/>
+        <module name="ModifiedControlVariable">
+            <property name="severity" value="warning"/>
+        </module>
         <module name="MultipleVariableDeclarations"/>
         <module name="SuperFinalize"/>
         <module name="ImportOrder">
