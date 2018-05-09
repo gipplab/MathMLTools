@@ -50,5 +50,36 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
         </dependency>
+
+        <!-- External Converters -->
+        <!-- SnuggleTeX -->
+        <dependency>
+            <groupId>uk.ac.ed.ph.snuggletex</groupId>
+            <artifactId>snuggletex-core</artifactId>
+            <version>1.3-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>uk.ac.ed.ph.snuggletex</groupId>
+            <artifactId>snuggletex-upconversion</artifactId>
+            <version>1.3-SNAPSHOT</version>
+        </dependency>
+
+        <!-- MathToWeb -->
+        <!-- Usually should be avoided... however, maven install-plugin won't work here -->
+        <dependency>
+            <groupId>com.mathtoweb</groupId>
+            <artifactId>MathToWeb</artifactId>
+            <version>4.0.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/MathToWeb.jar</systemPath>
+        </dependency>
     </dependencies>
+
+    <repositories>
+        <!-- For SnuggleTeX - Otherwise maven cannot find the dependency -->
+        <repository>
+            <id>www2.ph.ed.ac.uk-releases</id>
+            <url>https://www2.ph.ed.ac.uk/maven2</url>
+        </repository>
+    </repositories>
 </project>

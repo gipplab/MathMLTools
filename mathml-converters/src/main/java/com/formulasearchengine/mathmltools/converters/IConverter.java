@@ -7,8 +7,12 @@ import org.w3c.dom.Document;
 
 import java.nio.file.Path;
 
-
-public interface Parser {
+/**
+ *
+ *
+ * @author Andre Greiner-Petter
+ */
+public interface IConverter {
 
     void init() throws Exception;
 

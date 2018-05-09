@@ -32,7 +32,7 @@ import java.nio.file.Path;
  *
  * @author Vincent Stange
  */
-public class MathoidConverter implements Parser, Canonicalizable {
+public class MathoidConverter implements IConverter, Canonicalizable {
 
     private static final String INFO_ENDPOINT = "texvcinfo";
     private static Logger logger = LogManager.getLogger(MathoidConverter.class);

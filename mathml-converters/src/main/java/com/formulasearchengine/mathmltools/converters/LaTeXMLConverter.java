@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 /**
  * Conversion from a latex formula to a MathML representation via LaTeXML.
  */
-public class LaTeXMLConverter implements Parser, Canonicalizable {
+public class LaTeXMLConverter implements IConverter, Canonicalizable {
     private static final Logger LOG = LogManager.getLogger(LaTeXMLConverter.class);
 
     private static final Pattern LTXML_PATTERN = Pattern.compile("^\\\\math.+");
