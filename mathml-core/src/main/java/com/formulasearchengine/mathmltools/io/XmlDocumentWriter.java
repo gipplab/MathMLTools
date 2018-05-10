@@ -7,6 +7,8 @@ import org.w3c.dom.Document;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * @author Andre Greiner-Petter
@@ -27,6 +29,14 @@ public class XmlDocumentWriter {
         XMLSerializer serializer = new XMLSerializer(outxml, format);
         serializer.serialize(doc);
         return outxml.toString();
+    }
+
+    public static void writeToFile(Document doc, Path outputFile) throws IOException {
+        String stringify = stringify(doc);
+        if (Files.notExists(outputFile)) {
+            Files.createFile(outputFile);
+        }
+        Files.write(outputFile, stringify.getBytes());
     }
 
 }

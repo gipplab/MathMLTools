@@ -13,7 +13,7 @@ import static com.formulasearchengine.mathmltools.utils.Utility.NL;
 import static com.formulasearchengine.mathmltools.converters.cas.POMLoader.Methods.*;
 
 /**
- * A class to parse
+ * A class to convertToDoc
  */
 public class PomXmlWriter {
 

@@ -155,7 +155,7 @@ public class LaTeXMLConverter implements IConverter, Canonicalizable {
      * @param latex
      * @return
      */
-    public String parseToString(List<String> arguments, String latex) {
+    public String convertToString(List<String> arguments, String latex) {
         NativeResponse response = parseToNativeResponse(arguments, latex);
         if (handleResponseCode(response, NAME, LOG) != 0) {
             return null;
@@ -164,14 +164,15 @@ public class LaTeXMLConverter implements IConverter, Canonicalizable {
         return response.getResult();
     }
 
-    public String parseToString(String latex) {
-        return parseToString(buildArguments(latex), latex);
+    @Override
+    public String convertToString(String latex) {
+        return convertToString(buildArguments(latex), latex);
     }
 
     @Override
-    public Document parse(String latex) {
+    public Document convertToDoc(String latex) {
         latex = preLatexmlFixes(latex);
-        String result = parseToString(latex);
+        String result = convertToString(latex);
         if (result != null) {
             return XmlDocumentReader.getDocumentFromXMLString(result);
         } else {
@@ -180,7 +181,7 @@ public class LaTeXMLConverter implements IConverter, Canonicalizable {
     }
 
     @Override
-    public void parseToFile(String latex, Path outputFile) {
+    public void convertToFile(String latex, Path outputFile) {
         latex = preLatexmlFixes(latex);
         LOG.info("Call native latexmlc for " + latex);
         CommandExecutor executor = new CommandExecutor(NAME, buildArguments(latex, outputFile));

@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -74,8 +75,8 @@ public class POMLoader {
         }
     }
 
-    public Object parse(String latex) throws Exception {
-        LOG.debug("Invoke parse option.");
+    public Object parse(String latex) throws InvocationTargetException, IllegalAccessException {
+        LOG.debug("Invoke convertToDoc option.");
         Object obj = Methods.parse.method.invoke(pomParserObject, latex);
         LOG.debug("Successfully parsed.");
         LOG.debug("Returned Object is instance of PomTaggedExpression (should be true): " + pomTaggedExpression.isInstance(obj));
@@ -92,7 +93,7 @@ public class POMLoader {
      * Methods enumeration.
      */
     public enum Methods {
-        parse("parse", String.class),
+        parse("convertToDoc", String.class),
         pteGetComponents("getComponents"),
         pteGetTag("getTag"),
         pteGetSecondaryTags("getSecondaryTags"),

@@ -21,4 +21,12 @@ public class UnavailableConverterException extends RuntimeException {
         super(String.format(MSG, converter), throwable);
     }
 
+    public UnavailableConverterException(String converter, String reason) {
+        super(converter + " cannot be loaded because: " + reason);
+    }
+
+    public UnavailableConverterException(String converter, String reason, Throwable throwable) {
+        super(converter + " cannot be loaded because: " + reason, throwable);
+    }
+
 }

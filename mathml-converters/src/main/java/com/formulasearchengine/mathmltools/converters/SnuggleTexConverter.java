@@ -1,6 +1,7 @@
 package com.formulasearchengine.mathmltools.converters;
 
 import com.formulasearchengine.mathmltools.converters.canonicalize.Canonicalizable;
+import com.formulasearchengine.mathmltools.converters.exceptions.MathConverterException;
 import com.formulasearchengine.mathmltools.utils.Utility;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -63,26 +64,45 @@ public class SnuggleTexConverter implements IConverter, Canonicalizable {
      * @throws IOException
      */
     @Override
-    public synchronized Document parse(String latex) throws Exception {
-        parseCurrentSession(latex);
-        Document doc = createDocument();
-        session.reset();
-        LOG.debug("Done. Return snuggletexs parsed document.");
-        return doc;
+    public synchronized Document convertToDoc(String latex) {
+        try {
+            parseCurrentSession(latex);
+            LOG.debug("Done. Return snuggletexs parsed document.");
+            return createDocument();
+        } catch (IOException ioe) {
+            throw new MathConverterException("Cannot convert latex with SnuggleTeX: " + latex, ioe);
+        } finally {
+            session.reset();
+        }
     }
 
     @Override
-    public synchronized void parseToFile(String latex, Path outputFile) throws Exception {
-        parseCurrentSession(latex);
-        //Document doc = createDocument();
-        //String prettyPrint = Utility.documentToString(doc, true);
-        String str = createString();
-        if (!Files.exists(outputFile)) {
-            Files.createFile(outputFile);
+    public synchronized void convertToFile(String latex, Path outputFile) throws IOException {
+        try {
+            parseCurrentSession(latex);
+            String str = createString();
+            if (!Files.exists(outputFile)) {
+                Files.createFile(outputFile);
+            }
+            Files.write(outputFile, str.getBytes());
+            LOG.info("Writing file " + outputFile + " successful.");
+        } catch (IOException ioe) {
+            throw ioe;
+        } finally {
+            session.reset();
         }
-        Files.write(outputFile, str.getBytes());
-        LOG.info("Writing file " + outputFile + " successful.");
-        session.reset();
+    }
+
+    @Override
+    public synchronized String convertToString(String latex) {
+        try {
+            parseCurrentSession(latex);
+            return createString();
+        } catch (IOException | SnuggleLogicException ioe) {
+            throw new MathConverterException("Cannot convert latex with SnuggleTeX: " + latex, ioe);
+        } finally {
+            session.reset();
+        }
     }
 
     private void parseCurrentSession(String latex) throws IOException {
@@ -99,22 +119,18 @@ public class SnuggleTexConverter implements IConverter, Canonicalizable {
         LOG.debug("Snuggle parsed successfully. Start document export process...");
     }
 
-    private String createString() throws Exception {
+    private String createString() {
         return session.buildXMLString();
     }
 
-    private Document createDocument() throws Exception {
-        try {
-            Document doc = builder.newDocument();
+    private Document createDocument() throws SnuggleLogicException {
+        Document doc = builder.newDocument();
 
 //            NodeList nodeList = session.buildDOMSubtree(options);
-            NodeList nodeList = session.buildDOMSubtree();
+        NodeList nodeList = session.buildDOMSubtree();
 
-            doc.appendChild(doc.adoptNode(nodeList.item(0).cloneNode(true)));
-            return doc;
-        } catch (SnuggleLogicException e) {
-            throw new Exception(e);
-        }
+        doc.appendChild(doc.adoptNode(nodeList.item(0).cloneNode(true)));
+        return doc;
     }
 
     private void handleErrors(List<InputError> errors) {

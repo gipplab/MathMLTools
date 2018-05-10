@@ -152,7 +152,7 @@ public class XmlDocumentReader {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setValidating(true);
 
-        // for all features available check: http://xerces.apache.org/xerces-j/features.html
+        // for all available features check: http://xerces.apache.org/xerces-j/features.html
 
         // enable validation (must specify a grammar)
         dbf.setFeature("http://xml.org/sax/features/validation", true);

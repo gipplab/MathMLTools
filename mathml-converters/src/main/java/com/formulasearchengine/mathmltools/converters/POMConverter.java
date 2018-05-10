@@ -2,28 +2,26 @@ package com.formulasearchengine.mathmltools.converters;
 
 import com.formulasearchengine.mathmltools.converters.cas.POMLoader;
 import com.formulasearchengine.mathmltools.converters.cas.PomXmlWriter;
+import com.formulasearchengine.mathmltools.converters.exceptions.MathConverterException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLStreamException;
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 /**
  * This class is a wrapper of the MLP (POM-project) class.
- * It can parse mathematical expressions and creates
- * a tagged parse tree. Furthermore, it uses the PomXmlWriter
- * to parse it to XML trees.
+ * It can convertToDoc mathematical expressions and creates
+ * a tagged convertToDoc tree. Furthermore, it uses the PomXmlWriter
+ * to convertToDoc it to XML trees.
  */
 public class POMConverter implements IConverter {
 
@@ -45,8 +43,7 @@ public class POMConverter implements IConverter {
         }
     }
 
-    public String parseLatexMathToStringXML(String latex)
-            throws Exception {
+    private String parseLatexMathToStringXML(String latex) throws InvocationTargetException, IllegalAccessException, XMLStreamException, IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         LOG.debug("Parse latex expression by POM-Tagger.");
@@ -61,13 +58,15 @@ public class POMConverter implements IConverter {
         return out;
     }
 
-    /**
-     * @param latex
-     * @return
-     * @throws Exception
-     */
-    public Document parseLatexMathToDOM(String latex)
-            throws Exception {
+    private synchronized Document parseLatexMathToDOM(String latex)
+            throws
+            IOException,
+            ParserConfigurationException,
+            InvocationTargetException,
+            IllegalAccessException,
+            XMLStreamException,
+            ExecutionException,
+            InterruptedException {
         LOG.info("Parse latex string to document...");
         // we using a trick and use the PomXmlWriter to directly
         // write the output the DocumentBuilder input stream.
@@ -77,14 +76,14 @@ public class POMConverter implements IConverter {
         PipedInputStream inputStream = new PipedInputStream();
         PipedOutputStream outputStream = new PipedOutputStream(inputStream);
 
-        // create a builder to parse input stream to a document
+        // create a builder to convertToDoc input stream to a document
         LOG.trace("Create document builder factory");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setIgnoringComments(true);
         factory.setExpandEntityReferences(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
 
-        // First step, parse the mathematical expression
+        // First step, convertToDoc the mathematical expression
         LOG.debug("Parse latex expression by POM-Tagger");
         pom.parse(latex);
 
@@ -120,20 +119,38 @@ public class POMConverter implements IConverter {
     }
 
     @Override
-    public Document parse(String latex) throws Exception {
-        return parseLatexMathToDOM(latex);
+    public Document convertToDoc(String latex) {
+        try {
+            return parseLatexMathToDOM(latex);
+        } catch (Exception e) {
+            throw new MathConverterException("Cannot convert " + latex, e);
+        }
     }
 
     @Override
-    public void parseToFile(String latex, Path outputFile) throws Exception {
+    public String convertToString(String latex) {
+        try {
+            return parseLatexMathToStringXML(latex);
+        } catch (Exception e) {
+            throw new MathConverterException("Cannot convert " + latex, e);
+        }
+    }
+
+    @Override
+    public void convertToFile(String latex, Path outputFile) throws IOException {
         if (!Files.exists(outputFile)) {
             LOG.info("Create output file: " + outputFile.toString());
             Files.createFile(outputFile);
         }
         LOG.info("Parse LaTeX via POM.");
-        pom.parse(latex);
-        LOG.info("Write parsed POM tree to file.");
-        PomXmlWriter.writeStraightXML(pom, new FileOutputStream(outputFile.toFile()));
+
+        try {
+            pom.parse(latex);
+            LOG.info("Write parsed POM tree to file.");
+            PomXmlWriter.writeStraightXML(pom, new FileOutputStream(outputFile.toFile()));
+        } catch (InvocationTargetException | IllegalAccessException | XMLStreamException e) {
+            throw new MathConverterException("Cannot convert " + latex, e);
+        }
     }
 
 }
