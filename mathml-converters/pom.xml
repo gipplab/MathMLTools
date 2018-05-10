@@ -63,16 +63,6 @@
             <artifactId>snuggletex-upconversion</artifactId>
             <version>1.3-SNAPSHOT</version>
         </dependency>
-
-        <!-- MathToWeb -->
-        <!-- Usually should be avoided... however, maven install-plugin won't work here -->
-        <dependency>
-            <groupId>com.mathtoweb</groupId>
-            <artifactId>MathToWeb</artifactId>
-            <version>4.0.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/MathToWeb.jar</systemPath>
-        </dependency>
     </dependencies>
 
     <repositories>

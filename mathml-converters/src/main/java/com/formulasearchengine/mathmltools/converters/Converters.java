@@ -22,8 +22,8 @@ public enum Converters {
     // the file extension (usually only mml or xml)
     private final String fileEnding;
 
-    // the parser class
-    private final IConverter parser;
+    // the converter class
+    private final IConverter converter;
     // is the generated file XML or MML?
     private final boolean xmlMode;
     // the sub path to the directory, should be initialized first to set a base dir
@@ -35,7 +35,7 @@ public enum Converters {
         this.position = pos;
         this.name = name;
         this.fileEnding = fileEnding;
-        this.parser = parser;
+        this.converter = parser;
         this.xmlMode = fileEnding.contains("xml");
         this.skip = parser == null;
     }
@@ -57,8 +57,8 @@ public enum Converters {
         return fileEnding;
     }
 
-    public IConverter getParser() {
-        return parser;
+    public IConverter getConverter() {
+        return converter;
     }
 
     public Path getSubPath() {
@@ -74,7 +74,7 @@ public enum Converters {
     }
 
     public void setSkipMode(boolean skip) {
-        if (parser != null) {
+        if (converter != null) {
             this.skip = skip;
         }
     }

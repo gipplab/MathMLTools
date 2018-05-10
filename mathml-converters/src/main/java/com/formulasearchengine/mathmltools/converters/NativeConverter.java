@@ -31,7 +31,7 @@ public abstract class NativeConverter implements IConverter {
     }
 
     @Override
-    public Document parse(String latex) {
+    public Document convertToDoc(String latex) {
         return parseInternal(
                 arguments,
                 latex,
@@ -40,10 +40,15 @@ public abstract class NativeConverter implements IConverter {
     }
 
     @Override
-    public void parseToFile(String latex, Path outputFile) throws IOException {
+    public void convertToFile(String latex, Path outputFile) throws IOException {
         String str = parseInternalToString(arguments, latex, name);
         Files.write(outputFile, str.getBytes());
         LOG.debug("Writing file " + outputFile + " successful.");
+    }
+
+    @Override
+    public String convertToString(String latex) {
+        return parseInternalToString(arguments, latex, name);
     }
 
     protected String parseInternalToString(LinkedList<String> args, String latex, String name) {
@@ -67,7 +72,7 @@ public abstract class NativeConverter implements IConverter {
         try {
             return XmlDocumentReader.loadAndRepair(parseInternalToString(args, latex, name), null);
         } catch (Exception e) {
-            LOG.warn("Cannot parse with loadAndRepair method! " + name);
+            LOG.warn("Cannot convertToDoc with loadAndRepair method! " + name);
             return XmlDocumentReader.getDocumentFromXMLString(parseInternalToString(args, latex, name));
         }
     }

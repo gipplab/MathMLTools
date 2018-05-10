@@ -24,24 +24,25 @@ public class ConfigLoader {
     public static final Properties CONFIG = loadConfiguration();
     private static final String THIRDPARTY_PREFIX = "thirdparty.";
     public static final String MATHEMATICAL = THIRDPARTY_PREFIX + "mathematical";
+    public static final String MATH_TO_WEB = THIRDPARTY_PREFIX + "mathtoweb";
     public static final String LATEX2MML = THIRDPARTY_PREFIX + "latex2mathml";
     public static final String POM_MLP = THIRDPARTY_PREFIX + "pom.jar";
     public static final String POM_REFERENCE_DIR = THIRDPARTY_PREFIX + "pom.referenceData";
 
-    public static Properties loadConfiguration() {
+    private static Properties loadConfiguration() {
+        Path config = new PathBuilder()
+                .initResourcesPath()
+                .addSubPath("config.properties")
+                .build();
+
         try {
-            Path config = new PathBuilder()
-                    .initResourcesPath()
-                    .addSubPath("config.properties")
-                    .build();
             return loadConfiguration(config);
         } catch (FileNotFoundException e) {
-            LOG.error("Cannot find config file.");
             return null;
         }
     }
 
-    public static Properties loadConfiguration(Path configFile)
+    private static Properties loadConfiguration(Path configFile)
             throws FileNotFoundException {
         File config = configFile.toFile();
         if (!config.exists()) {

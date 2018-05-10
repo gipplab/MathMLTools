@@ -19,10 +19,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import org.w3c.dom.Document;
 
 import java.net.URL;
-import java.nio.file.Path;
 
 /**
  * Alternative approach for conversion from a latex formula to
@@ -163,13 +161,8 @@ public class MathoidConverter implements IConverter, Canonicalizable {
     }
 
     @Override
-    public Document parse(String latex) throws Exception {
+    public String convertToString(String latex) {
         // TODO
         return null;
-    }
-
-    @Override
-    public void parseToFile(String latex, Path outputFile) throws Exception {
-        // TODO
     }
 }
