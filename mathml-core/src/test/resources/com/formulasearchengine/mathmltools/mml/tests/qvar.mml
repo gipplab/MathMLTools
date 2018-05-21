@@ -1,0 +1,35 @@
+<m:math xmlns:m="http://www.w3.org/1998/Math/MathML">
+    <m:semantics id="m1.1a" xref="m1.1.pmml">
+        <m:apply id="m1.1.8" xref="m1.1.8.pmml">
+            <m:eq id="m1.1.5" xref="m1.1.5.pmml"/>
+            <m:apply id="m1.1.8.1" xref="m1.1.8.1.pmml">
+                <m:times id="m1.1.8.1.1" xref="m1.1.8.1.1.pmml"/>
+            </m:apply>
+            <m:apply id="m1.1.8.2" xref="m1.1.8.2.pmml">
+                <m:times id="m1.1.8.2.1" xref="m1.1.8.2.1.pmml"/>
+                <m:ci id="m1.1.6" xref="m1.1.6.pmml">i</m:ci>
+                <m:ci id="m1.1.7" xref="m1.1.7.pmml">d</m:ci>
+            </m:apply>
+        </m:apply>
+        <m:annotation-xml encoding="MathML-Presentation" id="m1.1.pmml" xref="m1.1">
+            <m:mrow id="m1.1.8.pmml" xref="m1.1.8">
+                <m:mrow id="m1.1.8.1.pmml" xref="m1.1.8.1">
+                    <m:mo id="m1.1.8.1.1.pmml" xref="m1.1.8.1.1">⁢</m:mo>
+                    <m:mrow id="m1.1.3.pmml" xref="m1.1.3">
+                        <m:mo id="m1.1.3a.pmml" xref="m1.1.3">(</m:mo>
+                        <m:mo id="m1.1.3c.pmml" xref="m1.1.3">)</m:mo>
+                    </m:mrow>
+                </m:mrow>
+                <m:mo id="m1.1.5.pmml" xref="m1.1.5">=</m:mo>
+                <m:mrow id="m1.1.8.2.pmml" xref="m1.1.8.2">
+                    <m:mi id="m1.1.6.pmml" xref="m1.1.6">i</m:mi>
+                    <m:mo id="m1.1.8.2.1.pmml" xref="m1.1.8.2.1">⁢</m:mo>
+                    <m:mi id="m1.1.7.pmml" xref="m1.1.7">d</m:mi>
+                </m:mrow>
+            </m:mrow>
+        </m:annotation-xml>
+        <m:annotation encoding="application/x-tex" id="m1.1b" xref="m1.1.pmml">
+            \qvar{square}(\qvar{phi})=id
+        </m:annotation>
+    </m:semantics>
+</m:math>

@@ -13,3 +13,11 @@ doctypes:
     3.0: |
     <!DOCTYPE math PUBLIC "-//W3C//DTD MATHML 3.0 Transitional//EN"
                           "http://www.w3.org/Math/DTD/mathml3/mathml3.dtd">
+  namespaces:
+    prefix_placeholder: "!!PREFIX!!"
+    3.0: |
+    <!DOCTYPE !!PREFIX!!:math PUBLIC "-//W3C//DTD MATHML 3.0 Transitional//EN"
+                                     "http://www.w3.org/Math/DTD/mathml3/mathml3.dtd" [
+                                        <!ENTITY % MATHML.prefixed "INCLUDE">
+                                        <!ENTITY % MATHML.prefix "!!PREFIX!!">
+                                     ]

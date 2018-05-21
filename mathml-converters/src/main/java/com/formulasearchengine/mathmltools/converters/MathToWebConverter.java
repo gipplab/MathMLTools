@@ -8,6 +8,7 @@ import com.formulasearchengine.mathmltools.utils.Utility;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
@@ -148,6 +149,10 @@ public class MathToWebConverter implements IConverter, Cloneable {
             return null;
         }
         String unescaped = Utility.safeUnescape(mml);
-        return XmlDocumentReader.getDocumentFromXMLString(unescaped);
+        try {
+            return XmlDocumentReader.parse(unescaped);
+        } catch (IOException | SAXException e) {
+            throw new MathConverterException("Cannot convert MathToWeb output to document.", e);
+        }
     }
 }

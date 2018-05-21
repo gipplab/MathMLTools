@@ -35,7 +35,7 @@ public class ReaderStressTest {
     void testMissingAll() throws Exception {
         final URL url = ReaderStressTest.class.getClassLoader().getResource(TEST_DIR + "/mini.mml");
         String s = new String(Files.readAllBytes(Paths.get(url.getFile())));
-        Document doc = XmlDocumentReader.loadAndRepair(s, null);
+        Document doc = XmlDocumentReader.parse(s);
         doc = RepairMMLHelper.forceResetNamespaces(doc);
 
         Node r = (Node) doc.getDocumentElement();
@@ -49,7 +49,7 @@ public class ReaderStressTest {
         LOG.debug(outxml);
 
 //
-        Document doc2 = XmlDocumentReader.strictLoader(outxml);
+//        Document doc2 = XmlDocumentReader.strictLoader(outxml);
 //
 //        r = (Node) doc2.getDocumentElement();
 //        printAttrInfo(r);
@@ -67,7 +67,7 @@ public class ReaderStressTest {
     void testPerfect() throws Exception {
         final URL url = ReaderStressTest.class.getClassLoader().getResource(TEST_DIR + "/perfect.mml");
         String s = new String(Files.readAllBytes(Paths.get(url.getFile())));
-        Document doc = XmlDocumentReader.loadAndRepair(s, null);
+        Document doc = XmlDocumentReader.parse(s);
         doc = RepairMMLHelper.forceResetNamespaces(doc);
 
 //

@@ -264,15 +264,15 @@ public class CMMLInfoTest {
 
 
     private XQueryExecutable getQueryI() throws IOException, ParserConfigurationException {
-        final String ciI = getFileContents(MML_TEST_DIR + "I.mml.xml");
+        final String ciI = getFileContents(MML_TEST_DIR + "I.mml");
         CMMLInfo cmml = new CMMLInfo(ciI);
         return cmml.getXQuery();
     }
 
     @Test
     public final void testGenerateXQuery() throws Exception {
-        final String ciI = getFileContents(MML_TEST_DIR + "I.mml.xml");
-        final String sampleMML = getFileContents(MML_TEST_DIR + "q1.xml");
+        final String ciI = getFileContents(MML_TEST_DIR + "I.mml");
+        final String sampleMML = getFileContents(MML_TEST_DIR + "invalidIntervalElement.xml");
         final String res1 = getFileContents(MML_TEST_DIR + "res1.xml");
         CMMLInfo cmml = new CMMLInfo(ciI);
         final XQueryExecutable xQuery = cmml.getXQuery();
@@ -283,7 +283,7 @@ public class CMMLInfoTest {
     @Test
     public final void testGetDepth() throws Exception {
         XQueryExecutable iQuery = getQueryI();
-        final String sampleMML = getFileContents(MML_TEST_DIR + "q1.xml");
+        final String sampleMML = getFileContents(MML_TEST_DIR + "invalidIntervalElement.xml");
         CMMLInfo cmml = new CMMLInfo(sampleMML);
         Integer depth = cmml.getDepth(iQuery);
         assertEquals(8, (int) depth);
@@ -292,7 +292,7 @@ public class CMMLInfoTest {
 
     @Test
     public final void testIsEquation2() throws Exception {
-        final String sampleMML = getFileContents(MML_TEST_DIR + "Emc2.xml");
+        final String sampleMML = getFileContents(MML_TEST_DIR + "Emc2.mml");
         CMMLInfo cmmlElement = new CMMLInfo(sampleMML);
         assertTrue(cmmlElement.isEquation());
     }
@@ -329,7 +329,7 @@ public class CMMLInfoTest {
 
     @Test
     public void testMainElement() throws Exception {
-        Node mainElement = XMLHelper.getMainElement(new CMMLInfo(getFileContents(MML_TEST_DIR + "mathml_mainelement.xml")));
+        Node mainElement = XMLHelper.getMainElement(new CMMLInfo(getFileContents(MML_TEST_DIR + "mathml_mainelement.mml")));
         assertThat(mainElement, notNullValue());
     }
 

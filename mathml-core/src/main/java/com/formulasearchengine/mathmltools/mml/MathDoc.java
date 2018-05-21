@@ -2,6 +2,7 @@ package com.formulasearchengine.mathmltools.mml;
 
 import com.formulasearchengine.mathmltools.helper.XMLHelper;
 import com.formulasearchengine.mathmltools.io.XmlDocumentReader;
+import com.formulasearchengine.mathmltools.io.XmlDocumentWriter;
 import com.formulasearchengine.mathmltools.utils.mml.CSymbol;
 import com.formulasearchengine.mathmltools.xml.PartialLocalEntityResolver;
 import com.sun.org.apache.xerces.internal.dom.DOMInputImpl;
@@ -18,90 +19,137 @@ import org.xmlunit.builder.Input;
 import org.xmlunit.util.IterableNodeList;
 import org.xmlunit.validation.*;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Source;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
-
-import static org.xmlunit.util.Convert.toInputSource;
 
 public class MathDoc {
     private static final Logger log = LogManager.getLogger("Math");
+
+    private static final String PREFIX_PLACEHOLDER = "!!PREFIX!!";
+
+    private static final String NL = System.lineSeparator();
+
     private static final String DOCTYPE =
-            "<!DOCTYPE math PUBLIC \"-//W3C//DTD MATHML 3.0 Transitional//EN\" \n"
-                    + "     \"http://www.w3.org/Math/DTD/mathml3/mathml3.dtd\">\n";
+            "<!DOCTYPE math PUBLIC \"-//W3C//DTD MATHML 3.0 Transitional//EN\"" + NL
+                    + "     \"http://www.w3.org/Math/DTD/mathml3/mathml3.dtd\">" + NL;
 
     private static final String DOCTYPE_PREFIX =
             "<!DOCTYPE !!PREFIX!!:math\n"
-                    + "     PUBLIC \"-//W3C//DTD MATHML 3.0 Transitional//EN\" \n"
-                    + "            \"http://www.w3.org/Math/DTD/mathml3/mathml3.dtd\" [\n"
-                    + "     <!ENTITY % MATHML.prefixed \"INCLUDE\">\n"
-                    + "     <!ENTITY % MATHML.prefix \"!!PREFIX!!\">\n"
-                    + "]>";
+                    + "     PUBLIC \"-//W3C//DTD MATHML 3.0 Transitional//EN\"" + NL
+                    + "            \"http://www.w3.org/Math/DTD/mathml3/mathml3.dtd\" [" + NL
+                    + "     <!ENTITY % MATHML.prefixed \"INCLUDE\">" + NL
+                    + "     <!ENTITY % MATHML.prefix \"!!PREFIX!!\">" + NL
+                    + "]>" + NL;
+
+    private static final String MATH_NS_BOUND = "xmlns:!!PREFIX!!=\"http://www.w3.org/1998/Math/MathML\"";
+
+    private static final String MATH_NS_BOUND_PATTERN =
+            "<(!!PREFIX!!:math[^>]*?)(.*xmlns:!!PREFIX!!\\s*=\\s*[\"']http://www.w3.org/1998/Math/MathML[\"'].*)?";
+
+    private static final Pattern NAMESPACE_PREFIX_PATTERN_MATH =
+            Pattern.compile("<(\\w+):math");
 
     private static final String MATHML3_XSD = "https://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd";
     private static final String APPLICATION_X_TEX = "application/x-tex";
     private static Validator v;
-    private Source source;
-    private Document dom;
+
     private List<CSymbol> cSymbols = null;
 
+    private Document dom;
+
     /**
-     * Generates a Math tag from a valid xml String.
+     * Creates a MathDoc object based on the xml string input
      *
-     * @param inputXMLString a valid XML String
-     * @throws ParserConfigurationException
-     * @throws SAXException
+     * @param inputXMLString MML string
      * @throws IOException
+     * @throws SAXException
+     * @throws IllegalArgumentException
      */
-    public MathDoc(String inputXMLString) throws ParserConfigurationException, SAXException, IOException {
-        DocumentBuilder documentBuilder = XmlDocumentReader.getDocumentBuilder();
-        try {
-            buildDom(inputXMLString, documentBuilder);
-        } catch (Exception e) {
-            log.warn("Error parsing input \n{}\n. Adding MathML3 Document headers.", inputXMLString);
-            inputXMLString = tryFixHeader(inputXMLString);
-            try {
-                buildDom(inputXMLString, documentBuilder);
-            } catch (SAXException | IOException e1) {
-                // Throw the exception caused by the original input, not by the corrected input.
-                throw e;
-            }
-        }
+    public MathDoc(String inputXMLString) throws IOException, SAXException, IllegalArgumentException {
+        dom = XmlDocumentReader.parse(inputXMLString);
+    }
+
+    /**
+     * Creates a MathDoc object based on the MML path
+     *
+     * @param path to MML file
+     * @throws IOException
+     * @throws SAXException
+     * @throws IllegalArgumentException
+     */
+    public MathDoc(Path path) throws IOException, SAXException, IllegalArgumentException {
+        dom = XmlDocumentReader.parse(path);
+    }
+
+    /**
+     * Creates a MathDoc object based on the MML file
+     *
+     * @param file MML file
+     * @throws IOException
+     * @throws SAXException
+     * @throws IllegalArgumentException
+     */
+    public MathDoc(File file) throws IOException, SAXException, IllegalArgumentException {
+        dom = XmlDocumentReader.parse(file);
     }
 
     public MathDoc(Document dom) {
         this.dom = dom;
     }
 
-    public static String tryFixHeader(String inputXMLString) {
-        final StringBuffer input = new StringBuffer(inputXMLString);
+    public static String fixingHeaderAndNS(String in) {
+        StringBuffer input = new StringBuffer(in);
+
+        // first delete xml declaration (it's not needed)
         XMLHelper.removeXmlDeclaration(input);
+
+        // second delete DOCTYPE declaration (it's most likely missing or broken)
         XMLHelper.removeDoctype(input);
-        inputXMLString = DOCTYPE + input;
-        return inputXMLString;
+
+        // third try extracting NS prefix
+        String prefix = extractNamespacePrefix(input);
+        if (prefix != null) {
+            fixMathElement(input, prefix);
+            String docType = DOCTYPE_PREFIX.replaceAll(PREFIX_PLACEHOLDER, prefix);
+            return docType + input;
+        } else {
+            return DOCTYPE + input;
+        }
     }
 
-    public static String tryFixHeader(String inputXMLString, String prefix) {
-        if (prefix == null || prefix.isEmpty()) {
-            return tryFixHeader(inputXMLString);
+    private static void fixMathElement(StringBuffer original, String nsPrefix) {
+        String patternString = MATH_NS_BOUND_PATTERN.replaceAll(PREFIX_PLACEHOLDER, nsPrefix);
+        Pattern p = Pattern.compile(patternString, Pattern.DOTALL);
+        Matcher m = p.matcher(original);
+
+        if (m.find()) {
+            if (m.group(2) == null) {
+                log.warn("Found prefix without namespace binding. Try fixing it...");
+                String namespaceBound = MATH_NS_BOUND.replaceAll(PREFIX_PLACEHOLDER, nsPrefix);
+                original.replace(m.start(1), m.end(1), m.group(1) + " " + namespaceBound);
+            }
+        }
+    }
+
+    public static String extractNamespacePrefix(StringBuffer rawXml) {
+        Matcher m = NAMESPACE_PREFIX_PATTERN_MATH.matcher(rawXml);
+        if (m.find()) {
+            String prefix = m.group(1);
+            log.debug("Found namespace prefix '{}' of 'math' element.", prefix);
+            return prefix;
         }
 
-        final StringBuffer input = new StringBuffer(inputXMLString);
-        String docType = new String(DOCTYPE_PREFIX);
-        docType = docType.replace("!!PREFIX!!", prefix);
-
-        XMLHelper.removeXmlDeclaration(input);
-        XMLHelper.removeDoctype(input);
-        inputXMLString = docType + input;
-        return inputXMLString;
+        return null;
     }
 
     public static DOMInputImpl getMathMLSchema() {
@@ -152,12 +200,6 @@ public class MathDoc {
         return dom.getElementsByTagName("annotation");
     }
 
-    private void buildDom(String inputXMLString, DocumentBuilder documentBuilder) throws SAXException, IOException {
-        source = Input.fromString(inputXMLString).build();
-        final InputSource is = toInputSource(source);
-        dom = documentBuilder.parse(is);
-    }
-
     Iterable<ValidationProblem> getValidationProblems() throws ParserConfigurationException, IOException, SAXException, URISyntaxException {
         ValidationResult result = getValidationResult();
         return result.getProblems();
@@ -168,18 +210,14 @@ public class MathDoc {
         return v.validateInstance(Input.fromDocument(dom).build());
     }
 
-    String serializeDom() throws TransformerException {
-        return XMLHelper.printDocument(dom);
-    }
-
     @Override
     public String toString() {
         try {
-            return serializeDom();
-        } catch (TransformerException e) {
-            e.printStackTrace();
+            return XmlDocumentWriter.stringify(dom);
+        } catch (IOException ioe) {
+            log.error("Cannot stringify document.", ioe);
+            return null;
         }
-        return null;
     }
 
     public void fixGoldCd() {

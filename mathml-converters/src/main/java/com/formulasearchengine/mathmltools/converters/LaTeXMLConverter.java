@@ -2,6 +2,7 @@ package com.formulasearchengine.mathmltools.converters;
 
 import com.formulasearchengine.mathmltools.converters.canonicalize.Canonicalizable;
 import com.formulasearchengine.mathmltools.converters.config.LaTeXMLConfig;
+import com.formulasearchengine.mathmltools.converters.exceptions.MathConverterException;
 import com.formulasearchengine.mathmltools.converters.services.LaTeXMLServiceResponse;
 import com.formulasearchengine.mathmltools.io.XmlDocumentReader;
 import com.formulasearchengine.mathmltools.nativetools.CommandExecutor;
@@ -13,7 +14,9 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -174,7 +177,11 @@ public class LaTeXMLConverter implements IConverter, Canonicalizable {
         latex = preLatexmlFixes(latex);
         String result = convertToString(latex);
         if (result != null) {
-            return XmlDocumentReader.getDocumentFromXMLString(result);
+            try {
+                return XmlDocumentReader.parse(result);
+            } catch (IOException | SAXException e) {
+                throw new MathConverterException("Cannot convert LaTeXML output to document.", e);
+            }
         } else {
             return null;
         }

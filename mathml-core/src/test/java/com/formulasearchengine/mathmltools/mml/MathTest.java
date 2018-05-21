@@ -1,5 +1,6 @@
 package com.formulasearchengine.mathmltools.mml;
 
+import com.formulasearchengine.mathmltools.io.XmlDocumentWriter;
 import org.apache.commons.lang3.NotImplementedException;
 import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.Test;
@@ -40,7 +41,7 @@ public class MathTest {
 
     @Test
     void isValid() throws Exception {
-        final String sampleMML = getFileContents(TEST_DIR + "Emc2.xml");
+        final String sampleMML = getFileContents(TEST_DIR + "Emc2.mml");
         MathDoc math = new MathDoc(sampleMML);
         assertThat(math.getValidationProblems().spliterator().getExactSizeIfKnown(), is(equalTo(0L)));
         //assertTrue(math.isValid());
@@ -57,15 +58,14 @@ public class MathTest {
 
     @Test
     void EmcTest() throws IOException, ParserConfigurationException, SAXException {
-        final String sampleMML = getFileContents(TEST_DIR + "Emc2.xml");
+        final String sampleMML = getFileContents(TEST_DIR + "Emc2.mml");
         new MathDoc(sampleMML);
     }
 
     @Test
     void altTest() throws IOException, ParserConfigurationException, SAXException {
-        final String sampleMML = getFileContents(TEST_DIR + "measurable-space.xml");
-        final String fixed = MathDoc.tryFixHeader(sampleMML);
-        final MathDoc math = new MathDoc(fixed);
+        final String sampleMML = getFileContents(TEST_DIR + "measurable-space.mml");
+        final MathDoc math = new MathDoc(sampleMML);
         math.changeTeXAnnotation("asdf");
         assertThat(math.toString(), new StringContains("alttext=\"asdf\""));
         assertThat(math.toString(), StringContains.containsString("asdf</annotation>"));
@@ -73,18 +73,16 @@ public class MathTest {
 
     @Test
     void cdRewriter() throws IOException, ParserConfigurationException, SAXException {
-        final String sampleMML = getFileContents(TEST_DIR + "Van_der_Waerden.xml");
-        final String fixed = MathDoc.tryFixHeader(sampleMML);
-        final MathDoc math = new MathDoc(fixed);
+        final String sampleMML = getFileContents(TEST_DIR + "Van_der_Waerden.mml");
+        final MathDoc math = new MathDoc(sampleMML);
         math.fixGoldCd();
         assertThat(math.toString(), new StringContains("cd=\"wikidata\""));
     }
 
     @Test
     void latexMLMacroExtracter() throws IOException, ParserConfigurationException, SAXException {
-        final String sampleMML = getFileContents(TEST_DIR + "measurable-space.xml");
-        final String fixed = MathDoc.tryFixHeader(sampleMML);
-        final MathDoc math = new MathDoc(fixed);
+        final String sampleMML = getFileContents(TEST_DIR + "measurable-space.mml");
+        final MathDoc math = new MathDoc(sampleMML);
         math.fixGoldCd();
     }
 
@@ -95,15 +93,8 @@ public class MathTest {
     }
 
     @Test()
-    void testToString() throws TransformerException {
-        final MathDoc math = mock(MathDoc.class);
-        doThrow(new TransformerException("test")).when(math).serializeDom();
-        when(math.toString()).thenCallRealMethod();
-        try {
-            math.toString();
-        } catch (Exception e) {
-            assertEquals("test", e.getMessage());
-        }
+    void parsingError() {
+        assertThrows(Exception.class, () -> new MathDoc("Test"));
     }
 
 
@@ -113,9 +104,9 @@ public class MathTest {
                     + "     \"http://www.w3.org/Math/DTD/mathml3/mathml3.dtd\">\n"
                     + "<?xml version=\"1.0\"?>"
                     + "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
-                    + "     <ci>some content 1</ci>\n"
+                    + "     <cx>some content 1</cx>\n"
                     + "</math>",
-            "<ns:math/>",
+            "<ns:mathi/>",
             "<math><XMLDocument >a</XMLDocument></math>"})
     void failingExamples(String tag) {
         assertThrows(Exception.class, () -> new MathDoc(tag));
