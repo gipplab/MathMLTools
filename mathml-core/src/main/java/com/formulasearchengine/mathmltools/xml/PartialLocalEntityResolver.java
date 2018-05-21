@@ -21,7 +21,7 @@ import org.xml.sax.InputSource;
  * Created by felix on 06.12.16.
  */
 public class PartialLocalEntityResolver implements EntityResolver, LSResourceResolver {
-    private static final Logger log = LogManager.getLogger("PartialLocalEntityResolver");
+    private static final Logger log = LogManager.getLogger(PartialLocalEntityResolver.class.toString());
 
 
     private static final Map<String, String> SYSTEM_IDS;

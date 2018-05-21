@@ -64,7 +64,7 @@ public final class XMLHelper {
 
     public static final Pattern ANNOTATION_XML_PATTERN = Pattern.compile("annotation(-xml)?");
     public static final Pattern XML_DECLARATION = Pattern.compile("<\\?[xX][mM][lL].*\\?>", Pattern.DOTALL);
-    public static final Pattern DOCTYPE_DECLARATION = Pattern.compile("<!DOCTYPE.*>", Pattern.DOTALL + Pattern.CASE_INSENSITIVE);
+    public static final Pattern DOCTYPE_DECLARATION = Pattern.compile("<!DOCTYPE.*?>", Pattern.DOTALL + Pattern.CASE_INSENSITIVE);
     public static final String MATH_SEMANTICS_ANNOTATION = "m:math/m:semantics/m:annotation-xml[@encoding='MathML-Content']";
 
     private XMLHelper() {

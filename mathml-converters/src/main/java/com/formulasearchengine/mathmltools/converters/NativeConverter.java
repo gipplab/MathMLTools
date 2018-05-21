@@ -1,5 +1,6 @@
 package com.formulasearchengine.mathmltools.converters;
 
+import com.formulasearchengine.mathmltools.converters.exceptions.MathConverterException;
 import com.formulasearchengine.mathmltools.io.XmlDocumentReader;
 import com.formulasearchengine.mathmltools.nativetools.CommandExecutor;
 import com.formulasearchengine.mathmltools.nativetools.NativeResponse;
@@ -7,6 +8,7 @@ import com.formulasearchengine.mathmltools.utils.Utility;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -70,10 +72,11 @@ public abstract class NativeConverter implements IConverter {
 
     protected Document parseInternal(LinkedList<String> args, String latex, String name) {
         try {
-            return XmlDocumentReader.loadAndRepair(parseInternalToString(args, latex, name), null);
-        } catch (Exception e) {
+            String mml = parseInternalToString(args, latex, name);
+            return XmlDocumentReader.parse(mml);
+        } catch (IOException | SAXException e) {
             LOG.warn("Cannot convertToDoc with loadAndRepair method! " + name);
-            return XmlDocumentReader.getDocumentFromXMLString(parseInternalToString(args, latex, name));
+            throw new MathConverterException("Cannot convert output of native call of " + name + " to document.", e);
         }
     }
 }

@@ -1,0 +1,21 @@
+<mml:math>
+    <mml:semantics>
+        <mml:mrow>
+            <mml:munder>
+                <mml:mo>&sum;</mml:mo>
+                <mml:mi>m</mml:mi>
+            </mml:munder>
+            <mml:mrow>
+                <mml:msub>
+                    <mml:mover accent='true'>
+                        <mml:mi>p</mml:mi>
+                        <mml:mo>&dot;</mml:mo>
+                    </mml:mover>
+                    <mml:mi>m</mml:mi>
+                </mml:msub>
+                <mml:mo>=</mml:mo>
+                <mml:mn>0</mml:mn>
+            </mml:mrow>
+        </mml:mrow>
+    </mml:semantics>
+</mml:math>

@@ -81,7 +81,7 @@ public final class MathMLCanUtil {
         String can = MathMLCanUtil.canonicalize(mml);
         System.out.println(can);
 
-        Document doc = XmlDocumentReader.getDocumentFromXMLString(can);
+        Document doc = XmlDocumentReader.parse(can);
         String beauty = XmlDocumentWriter.stringify(doc);
 
         System.out.println(beauty);
