@@ -92,7 +92,11 @@ public class MathoidConverter implements IConverter, Canonicalizable {
     }
 
     public String conversion(MathoidEndpoints endpoint, String input) throws HttpClientErrorException {
-        HttpEntity<MultiValueMap<String, String>> request = buildRequest(input, null);
+        return conversion(endpoint, input);
+    }
+
+    public String conversion(MathoidEndpoints endpoint, String input, MathoidTypes type) throws HttpClientErrorException {
+        HttpEntity<MultiValueMap<String, String>> request = buildRequest(input, type);
         String url = endpoint.getEndpoint(mathoidConfig.getUrl());
         try {
             RestTemplate template = new RestTemplate();
