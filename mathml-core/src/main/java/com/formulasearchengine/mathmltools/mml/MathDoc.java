@@ -232,7 +232,7 @@ public class MathDoc {
         return getCSymbols().stream().filter(n -> n.getCd().equals(cd));
     }
 
-    List<CSymbol> getCSymbols() {
+    public List<CSymbol> getCSymbols() {
         if (cSymbols == null) {
             final IterableNodeList nodeList = new IterableNodeList(dom.getElementsByTagName("csymbol"));
             cSymbols = new ArrayList<>();
