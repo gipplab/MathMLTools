@@ -73,11 +73,7 @@ public class GoldStandardLoader {
     }
 
     public int initLocally() {
-        props = ConfigLoader.CONFIG;
-        max = Integer.parseInt(props.getProperty(ConfigLoader.GOULDI_MAXIMUM_NUM));
-
-        String goldPath = props.getProperty(ConfigLoader.GOULDI_LOCAL_PATH);
-        Path path = Paths.get(goldPath);
+        Path path = getGoldPath();
         gouldi = new JsonGouldiBean[max];
 
         ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
@@ -95,6 +91,14 @@ public class GoldStandardLoader {
 
         this.local = true;
         return max;
+    }
+
+    public Path getGoldPath() {
+        props = ConfigLoader.CONFIG;
+        max = Integer.parseInt(props.getProperty(ConfigLoader.GOULDI_MAXIMUM_NUM));
+
+        String goldPath = props.getProperty(ConfigLoader.GOULDI_LOCAL_PATH);
+        return Paths.get(goldPath);
     }
 
     public GitHubFileResponse getResponseFromGouldiRequest(int number) {
