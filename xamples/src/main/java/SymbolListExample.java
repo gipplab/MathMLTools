@@ -12,8 +12,11 @@ import com.google.common.collect.TreeMultiset;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-public class getSymbols {
-    static public void main(String[] args) throws IOException, SAXException {
+public class SymbolListExample {
+    private SymbolListExample() {
+    }
+
+    public static void main(String[] args) throws IOException, SAXException {
         final GoldStandardLoader gold = GoldStandardLoader.getInstance();
         gold.initLocally();
         final HashMultiset<CSymbol> allSymbols = HashMultiset.create();
