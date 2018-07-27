@@ -3,7 +3,7 @@ package com.formulasearchengine.mathmltools.utils.mml;
 
 import org.w3c.dom.Element;
 
-public class CSymbol implements Comparable<CSymbol>{
+public class CSymbol implements Comparable<CSymbol> {
     private boolean strict;
     private Element n;
 
@@ -32,6 +32,6 @@ public class CSymbol implements Comparable<CSymbol>{
     @Override
     public int compareTo(CSymbol o) {
         final int cdComp = getCd().compareTo(o.getCd());
-        return cdComp != 0  ? cdComp :  getCName().compareTo(o.getCName());
+        return cdComp != 0 ? cdComp : getCName().compareTo(o.getCName());
     }
 }
