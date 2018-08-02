@@ -16,6 +16,7 @@
         <module>mathml-converters</module>
         <module>mathml-similarity</module>
         <module>mathml-gold</module>
+        <module>xamples</module>
     </modules>
 
     <!-- Project Information -->
