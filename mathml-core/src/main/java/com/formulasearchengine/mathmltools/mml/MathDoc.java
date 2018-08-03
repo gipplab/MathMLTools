@@ -236,7 +236,7 @@ public class MathDoc {
         if (cSymbols == null) {
             final IterableNodeList nodeList = new IterableNodeList(dom.getElementsByTagName("csymbol"));
             cSymbols = new ArrayList<>();
-            nodeList.forEach(n -> cSymbols.add(new CSymbol((Element) n, false)));
+            nodeList.forEach(n -> cSymbols.add(new CSymbol((Element) n)));
         }
         return cSymbols;
     }

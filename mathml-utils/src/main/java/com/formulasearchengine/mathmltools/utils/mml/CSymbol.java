@@ -1,14 +1,19 @@
 package com.formulasearchengine.mathmltools.utils.mml;
 
 
+import com.formulasearchengine.mathmltools.mml.MathDoc;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
 
 public class CSymbol implements Comparable<CSymbol> {
-    private boolean strict;
     private Element n;
+    private static final String SERIALIZATION_SEPARATOR = ":";
 
-    public CSymbol(Element n, boolean strict) {
-        this.strict = strict;
+    public CSymbol(Element n) {
         this.n = n;
     }
 
@@ -26,7 +31,7 @@ public class CSymbol implements Comparable<CSymbol> {
 
     @Override
     public String toString() {
-        return getCd() + ":" + getCName();
+        return getCd() + SERIALIZATION_SEPARATOR + getCName();
     }
 
     @Override
