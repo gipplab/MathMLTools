@@ -15,7 +15,6 @@ import com.formulasearchengine.mathmltools.mml.MathDoc;
 import com.formulasearchengine.mathmltools.utils.mml.CSymbol;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.TreeMultiset;
-import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.w3c.dom.Document;
@@ -28,7 +27,7 @@ public class SymbolListExample {
     public static void main(String[] args) throws Exception {
         final GoldStandardLoader gold = GoldStandardLoader.getInstance();
         gold.initLocally();
-        final Map<String,Integer> omcdMap = new HashMap<>();
+        final Map<String, Integer> omcdMap = new HashMap<>();
         final TreeMultiset<CSymbol> allSymbols = getcSymbols(gold);
         final TreeMultiset<String> normalizedSymbols = TreeMultiset.create();
 
@@ -44,21 +43,21 @@ public class SymbolListExample {
     private static void normalizeSymbols(Map<String, Integer> omcdMap, TreeMultiset<CSymbol> allSymbols, TreeMultiset<String> normalizedSymbols) {
         for (Multiset.Entry<CSymbol> cSymbolEntry : allSymbols.entrySet()) {
             final String elem = cSymbolEntry.getElement().toString();
-            if (omcdMap.containsKey(elem)){
-                normalizedSymbols.add("wikidata:Q"+ omcdMap.get(elem),cSymbolEntry.getCount());
+            if (omcdMap.containsKey(elem)) {
+                normalizedSymbols.add("wikidata:Q" + omcdMap.get(elem), cSymbolEntry.getCount());
                 continue;
             }
-            if (cSymbolEntry.getElement().getCd().equals("latexml")){
+            if (cSymbolEntry.getElement().getCd().equals("latexml")) {
                 if (cSymbolEntry.getElement().getCName().startsWith("Q")) {
-                    normalizedSymbols.add("wikidata:"+ cSymbolEntry.getElement().getCName(),cSymbolEntry.getCount());
+                    normalizedSymbols.add("wikidata:" + cSymbolEntry.getElement().getCName(), cSymbolEntry.getCount());
                     continue;
                 }
             }
-            normalizedSymbols.add(elem,cSymbolEntry.getCount());
+            normalizedSymbols.add(elem, cSymbolEntry.getCount());
         }
     }
 
-    private static void readOmCdMap(Map<String, Integer> omcdMap) throws IOException {
+    public static void readOmCdMap(Map<String, Integer> omcdMap) throws IOException {
         final Path goldPath = GoldStandardLoader.getInstance().getGoldPath();
 
         FileReader in = new FileReader(goldPath.resolve("../doc/openMathSymbols.csv").toFile());
@@ -67,7 +66,7 @@ public class SymbolListExample {
             String omcd = record.get(0);
             String wikidata = record.get(2);
             int wikidataInt = Integer.parseInt(wikidata.replaceAll("Q(\\d+)", "$1"));
-            omcdMap.put(omcd,wikidataInt);
+            omcdMap.put(omcd, wikidataInt);
         }
     }
 

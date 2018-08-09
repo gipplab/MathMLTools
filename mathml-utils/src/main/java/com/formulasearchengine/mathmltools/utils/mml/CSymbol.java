@@ -1,13 +1,7 @@
 package com.formulasearchengine.mathmltools.utils.mml;
 
 
-import com.formulasearchengine.mathmltools.mml.MathDoc;
-import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
-
-import java.io.IOException;
 
 public class CSymbol implements Comparable<CSymbol> {
     private Element n;
