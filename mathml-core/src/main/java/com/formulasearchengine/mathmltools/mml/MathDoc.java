@@ -20,6 +20,7 @@ import org.xmlunit.util.IterableNodeList;
 import org.xmlunit.validation.*;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 import java.io.File;
@@ -214,7 +215,7 @@ public class MathDoc {
     public String toString() {
         try {
             return XmlDocumentWriter.stringify(dom);
-        } catch (IOException ioe) {
+        } catch (TransformerException ioe) {
             log.error("Cannot stringify document.", ioe);
             return null;
         }

@@ -1,5 +1,6 @@
 package com.formulasearchengine.mathmltools.querygenerator;
 
+import com.formulasearchengine.mathmltools.io.XmlDocumentReader;
 import com.formulasearchengine.mathmltools.xml.NonWhitespaceNodeList;
 import com.formulasearchengine.mathmltools.helper.XMLHelper;
 import org.w3c.dom.Document;
@@ -35,7 +36,7 @@ public class NtcirTopicReader {
     }
 
     public NtcirTopicReader(File topicFile) throws ParserConfigurationException, IOException, SAXException {
-        this(XMLHelper.getDocumentBuilder(true).parse(topicFile));
+        this(XmlDocumentReader.parse(topicFile, false));
         queryGenerator.addDefaultHeader();
     }
 

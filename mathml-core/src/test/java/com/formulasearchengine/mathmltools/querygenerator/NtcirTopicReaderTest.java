@@ -9,6 +9,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
+import com.formulasearchengine.mathmltools.io.XmlDocumentReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
@@ -79,7 +80,7 @@ public class NtcirTopicReaderTest {
         for (final NtcirPattern ntcirPattern : tr.extractPatterns()) {
             sb.append(ntcirPattern.getxQueryExpression()).append("\n");
         }
-        LOG.debug(sb.toString());
+//        LOG.debug(sb.toString());
         assertEquals(referenceString, sb.toString());
     }
 
@@ -91,7 +92,7 @@ public class NtcirTopicReaderTest {
         tr.setReturnFormat(BASEX_RETURNFORMAT);
         for (final NtcirPattern ntcirPattern : tr.extractPatterns()) {
             if (ntcirPattern.getNum().endsWith("29")) {
-                LOG.debug(ntcirPattern.getxQueryExpression());
+                LOG.trace(ntcirPattern.getxQueryExpression());
             }
         }
     }
@@ -111,8 +112,7 @@ public class NtcirTopicReaderTest {
     @Test
     public void testAlternativeConstructor() throws Exception {
         final URL resource = getClass().getClassLoader().getResource(ARXIV_RESOURCE);
-        DocumentBuilder documentBuilder = XMLHelper.getDocumentBuilder(true);
-        Document topics = documentBuilder.parse(new File(resource.toURI()));
+        Document topics = XmlDocumentReader.parse(new File(resource.toURI()), false);
         new NtcirTopicReader(topics);
         new NtcirTopicReader(topics, "", "", "", false);
     }

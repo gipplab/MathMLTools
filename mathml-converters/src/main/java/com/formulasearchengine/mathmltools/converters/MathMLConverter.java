@@ -4,6 +4,7 @@ import com.formulasearchengine.mathmltools.converters.canonicalize.MathMLCanUtil
 import com.formulasearchengine.mathmltools.converters.config.MathMLConverterConfig;
 import com.formulasearchengine.mathmltools.converters.mathoid.EnrichedMathMLTransformer;
 import com.formulasearchengine.mathmltools.converters.exceptions.MathConverterException;
+import com.formulasearchengine.mathmltools.io.XmlDocumentWriter;
 import com.formulasearchengine.mathmltools.mml.CMMLInfo;
 import com.formulasearchengine.mathmltools.nativetools.NativeResponse;
 import com.formulasearchengine.mathmltools.xml.NonWhitespaceNodeList;
@@ -273,13 +274,13 @@ public class MathMLConverter {
      * @param mathEle     math node
      * @param contentForm content format of the math node
      * @return well formatted math ml
-     * @throws TransformerException   conversion between formats failed
+     * @throws IOException            stringify elements throws an exception
      * @throws MathConverterException conversion failed, simple info text included
      */
-    String transformMML(Element mathEle, Content contentForm) throws TransformerException, MathConverterException {
+    String transformMML(Element mathEle, Content contentForm) throws MathConverterException, TransformerException {
         switch (contentForm) {
             case mathml:
-                return XMLHelper.printDocument(mathEle);
+                return XmlDocumentWriter.stringify(mathEle);
             case cmml:
                 // TODO transformation from cmml to pmml
                 throw new MathConverterException("cmml transformation not supported");
@@ -329,14 +330,15 @@ public class MathMLConverter {
      * @throws MathConverterException conversion failed, simple info text included
      * @throws TransformerException   conversion between formats failed
      */
-    String convertPmml(Element mathEle) throws MathConverterException, TransformerException {
-        String rawMathML = XMLHelper.printDocument(mathEle);
+    String convertPmml(Node mathEle) throws MathConverterException, TransformerException {
+        String rawMathML = XmlDocumentWriter.stringify(mathEle);
         MathoidConverter converter = new MathoidConverter(config.getMathoid());
         try {
             // pmml > emml > pmml + cmml
             String eMathML = converter.convertMathML(rawMathML);
             EnrichedMathMLTransformer converter2 = new EnrichedMathMLTransformer(eMathML);
-            return Optional.ofNullable(converter2.getFullMathML())
+            return Optional
+                    .ofNullable(converter2.getFullMathML())
                     .orElseThrow(() -> new MathConverterException("enriched mathml conversion failed"));
         } catch (HttpClientErrorException e) {
             logger.error("mathoid conversion failed", e);

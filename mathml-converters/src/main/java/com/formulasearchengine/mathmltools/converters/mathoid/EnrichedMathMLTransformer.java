@@ -1,16 +1,19 @@
 package com.formulasearchengine.mathmltools.converters.mathoid;
 
+import com.formulasearchengine.mathmltools.helper.XMLHelper;
+import com.formulasearchengine.mathmltools.io.XmlDocumentReader;
 import com.formulasearchengine.mathmltools.mml.CMMLInfo;
 import com.formulasearchengine.mathmltools.xml.NonWhitespaceNodeList;
-import com.formulasearchengine.mathmltools.helper.XMLHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 import javax.xml.xpath.XPath;
+import java.io.IOException;
 
 /**
  * Transformer from Enriched Math to a well formed MathML that contains
@@ -26,7 +29,7 @@ public class EnrichedMathMLTransformer {
 
     private static Logger logger = LogManager.getLogger(EnrichedMathMLTransformer.class);
 
-    private static final String XSL = "com/formulasearchengine/mathmlconverters/mathoid/EnrichedMathML2Cmml.xsl";
+    private static final String XSL = "com/formulasearchengine/mathmltools/converters/mathoid/EnrichedMathML2Cmml.xsl";
 
     private final Document readDocument;
 
@@ -36,8 +39,8 @@ public class EnrichedMathMLTransformer {
      *
      * @param eMathML The MathML the transformer will use
      */
-    public EnrichedMathMLTransformer(String eMathML) {
-        readDocument = XMLHelper.string2Doc(eMathML, true);
+    public EnrichedMathMLTransformer(String eMathML) throws SAXException, IOException {
+        readDocument = XmlDocumentReader.parse(eMathML, false);
     }
 
     /**

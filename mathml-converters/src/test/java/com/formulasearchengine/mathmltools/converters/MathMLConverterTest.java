@@ -9,6 +9,8 @@ import com.formulasearchengine.mathmltools.converters.latexml.LaTeXMLConverterTe
 import com.formulasearchengine.mathmltools.converters.mathoid.AssumeMathoidAvailability;
 import com.formulasearchengine.mathmltools.converters.mathoid.MathoidConverterTest;
 import com.formulasearchengine.mathmltools.helper.XMLHelper;
+import com.formulasearchengine.mathmltools.io.XmlDocumentReader;
+import com.formulasearchengine.mathmltools.io.XmlDocumentWriter;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -27,18 +29,15 @@ import static org.hamcrest.text.IsEqualIgnoringWhiteSpace.equalToIgnoringWhiteSp
  * @author Vincent Stange
  */
 public class MathMLConverterTest {
-
-    // TODO: Failed with "enriched mathml transformation failed" message
     @Test
-    @Disabled
     @AssumeMathoidAvailability(url = "http://localhost:10044")
-    public void convertPmml() throws Exception, MathConverterException {
+    public void convertPmml() throws Exception {
         // prepare configuration and objects
-        Document mathNode = XMLHelper.string2Doc(getResourceContent("mathml_pmml.txt"), true);
+        String mml = getResourceContent("mathml_pmml.txt");
+        Document mathNode = XmlDocumentReader.parse(mml, true);
         MathMLConverterConfig mathConfig = new MathMLConverterConfig().setMathoid(new MathoidConfig().setActive(true).setUrl(MathoidConverterTest.HTTP_MATHOID_TEXT));
         MathMLConverter mathMLConverter = new MathMLConverter(mathConfig);
-        // test
-        String result = mathMLConverter.convertPmml((Element) mathNode.getFirstChild());
+        String result = mathMLConverter.convertPmml(mathNode.getDocumentElement());
         assertThat(result, is(getResourceContent("mathml_pmml_expected.txt")));
     }
 
@@ -101,11 +100,11 @@ public class MathMLConverterTest {
                 "</mml:math>", false);
         Element result = new MathMLConverter().consolidateMathMLNamespace((Element) mathNode.getFirstChild());
         String actual = XMLHelper.printDocument(result);
-        assertThat(actual, is("<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" +
+        assertThat(actual, equalToIgnoringWhiteSpace("<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" +
                 "   <mrow>\n" +
                 "      <mi>%</mi>\n" +
                 "   </mrow>\n" +
-                "</math>"));
+                "</math>\n"));
     }
 
 

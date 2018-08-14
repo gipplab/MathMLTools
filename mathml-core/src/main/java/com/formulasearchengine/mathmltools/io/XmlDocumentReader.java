@@ -28,9 +28,9 @@ import java.nio.file.Paths;
 public class XmlDocumentReader {
     private static final Logger LOG = LogManager.getLogger(XmlDocumentReader.class.getName());
 
-    private static final DocumentBuilder ValidationBuilder = XmlDocumentReader.getDefaultValidatingDocBuilder();
+    public static final DocumentBuilder ValidationBuilder = XmlDocumentReader.getDefaultValidatingDocBuilder();
 
-    private static final DocumentBuilder NoValidationBuilder = XmlDocumentReader.getDefaultNoValidatingDocBuilder();
+    public static final DocumentBuilder NoValidationBuilder = XmlDocumentReader.getDefaultNoValidatingDocBuilder();
 
     private XmlDocumentReader() {
     }
@@ -78,7 +78,7 @@ public class XmlDocumentReader {
      * @throws IllegalArgumentException if the argument is somehow invalid
      */
     public static Document parse(File file) throws IOException, SAXException, IllegalArgumentException {
-        return parse(file, false);
+        return parse(file, true);
     }
 
     /**
@@ -199,7 +199,9 @@ public class XmlDocumentReader {
      * @return InputSource of input
      */
     private static InputSource stringToSource(String str) {
-        return new InputSource(new StringReader(str));
+        InputSource is = new InputSource(new StringReader(str));
+        is.setEncoding("UTF-8");
+        return is;
     }
 
     private static DocumentBuilder getDefaultValidatingDocBuilder() {
@@ -217,6 +219,7 @@ public class XmlDocumentReader {
         try {
             DocumentBuilder db = getStandardDocumentBuilderFactory(false).newDocumentBuilder();
             db.setErrorHandler(new ParsingErrorHandler(Severity.NOTIFY));
+            db.setEntityResolver(new PartialLocalEntityResolver());
             return db;
         } catch (ParserConfigurationException e) {
             throw new RuntimeException("Cannot create default DocumentBuilder. " + e.getMessage(), e);

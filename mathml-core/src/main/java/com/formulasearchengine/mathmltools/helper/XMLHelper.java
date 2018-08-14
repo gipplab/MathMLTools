@@ -1,47 +1,12 @@
 package com.formulasearchengine.mathmltools.helper;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import com.formulasearchengine.mathmltools.io.XmlDocumentReader;
+import com.formulasearchengine.mathmltools.io.XmlDocumentWriter;
 import com.formulasearchengine.mathmltools.xml.NonWhitespaceNodeList;
-import com.formulasearchengine.mathmltools.xml.PartialLocalEntityResolver;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
-import javax.xml.namespace.NamespaceContext;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMResult;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.sax.SAXSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 import net.sf.saxon.Configuration;
-import net.sf.saxon.s9api.DOMDestination;
-import net.sf.saxon.s9api.Processor;
-import net.sf.saxon.s9api.SaxonApiException;
-import net.sf.saxon.s9api.XQueryCompiler;
-import net.sf.saxon.s9api.XQueryEvaluator;
-import net.sf.saxon.s9api.XQueryExecutable;
-import net.sf.saxon.s9api.XdmNode;
+import net.sf.saxon.s9api.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
@@ -49,6 +14,28 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import javax.xml.namespace.NamespaceContext;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.sax.SAXSource;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.xpath.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * XMLHelper contains utility functions to handle
@@ -59,28 +46,23 @@ import org.xml.sax.SAXException;
 @SuppressWarnings("UnusedDeclaration")
 public final class XMLHelper {
     public static final String NS_MATHML = "http://www.w3.org/1998/Math/MathML";
-
-    private static final Logger log = LogManager.getLogger(XMLHelper.class.getName());
-
     public static final Pattern ANNOTATION_XML_PATTERN = Pattern.compile("annotation(-xml)?");
     public static final Pattern XML_DECLARATION = Pattern.compile("<\\?[xX][mM][lL].*\\?>", Pattern.DOTALL);
     public static final Pattern DOCTYPE_DECLARATION = Pattern.compile("<!DOCTYPE.*?>", Pattern.DOTALL + Pattern.CASE_INSENSITIVE);
     public static final String MATH_SEMANTICS_ANNOTATION = "m:math/m:semantics/m:annotation-xml[@encoding='MathML-Content']";
-
-    private XMLHelper() {
-        // utility class
-    }
-
+    private static final Logger log = LogManager.getLogger(XMLHelper.class.getName());
     /**
      * The factory.
      */
     private static XPathFactory factory = XPathFactory.newInstance();
-
     /**
      * The xpath.
      */
     private static XPath xpath = factory.newXPath();
 
+    private XMLHelper() {
+        // utility class
+    }
 
     // <xPath,Name,Value>
     private static ArrayList<SimpleEntry<String, String>> traverseNode(Node n, String p) {
@@ -135,8 +117,8 @@ public final class XMLHelper {
      */
     public static NodeList string2NodeList(String inputXMLString,
                                            String xPath) throws ParserConfigurationException,
-            IOException, XPathExpressionException {
-        Document doc = string2Doc(inputXMLString, false);
+            IOException, XPathExpressionException, SAXException {
+        Document doc = XmlDocumentReader.parse(inputXMLString, false); //string2Doc(inputXMLString, false);
         XPathFactory factory = XPathFactory.newInstance();
         XPath xpath = factory.newXPath();
         //compile XML tag extractor sent as param
@@ -210,43 +192,45 @@ public final class XMLHelper {
      */
     public static Document string2Doc(String inputXMLString, boolean namespaceAwareness) {
         try {
-            DocumentBuilder builder = getDocumentBuilder(namespaceAwareness);
-            InputSource is = new InputSource(new StringReader(inputXMLString));
-            is.setEncoding("UTF-8");
-            return builder.parse(is);
-        } catch (SAXException | ParserConfigurationException | IOException e) {
-            log.error("cannot parse following content\n\n" + inputXMLString);
-            e.printStackTrace();
+            return XmlDocumentReader.parse(inputXMLString, false);
+        } catch (IOException | SAXException e) {
+            log.error("Cannot parse XML string.", e);
             return null;
         }
+//        try {
+//            DocumentBuilder builder = getDocumentBuilder(namespaceAwareness);
+//            InputSource is = new InputSource(new StringReader(inputXMLString));
+//            is.setEncoding("UTF-8");
+//            return builder.parse(is);
+//        } catch (SAXException | ParserConfigurationException | IOException e) {
+//            log.error("cannot parse following content\n\n" + inputXMLString);
+//            e.printStackTrace();
+//            return null;
+//        }
     }
 
-    public static Document getNewDocument() throws ParserConfigurationException {
-        return getNewDocument(false);
-    }
-
-    public static Document getNewDocument(Boolean nameSpaceAwareness) throws ParserConfigurationException {
-        DocumentBuilder builder = getDocumentBuilder(false);
+    public static Document getNewDocument() {
+        DocumentBuilder builder = XmlDocumentReader.NoValidationBuilder;
         return builder.newDocument();
     }
 
-    public static DocumentBuilder getDocumentBuilder(boolean namespaceAwareness) throws ParserConfigurationException {
-        DocumentBuilderFactory domFactory = DocumentBuilderFactory
-                .newInstance();
-        domFactory.setNamespaceAware(namespaceAwareness);
-        // Unfortunately we can not ignore whitespaces without a schema.
-        // So we use the NdLst workaround for now.
-        //domFactory.setValidating(true);
-        //domFactory.setIgnoringElementContentWhitespace( true );
-        domFactory.setAttribute(
-                "http://apache.org/xml/features/dom/include-ignorable-whitespace",
-                Boolean.FALSE);
-
-        DocumentBuilder documentBuilder = domFactory.newDocumentBuilder();
-        documentBuilder.setEntityResolver(new PartialLocalEntityResolver());
-
-        return documentBuilder;
-    }
+//    public static DocumentBuilder getDocumentBuilder(boolean namespaceAwareness) throws ParserConfigurationException {
+//        DocumentBuilderFactory domFactory = DocumentBuilderFactory
+//                .newInstance();
+//        domFactory.setNamespaceAware(namespaceAwareness);
+//        // Unfortunately we can not ignore whitespaces without a schema.
+//        // So we use the NdLst workaround for now.
+//        //domFactory.setValidating(true);
+//        //domFactory.setIgnoringElementContentWhitespace( true );
+//        domFactory.setAttribute(
+//                "http://apache.org/xml/features/dom/include-ignorable-whitespace",
+//                Boolean.FALSE);
+//
+//        DocumentBuilder documentBuilder = domFactory.newDocumentBuilder();
+//        documentBuilder.setEntityResolver(new PartialLocalEntityResolver());
+//
+//        return documentBuilder;
+//    }
 
     /**
      * Returns a list of unique identifiers from a MathML string.
@@ -329,16 +313,7 @@ public final class XMLHelper {
      * @throws TransformerException the transformer exception
      */
     public static String printDocument(Node doc) throws TransformerException {
-        TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer transformer = tf.newTransformer();
-        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-        StringWriter sw = new StringWriter();
-        transformer.transform(new DOMSource(doc), new StreamResult(sw));
-        return sw.toString();
+        return XmlDocumentWriter.stringify(doc);
     }
 
     /**
@@ -503,7 +478,7 @@ public final class XMLHelper {
         XQueryEvaluator xqueryEval = query.load();
 
         xqueryEval.setContextItem(temp);
-        Document out = XMLHelper.getNewDocument(true);
+        Document out = XMLHelper.getNewDocument();
         xqueryEval.run(new DOMDestination(out));
         return out;
     }
@@ -533,6 +508,23 @@ public final class XMLHelper {
         };
         xpath.setNamespaceContext(ctx);
         return xpath;
+    }
+
+    private static void removePattern(Pattern pattern, StringBuffer xml) {
+        final Matcher matcher = pattern.matcher(xml);
+        while (matcher.find()) {
+            log.trace(" Removing {}", matcher.group(0));
+            xml.delete(matcher.start(0), matcher.end(0));
+            matcher.reset();
+        }
+    }
+
+    public static void removeDoctype(StringBuffer xml) {
+        removePattern(DOCTYPE_DECLARATION, xml);
+    }
+
+    public static void removeXmlDeclaration(StringBuffer xml) {
+        removePattern(XML_DECLARATION, xml);
     }
 
     /**
@@ -635,23 +627,5 @@ public final class XMLHelper {
         public Iterator<Node> iterator() {
             return nodes.iterator();
         }
-    }
-
-
-    private static void removePattern(Pattern pattern, StringBuffer xml) {
-        final Matcher matcher = pattern.matcher(xml);
-        while (matcher.find()) {
-            log.trace(" Removing {}", matcher.group(0));
-            xml.delete(matcher.start(0), matcher.end(0));
-            matcher.reset();
-        }
-    }
-
-    public static void removeDoctype(StringBuffer xml) {
-        removePattern(DOCTYPE_DECLARATION, xml);
-    }
-
-    public static void removeXmlDeclaration(StringBuffer xml) {
-        removePattern(XML_DECLARATION, xml);
     }
 }

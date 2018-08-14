@@ -18,6 +18,7 @@ import java.io.IOException;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -248,7 +249,9 @@ public class CMMLInfoTest {
         int i = 0;
         for (final String rawTest : rawTests) {
             final CMMLInfo cmmlElement = CMMLInfo.newFromSnippet(rawTest);
-            assertEquals(cmmlElement.abstract2CDs().toString(), abstractCDs[i], "Test " + i + " failed");
+            String cmmlString = cmmlElement.abstract2CDs().toString();
+            System.out.println(cmmlString);
+            assertThat("Hmm", abstractCDs[i], equalToIgnoringWhiteSpace(cmmlString));
             i++;
         }
     }

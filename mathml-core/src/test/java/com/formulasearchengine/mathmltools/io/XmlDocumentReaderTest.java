@@ -1,6 +1,5 @@
 package com.formulasearchengine.mathmltools.io;
 
-import com.formulasearchengine.mathmltools.mml.MathDoc;
 import com.formulasearchengine.mathmltools.mml.MathTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -28,6 +27,16 @@ class XmlDocumentReaderTest {
         } catch (Exception e){
             fail("Parsing document throws an exception.", e);
         }
+    }
+
+    @Test
+    public void invalidTestWithNoValidation() {
+        assertThrows(SAXException.class, () -> XmlDocumentReader.parse("<open><open2></open2>", false));
+    }
+
+    @Test
+    public void singleNodeTest() throws IOException, SAXException {
+        assertNotNull(XmlDocumentReader.parse("<simple />", false));
     }
 
     @ParameterizedTest

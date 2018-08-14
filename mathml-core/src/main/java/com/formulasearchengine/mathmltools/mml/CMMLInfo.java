@@ -1,26 +1,14 @@
 package com.formulasearchengine.mathmltools.mml;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.formulasearchengine.mathmltools.helper.XMLHelper;
 import com.formulasearchengine.mathmltools.querygenerator.FirstXQueryGenerator;
 import com.formulasearchengine.mathmltools.querygenerator.QVarXQueryGenerator;
 import com.formulasearchengine.mathmltools.querygenerator.XQueryGenerator;
 import com.formulasearchengine.mathmltools.xml.NonWhitespaceNodeList;
-import com.formulasearchengine.mathmltools.helper.XMLHelper;
 import com.formulasearchengine.mathmltools.xml.XmlNamespaceTranslator;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Sets;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
 import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.XQueryExecutable;
 import org.apache.logging.log4j.LogManager;
@@ -29,6 +17,14 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import java.util.*;
 
 /**
  * @author Moritz Schubotz
@@ -137,6 +133,7 @@ public class CMMLInfo extends CMMLInfoBase implements Document {
             return;
         }
         try {
+            //LOG.info("Na guck: " + node.getNodeName());
             cmmlDoc.renameNode(node, "http://formulasearchengine.com/ns/pseudo/gen/cd", cd);
         } catch (final DOMException e) {
             LOG.error("cannot rename"

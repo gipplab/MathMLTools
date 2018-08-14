@@ -5,17 +5,10 @@ package com.formulasearchengine.mathmltools.io;
  */
 public class DocumentOutputFormatConfiguration {
 
+    private final String method = "xml";
     private int indent = 2;
-
     private boolean omitXMLDeclare = true;
-
-    private boolean omitDoctype = true;
-
-    private boolean omitComments = true;
-
-    private int maxLineWidth = Integer.MAX_VALUE;
-
-    private String lineSeperator = System.lineSeparator();
+    private String encoding = "UTF-8";
 
     private String mediaType = "application/mathml+xml";
 
@@ -37,39 +30,16 @@ public class DocumentOutputFormatConfiguration {
         return this;
     }
 
-    public boolean omitDoctype() {
-        return omitDoctype;
+    public String getMethod() {
+        return method;
     }
 
-    public DocumentOutputFormatConfiguration setOmitDoctype(boolean omitDoctype) {
-        this.omitDoctype = omitDoctype;
-        return this;
+    public String getEncoding() {
+        return encoding;
     }
 
-    public boolean omitComments() {
-        return omitComments;
-    }
-
-    public DocumentOutputFormatConfiguration setOmitComments(boolean omitComments) {
-        this.omitComments = omitComments;
-        return this;
-    }
-
-    public int getMaxLineWidth() {
-        return maxLineWidth;
-    }
-
-    public DocumentOutputFormatConfiguration setMaxLineWidth(int maxLineWidth) {
-        this.maxLineWidth = maxLineWidth;
-        return this;
-    }
-
-    public String getLineSeperator() {
-        return lineSeperator;
-    }
-
-    public DocumentOutputFormatConfiguration setLineSeperator(String lineSeperator) {
-        this.lineSeperator = lineSeperator;
+    public DocumentOutputFormatConfiguration setEncoding(String encoding) {
+        this.encoding = encoding;
         return this;
     }
 

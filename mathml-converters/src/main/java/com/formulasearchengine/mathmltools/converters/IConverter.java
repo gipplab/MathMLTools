@@ -8,6 +8,7 @@ import com.formulasearchengine.mathmltools.nativetools.NativeResponse;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 
+import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -74,7 +75,7 @@ public interface IConverter {
      * @throws MathConverterException        if there occur an error in translation
      * @throws UnavailableConverterException if the converter is not available because the sources are not loaded
      */
-    default void convertToFile(String latex, Path outputFile) throws IOException, MathConverterException, UnavailableConverterException {
+    default void convertToFile(String latex, Path outputFile) throws IOException, TransformerException, MathConverterException, UnavailableConverterException {
         Document doc = convertToDoc(latex);
         XmlDocumentWriter.writeToFile(doc, outputFile);
     }
@@ -87,7 +88,7 @@ public interface IConverter {
      * @throws MathConverterException
      * @throws UnavailableConverterException
      */
-    default void convertToFile(String latex, Path outputFile, boolean formatted) throws IOException, MathConverterException, UnavailableConverterException {
+    default void convertToFile(String latex, Path outputFile, boolean formatted) throws IOException, TransformerException, MathConverterException, UnavailableConverterException {
         if (formatted) {
             convertToFile(latex, outputFile);
             return;
