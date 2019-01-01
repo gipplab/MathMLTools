@@ -63,9 +63,9 @@ public class WikidataExample {
         }
         Integer qId = Integer.valueOf(qIdString.substring(1));
         if (omCDMap.containsValue(qId)) {
-            descr += "See also " + omCDMap.getKey(qId) + "\n";
+            descr += "See also \nhttps://www.openmath.org/cd/" + omCDMap.getKey(qId).replace(':', '#') + "\n";
         }
-        descr += "\n  This description was generated from http://www.wikidata.org/w/index.php?oldid=" + revisionId;
+        descr += "\n  This description was generated from \nhttps://www.wikidata.org/w/index.php?oldid=" + revisionId;
         descr = "    <CDDefinition>\n"
                 + "        <Name>" + qIdString + "</Name>\n"
                 + "        <Role>application</Role>\n"
