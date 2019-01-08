@@ -48,7 +48,7 @@ public class ParsingErrorHandler implements ErrorHandler {
                 LOG.debug(exception.getMessage() + " Error handler is on level 'silent' that ignores this error.");
                 return; // ignore
             case NOTIFY:
-                LOG.error(exception.getMessage() + " Error handler is on level 'notify', no exception was thrown.");
+                LOG.warn(exception.getMessage() + " Error handler is on level 'notify', no exception was thrown.");
                 break;
             case SEVERE:
             case THROW_ALL:

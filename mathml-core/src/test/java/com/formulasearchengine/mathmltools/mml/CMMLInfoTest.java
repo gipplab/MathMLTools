@@ -360,4 +360,10 @@ public class CMMLInfoTest {
         assertEquals(s, mml.getXQueryString());
     }
 
+
+    @Test
+    public void testAFormula() throws Exception {
+        Node mainElement = new CMMLInfo(getFileContents(MML_TEST_DIR + "A.mml"));
+        assertThat(mainElement, notNullValue());
+    }
 }

@@ -24,7 +24,7 @@ public class CMMLHelper {
     }
 
     /**
-     * Get the first node of the MathML-Content annotations within a MathML document.
+     * Get the first apply node of the MathML-Content annotations within a MathML document.
      *
      * @param mathml full MathML document
      * @return first node of the MathML-Content annotations within a MathML document
@@ -33,6 +33,22 @@ public class CMMLHelper {
         try {
             // get the apply node of the ContentMathML root
             return getFirstApplyNode(new CMMLInfo(mathml));
+        } catch (Exception e) {
+            logger.error("failed to get apply node", e);
+            return null;
+        }
+    }
+
+    /**
+     * Get the first node of the MathML-Content annotations within a MathML document.
+     *
+     * @param mathml full MathML document
+     * @return first node of the MathML-Content annotations within a MathML document
+     */
+    public static Node getFirstNode(String mathml) {
+        try {
+            // get the apply node of the ContentMathML root
+            return getFirstNode(new CMMLInfo(mathml));
         } catch (Exception e) {
             logger.error("failed to get apply node", e);
             return null;
@@ -91,6 +107,31 @@ public class CMMLHelper {
         return applyRoot;
     }
 
+
+
+    /**
+     * Get the root node from the content mathml.
+     * It will search for the first node of the MathML-Content annotations
+     * or the semantics/apply node within a CMMLInfo document.
+     *
+     * @param cmmlInfo CMMLInfo document
+     * @return first node of the MathML-Content annotations within a MathML document
+     * @throws XPathExpressionException parser exception
+     */
+    public static Node getFirstNode(CMMLInfo cmmlInfo) throws XPathExpressionException {
+        // 1. search for a separate cmml semantic
+        XPath xpath = XMLHelper.namespaceAwareXpath("m", CMMLInfo.NS_MATHML);
+        Node applyRoot = getElement(cmmlInfo, "m:math/m:semantics/m:annotation-xml[@encoding='MathML-Content']/*[1]", xpath);
+        if (applyRoot == null) {
+            // 2. search for a main cmml semantic
+            applyRoot = getElement(cmmlInfo, "*//m:semantics/*[1]", xpath);
+            if (applyRoot == null) {
+                // 3. try to take the apply right beneath the math elements
+                applyRoot = getElement(cmmlInfo, "m:math/*[1]", xpath);
+            }
+        }
+        return applyRoot;
+    }
     /**
      * Extracts a single node for the specified XPath expression.
      *

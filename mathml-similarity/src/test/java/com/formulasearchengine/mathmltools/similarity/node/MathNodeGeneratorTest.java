@@ -38,11 +38,23 @@ public class MathNodeGeneratorTest {
         // mathml from mathoid and get the strict cmml semantics
         testConverterOnFile(CMMLHelper::getStrictCmml, "mathnode4", true);
     }
+    @Test
+    public void generateMathNodeMathoidStrictAny() throws Exception {
+        // mathml from mathoid and get the strict cmml semantics
+        testConverterOnFile(CMMLHelper::getFirstNode, "mathnode4", true);
+    }
+
+    @Test
+    public void generateMathNodeHyplag() throws Exception {
+        // mathml from hyplag and get the strict cmml semantics
+        testConverterOnFile(CMMLHelper::getFirstNode, "mathnode5", true);
+    }
 
     private void testConverterOnFile(Function<String, Node> convert, String basicFilename, boolean checkAbstract) throws Exception {
         String expected = IOUtils.toString(this.getClass().getResourceAsStream(basicFilename + "_expected.txt"), "UTF-8");
         String mathml = IOUtils.toString(this.getClass().getResourceAsStream(basicFilename + "_test.txt"), "UTF-8");
-        MathNode mathNode = MathNodeGenerator.generateMathNode(convert.apply(mathml));
+        final Node applyRoot = convert.apply(mathml);
+        MathNode mathNode = MathNodeGenerator.generateMathNode(applyRoot);
 
         if (checkAbstract) {
             mathNode = MathNodeGenerator.toAbstract(mathNode);
