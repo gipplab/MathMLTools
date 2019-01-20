@@ -246,6 +246,10 @@ public class MathDoc {
         return dom;
     }
 
+    public void highlightIdentifier(List<Integer> toHighlight, boolean b) {
+        throw new NotImplementedException("");
+    }
+
     private static class SchemaInput {
         private SchemaFactory schemaFactory;
         private InputSource inputSource;
