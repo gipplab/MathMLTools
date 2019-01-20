@@ -1,6 +1,5 @@
 package com.formulasearchengine.mathmltools.mml;
 
-import com.formulasearchengine.mathmltools.io.XmlDocumentWriter;
 import org.apache.commons.lang3.NotImplementedException;
 import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.Test;
@@ -9,9 +8,10 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -19,7 +19,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
 
 public class MathTest {
     public static final String SIMPLE_WITH_DOCTYPE = "<!DOCTYPE math PUBLIC \"-//W3C//DTD MATHML 3.0 Transitional//EN\" \n"
@@ -110,6 +109,17 @@ public class MathTest {
             "<math><XMLDocument >a</XMLDocument></math>"})
     void failingExamples(String tag) {
         assertThrows(Exception.class, () -> new MathDoc(tag));
+    }
+
+    @Test
+    void HighlightMTest() throws IOException, ParserConfigurationException, SAXException {
+        final String sampleMML = getFileContents(TEST_DIR + "Emc2.mml");
+        final MathDoc mml = new MathDoc(sampleMML);
+        final int mHash = "m".hashCode();
+        final ArrayList<Integer> toHighlight = new ArrayList<>();
+        toHighlight.add(mHash);
+        assertThrows(NotImplementedException.class, () -> mml.highlightIdentifier(toHighlight, false));
+
     }
 }
 
