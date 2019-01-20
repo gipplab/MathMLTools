@@ -8,8 +8,19 @@ import org.w3c.dom.Element;
 public class CIdentifier implements Comparable<CIdentifier> {
     private Element n;
 
+    public Integer getOrdinal() {
+        return ordinal;
+    }
+
+    private int ordinal = -1;
+
     public CIdentifier(Element n) {
         this.n = n;
+    }
+
+    public CIdentifier(Element n, int i) {
+        this.n = n;
+        this.ordinal = i;
     }
 
     public String getName() {
@@ -37,6 +48,15 @@ public class CIdentifier implements Comparable<CIdentifier> {
 
     @Override
     public int compareTo(CIdentifier o) {
-        return getName().compareTo(o.getName());
+        return getOrdinal().compareTo(o.getOrdinal());
+
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof CIdentifier) {
+            return getName().equals(((CIdentifier) o).getName());
+        }
+        return super.equals(o);
     }
 }

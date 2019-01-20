@@ -255,7 +255,11 @@ public class MathDoc {
             try {
                 nodeList = new IterableNodeList(getElementsB(dom, "//*:ci"));
                 cIdentifiers = new ArrayList<>();
-                nodeList.forEach(n -> cIdentifiers.add(new CIdentifier((Element) n)));
+                int i = 0;
+                for (Node node : nodeList) {
+                    cIdentifiers.add(new CIdentifier((Element) node, i));
+                    i++;
+                }
             } catch (XPathExpressionException e) {
                 e.printStackTrace();
             }
@@ -294,18 +298,18 @@ public class MathDoc {
     }
 
     private int highlightFirstIdentifier(int hash, boolean backward) {
-        final List<CIdentifier> identifiers = getIdentifiers();
+        Stream<CIdentifier> identifiers = getIdentifiers().stream();
         if (backward) {
-            Collections.reverse(identifiers);
+            identifiers = identifiers.sorted(Collections.reverseOrder());
         }
-        for (int i = 0; i < identifiers.size(); i++) {
-            final CIdentifier curIdent = identifiers.get(i);
-            if (hash == curIdent.hashCode()) {
-                highlightIdentifier(curIdent);
-                return backward ? identifiers.size() - i : i;
-            }
-        }
-        return -1;
+        return identifiers
+                .filter(c -> c.hashCode() == hash)
+                .findFirst()
+                .map(c -> {
+                    highlightIdentifier(c);
+                    return c.getOrdinal();
+                })
+                .orElse(-1);
     }
 
 

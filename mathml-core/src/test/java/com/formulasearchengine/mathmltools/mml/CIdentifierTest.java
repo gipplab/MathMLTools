@@ -50,9 +50,9 @@ class CIdentifierTest {
     }
 
     @Test
-    void compareTo()  throws Exception {
+    void equalsTo()  throws Exception {
         final CIdentifier E = getE();
         final CIdentifier E2 = getE();
-        assertEquals(0, E2.compareTo(E));
+        assertEquals(E2, E);
     }
 }
