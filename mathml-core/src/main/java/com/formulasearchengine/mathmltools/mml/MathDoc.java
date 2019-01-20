@@ -23,6 +23,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
@@ -254,20 +255,26 @@ public class MathDoc {
     public List<CIdentifier> getIdentifiers() {
         if (cIdentifiers == null) {
             final IterableNodeList nodeList;
-            try {
-                XPath xpath = XMLHelper.namespaceAwareXpath("m", NS_MATHML);
-                nodeList = new IterableNodeList(getElementsB(dom, xpath.compile("//m:ci")));
+                nodeList = getXNodes("//m:ci");
                 cIdentifiers = new ArrayList<>();
                 int i = 0;
                 for (Node node : nodeList) {
                     cIdentifiers.add(new CIdentifier((Element) node, i));
                     i++;
                 }
-            } catch (XPathExpressionException e) {
-                e.printStackTrace();
-            }
         }
         return cIdentifiers;
+    }
+
+    private IterableNodeList getXNodes(String xPath)  {
+        XPath xpath = XMLHelper.namespaceAwareXpath("m", NS_MATHML);
+        try {
+            final XPathExpression pattern = xpath.compile(xPath);
+            final NodeList elements = getElementsB(dom, pattern);
+            return new IterableNodeList(elements);
+        } catch (XPathExpressionException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Document getDom() {
@@ -320,7 +327,7 @@ public class MathDoc {
         try {
             final Element identifierPresentation = identifier.getPresentation();
             if (identifierPresentation.hasAttribute("class")) {
-                log.warn("Presentation node " + identifier.getXref() + "has already class attribute. Cannot highlight!");
+                log.warn("Presentation node " + identifier.getXref() + " has already class attribute. Cannot highlight!");
             } else {
                 identifierPresentation.setAttribute("class", "highlightedIdentifier");
             }

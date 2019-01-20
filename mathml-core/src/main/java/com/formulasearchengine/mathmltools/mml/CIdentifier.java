@@ -14,10 +14,6 @@ public class CIdentifier implements Comparable<CIdentifier> {
 
     private int ordinal = -1;
 
-    public CIdentifier(Element n) {
-        this.n = n;
-    }
-
     public CIdentifier(Element n, int i) {
         this.n = n;
         this.ordinal = i;
