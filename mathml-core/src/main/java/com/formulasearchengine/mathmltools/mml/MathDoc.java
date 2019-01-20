@@ -24,14 +24,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
-import static com.formulasearchengine.mathmltools.helper.CMMLHelper.getElement;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -260,39 +258,49 @@ public class MathDoc {
         return dom;
     }
 
-    public void highlightIdentifier(List<Integer> toHighlight, boolean b) {
+    /**
+     * Highlights consecutive occurrences of identifiers.
+     *
+     * @param hashes   list of content identifier hashes to highlight
+     * @param backward if true the first identifier is searched from the end of the expression
+     */
+    public void highlightConsecutiveIdentifiers(List<Integer> hashes, boolean backward) {
         final List<CIdentifier> identifiers = getIdentifiers();
-        int identPointer;
-        if (b) {
-            identPointer = identifiers.size() - 1;
+        int i;
+        if (backward) {
+            i = identifiers.size() - 1;
         } else {
-            identPointer = 0;
+            i = 0;
         }
-        for (Integer currentIdent : toHighlight) {
-            while (identPointer >= 0 && identPointer < identifiers.size()) {
-                final CIdentifier selectedIdent = identifiers.get(identPointer);
-                if (currentIdent == selectedIdent.hashCode()) {
-                    highlightNode(selectedIdent);
-                    b = false;
-                    identPointer++;
+        for (Integer curHash : hashes) {
+            while (i >= 0 && i < identifiers.size()) {
+                final CIdentifier curIdent = identifiers.get(i);
+                if (curHash == curIdent.hashCode()) {
+                    highlightIdentifier(curIdent);
+                    backward = false;
+                    i++;
                     break;
                 }
-                if (b) {
-                    identPointer--;
+                if (backward) {
+                    i--;
                 } else {
-                    identPointer++;
+                    i++;
                 }
-
             }
         }
 
     }
 
-    private void highlightNode(CIdentifier identPointer) {
+    private void highlightIdentifier(CIdentifier identifier) {
         try {
-            identPointer.getPresentation().setAttribute("class","highlightedIdentifier");
+            final Element identifierPresentation = identifier.getPresentation();
+            if (identifierPresentation.hasAttribute("class")) {
+                log.warn("Presentation node " + identifier.getXref() + "has already class attribute. Cannot highlight!");
+            } else {
+                identifierPresentation.setAttribute("class", "highlightedIdentifier");
+            }
         } catch (XPathExpressionException e) {
-            log.warn("Can not highlight presentation node " + identPointer.getXref() );
+            log.warn("Can not highlight presentation node " + identifier.getXref());
             log.warn(e);
         }
     }
