@@ -1,11 +1,26 @@
 package com.formulasearchengine.mathmltools.mml;
 
+import static com.formulasearchengine.mathmltools.helper.XMLHelper.getElementsB;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
+
 import com.formulasearchengine.mathmltools.helper.XMLHelper;
 import com.formulasearchengine.mathmltools.io.XmlDocumentReader;
 import com.formulasearchengine.mathmltools.io.XmlDocumentWriter;
 import com.formulasearchengine.mathmltools.utils.mml.CSymbol;
 import com.formulasearchengine.mathmltools.xml.PartialLocalEntityResolver;
 import com.sun.org.apache.xerces.internal.dom.DOMInputImpl;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.SchemaFactory;
 import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
@@ -18,25 +33,11 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xmlunit.builder.Input;
 import org.xmlunit.util.IterableNodeList;
-import org.xmlunit.validation.*;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.SchemaFactory;
-
-import static com.formulasearchengine.mathmltools.helper.XMLHelper.getElementsB;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
+import org.xmlunit.validation.JAXPValidator;
+import org.xmlunit.validation.Languages;
+import org.xmlunit.validation.ValidationProblem;
+import org.xmlunit.validation.ValidationResult;
+import org.xmlunit.validation.Validator;
 
 public class MathDoc {
     private static final Logger log = LogManager.getLogger("Math");
