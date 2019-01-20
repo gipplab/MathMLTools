@@ -1,0 +1,58 @@
+<m:math xmlns:m="http://www.w3.org/1998/Math/MathML" alttext="P_{C}=(C_{12}-C_{44})/2" display="inline">
+  <m:semantics>
+    <m:apply id="p3.m1.11" xref="p3.m1.11.pmml">
+      <m:eq id="p3.m1.2" xref="p3.m1.2.pmml"/>
+      <m:apply id="p3.m1.6" xref="p3.m1.6.pmml">
+        <m:csymbol cd="ambiguous" id="p3.m1.3" xref="p3.m1.6.pmml">subscript</m:csymbol>
+        <m:ci id="p3.m1.4" xref="p3.m1.4.pmml">𝑃</m:ci>
+        <m:ci id="p3.m1.5" xref="p3.m1.5.pmml">𝐶</m:ci>
+      </m:apply>
+      <m:apply id="p3.m1.10" xref="p3.m1.10.pmml">
+        <m:divide id="p3.m1.7" xref="p3.m1.7.pmml"/>
+        <m:apply id="p3.m1.1" xref="p3.m1.8b.pmml">
+          <m:minus id="p3.m1.1.1" xref="p3.m1.1.1.pmml"/>
+          <m:apply id="p3.m1.1.5" xref="p3.m1.1.5.pmml">
+            <m:csymbol cd="ambiguous" id="p3.m1.1.2" xref="p3.m1.1.5.pmml">subscript</m:csymbol>
+            <m:ci id="p3.m1.1.3" xref="p3.m1.1.3.pmml">𝐶</m:ci>
+            <m:cn type="integer" id="p3.m1.1.4" xref="p3.m1.1.4.pmml">12</m:cn>
+          </m:apply>
+          <m:apply id="p3.m1.1.9" xref="p3.m1.1.9.pmml">
+            <m:csymbol cd="ambiguous" id="p3.m1.1.6" xref="p3.m1.1.9.pmml">subscript</m:csymbol>
+            <m:ci id="p3.m1.1.7" xref="p3.m1.1.7.pmml">𝐶</m:ci>
+            <m:cn type="integer" id="p3.m1.1.8" xref="p3.m1.1.8.pmml">44</m:cn>
+          </m:apply>
+        </m:apply>
+        <m:cn type="integer" id="p3.m1.9" xref="p3.m1.9.pmml">2</m:cn>
+      </m:apply>
+    </m:apply>
+    <m:annotation-xml encoding="MathML-Presentation">
+      <m:mrow id="p3.m1.11.pmml" xref="p3.m1.11">
+        <m:msub id="p3.m1.6.pmml" xref="p3.m1.6">
+          <m:mi id="p3.m1.4.pmml" xref="p3.m1.4">P</m:mi>
+          <m:mi id="p3.m1.5.pmml" xref="p3.m1.5">C</m:mi>
+        </m:msub>
+        <m:mo id="p3.m1.2.pmml" xref="p3.m1.2">=</m:mo>
+        <m:mrow id="p3.m1.10.pmml" xref="p3.m1.10">
+          <m:mrow id="p3.m1.8b.pmml" xref="p3.m1.1">
+            <m:mo stretchy="false" id="p3.m1.8.pmml" xref="p3.m1.1">(</m:mo>
+            <m:mrow id="p3.m1.1.pmml" xref="p3.m1.1">
+              <m:msub id="p3.m1.1.5.pmml" xref="p3.m1.1.5">
+                <m:mi id="p3.m1.1.3.pmml" xref="p3.m1.1.3">C</m:mi>
+                <m:mn id="p3.m1.1.4.pmml" xref="p3.m1.1.4">12</m:mn>
+              </m:msub>
+              <m:mo id="p3.m1.1.1.pmml" xref="p3.m1.1.1">-</m:mo>
+              <m:msub id="p3.m1.1.9.pmml" xref="p3.m1.1.9">
+                <m:mi id="p3.m1.1.7.pmml" xref="p3.m1.1.7">C</m:mi>
+                <m:mn id="p3.m1.1.8.pmml" xref="p3.m1.1.8">44</m:mn>
+              </m:msub>
+            </m:mrow>
+            <m:mo stretchy="false" id="p3.m1.8a.pmml" xref="p3.m1.1">)</m:mo>
+          </m:mrow>
+          <m:mo id="p3.m1.7.pmml" xref="p3.m1.7">/</m:mo>
+          <m:mn id="p3.m1.9.pmml" xref="p3.m1.9">2</m:mn>
+        </m:mrow>
+      </m:mrow>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex">P_{C}=(C_{12}-C_{44})/2</m:annotation>
+  </m:semantics>
+</m:math>

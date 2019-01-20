@@ -72,6 +72,14 @@ public class MathTest {
     }
 
     @Test
+    void GetPrefixedIdentifiers() throws IOException,  SAXException {
+        final String sampleMML = getFileContents(TEST_DIR + "prefix2.mml");
+        final MathDoc doc = new MathDoc(sampleMML);
+        assertEquals(4,doc.getIdentifiers().size());
+
+    }
+
+    @Test
     void altTest() throws IOException, ParserConfigurationException, SAXException {
         final String sampleMML = getFileContents(TEST_DIR + "measurable-space.mml");
         final MathDoc math = new MathDoc(sampleMML);

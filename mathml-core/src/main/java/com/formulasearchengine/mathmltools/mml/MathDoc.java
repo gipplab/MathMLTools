@@ -25,6 +25,8 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 
+import static com.formulasearchengine.mathmltools.helper.XMLHelper.getElementsB;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -205,12 +207,12 @@ public class MathDoc {
         return dom.getElementsByTagName("annotation");
     }
 
-    Iterable<ValidationProblem> getValidationProblems() throws ParserConfigurationException, IOException, SAXException, URISyntaxException {
+    Iterable<ValidationProblem> getValidationProblems() {
         ValidationResult result = getValidationResult();
         return result.getProblems();
     }
 
-    private ValidationResult getValidationResult() throws ParserConfigurationException, IOException, SAXException, URISyntaxException {
+    private ValidationResult getValidationResult() {
         Validator v = getXsdValidator();
         return v.validateInstance(Input.fromDocument(dom).build());
     }
@@ -248,9 +250,14 @@ public class MathDoc {
 
     public List<CIdentifier> getIdentifiers() {
         if (cIdentifiers == null) {
-            final IterableNodeList nodeList = new IterableNodeList(dom.getElementsByTagName("ci"));
-            cIdentifiers = new ArrayList<>();
-            nodeList.forEach(n -> cIdentifiers.add(new CIdentifier((Element) n)));
+            final IterableNodeList nodeList;
+            try {
+                nodeList = new IterableNodeList(getElementsB(dom, "//*:ci"));
+                cIdentifiers = new ArrayList<>();
+                nodeList.forEach(n -> cIdentifiers.add(new CIdentifier((Element) n)));
+            } catch (XPathExpressionException e) {
+                e.printStackTrace();
+            }
         }
         return cIdentifiers;
     }
