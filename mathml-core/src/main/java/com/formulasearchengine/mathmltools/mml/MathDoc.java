@@ -1,5 +1,6 @@
 package com.formulasearchengine.mathmltools.mml;
 
+import static com.formulasearchengine.mathmltools.helper.XMLHelper.NS_MATHML;
 import static com.formulasearchengine.mathmltools.helper.XMLHelper.getElementsB;
 
 import java.io.File;
@@ -21,6 +22,7 @@ import com.sun.org.apache.xerces.internal.dom.DOMInputImpl;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
+import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
@@ -253,7 +255,8 @@ public class MathDoc {
         if (cIdentifiers == null) {
             final IterableNodeList nodeList;
             try {
-                nodeList = new IterableNodeList(getElementsB(dom, "//*:ci"));
+                XPath xpath = XMLHelper.namespaceAwareXpath("m", NS_MATHML);
+                nodeList = new IterableNodeList(getElementsB(dom, xpath.compile("//m:ci")));
                 cIdentifiers = new ArrayList<>();
                 int i = 0;
                 for (Node node : nodeList) {
