@@ -34,6 +34,10 @@ public class MathTest {
     public static final String TEST_DIR = "com/formulasearchengine/mathmltools/mml/tests/";
     private static final String PID_E = "p1.1.m1.1.1";
     private static final String PID_m = "p1.1.m1.1.3";
+    private static final String PID_k1 = "p1.1.m1.1.5";
+    private static final String PID_k2 = "p1.1.m1.1.9.1";
+    private static final String PID_k3 = "p1.1.m1.1.11";
+
 
     static public String getFileContents(String fname) throws IOException {
         try (InputStream is = MathTest.class.getClassLoader().getResourceAsStream(fname)) {
@@ -121,6 +125,7 @@ public class MathTest {
         final Element element = (Element) XMLHelper.getElementById(mml.getDom(), id);
         isHighlighted(element);
     }
+
     private void isNotHighlighted(MathDoc mml, String id) throws XPathExpressionException {
         final Element element = (Element) XMLHelper.getElementById(mml.getDom(), id);
         isNotHighlighted(element);
@@ -129,8 +134,9 @@ public class MathTest {
     private void isHighlighted(Element element) {
         assertEquals("highlightedIdentifier", element.getAttribute("class"));
     }
+
     private void isNotHighlighted(Element element) {
-        assertFalse( element.hasAttribute("class"));
+        assertFalse(element.hasAttribute("class"));
     }
 
     @Test
@@ -143,6 +149,49 @@ public class MathTest {
         mml.highlightConsecutiveIdentifiers(toHighlight, false);
         isHighlighted(mml, PID_E);
         isNotHighlighted(mml, PID_m);
+    }
+
+    @Test
+    void HighlightMTestFirstk() throws Exception {
+        final String sampleMML = getFileContents(TEST_DIR + "Van_der_Waerden_CI.mml");
+        final MathDoc mml = new MathDoc(sampleMML);
+        final int kHash = "Q12503".hashCode();
+        final ArrayList<Integer> toHighlight = new ArrayList<>();
+        //toHighlight.add(WHash);
+        toHighlight.add(kHash);
+        mml.highlightConsecutiveIdentifiers(toHighlight, false);
+        isHighlighted(mml, PID_k1);
+        isNotHighlighted(mml, PID_k2);
+        isNotHighlighted(mml, PID_k3);
+    }
+
+    @Test
+    void HighlightMTestLastk() throws Exception {
+        final String sampleMML = getFileContents(TEST_DIR + "Van_der_Waerden_CI.mml");
+        final MathDoc mml = new MathDoc(sampleMML);
+        final int kHash = "Q12503".hashCode();
+        final ArrayList<Integer> toHighlight = new ArrayList<>();
+        toHighlight.add(kHash);
+        mml.highlightConsecutiveIdentifiers(toHighlight, true);
+        isNotHighlighted(mml, PID_k1);
+        isNotHighlighted(mml, PID_k2);
+        isHighlighted(mml, PID_k3);
+    }
+
+    @Test
+    void HighlightMTestFirst2k() throws Exception {
+        final String sampleMML = getFileContents(TEST_DIR + "Van_der_Waerden_CI.mml");
+        final MathDoc mml = new MathDoc(sampleMML);
+        final int WHash = "Q7913892".hashCode();
+        final int kHash = "Q12503".hashCode();
+        final ArrayList<Integer> toHighlight = new ArrayList<>();
+        toHighlight.add(WHash);
+        toHighlight.add(kHash);
+        toHighlight.add(kHash);
+        mml.highlightConsecutiveIdentifiers(toHighlight, true);
+        isHighlighted(mml, PID_k1);
+        isHighlighted(mml, PID_k2);
+        isNotHighlighted(mml, PID_k3);
     }
 }
 
