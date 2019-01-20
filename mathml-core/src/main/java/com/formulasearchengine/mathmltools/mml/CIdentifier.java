@@ -17,8 +17,8 @@ public class CIdentifier implements Comparable<CIdentifier> {
         return n.getTextContent();
     }
 
-    public Node getPresentation() throws XPathExpressionException {
-        return XMLHelper.getElementById(n.getOwnerDocument(),getXref());
+    public Element getPresentation() throws XPathExpressionException {
+        return (Element) XMLHelper.getElementById(n.getOwnerDocument(),getXref());
     }
 
     public String getXref() {

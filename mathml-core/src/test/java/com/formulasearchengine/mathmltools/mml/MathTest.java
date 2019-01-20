@@ -1,10 +1,12 @@
 package com.formulasearchengine.mathmltools.mml;
 
+import com.formulasearchengine.mathmltools.helper.XMLHelper;
 import org.apache.commons.lang3.NotImplementedException;
 import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -28,6 +30,7 @@ public class MathTest {
             + "</math>";
 
     public static final String TEST_DIR = "com/formulasearchengine/mathmltools/mml/tests/";
+    private static final String PID_E = "p1.1.m1.1.1";
 
     static public String getFileContents(String fname) throws IOException {
         try (InputStream is = MathTest.class.getClassLoader().getResourceAsStream(fname)) {
@@ -112,13 +115,15 @@ public class MathTest {
     }
 
     @Test
-    void HighlightMTest() throws IOException, ParserConfigurationException, SAXException {
+    void HighlightMTest() throws Exception {
         final String sampleMML = getFileContents(TEST_DIR + "Emc2.mml");
         final MathDoc mml = new MathDoc(sampleMML);
-        final int mHash = "m".hashCode();
+        final int mHash = "E".hashCode();
         final ArrayList<Integer> toHighlight = new ArrayList<>();
         toHighlight.add(mHash);
-        assertThrows(NotImplementedException.class, () -> mml.highlightIdentifier(toHighlight, false));
+        mml.highlightIdentifier(toHighlight, false);
+        final Element element = (Element) XMLHelper.getElementById(mml.getDom(), PID_E);
+        assertEquals("highlightedIdentifier",element.getAttribute("class"));
 
     }
 }
