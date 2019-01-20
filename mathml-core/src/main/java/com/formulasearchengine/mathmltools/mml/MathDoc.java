@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -286,14 +287,15 @@ public class MathDoc {
 
     private int highlightFirstIdentifier(int hash, boolean backward) {
         final List<CIdentifier> identifiers = getIdentifiers();
-        int i = backward ? identifiers.size() - 1 : 0;
-        while (i >= 0 && i < identifiers.size()) {
+        if (backward) {
+            Collections.reverse(identifiers);
+        }
+        for (int i = 0; i < identifiers.size(); i++) {
             final CIdentifier curIdent = identifiers.get(i);
             if (hash == curIdent.hashCode()) {
                 highlightIdentifier(curIdent);
-                return i;
+                return backward ? identifiers.size() - i : i;
             }
-            i = backward ? i - 1 : i + 1;
         }
         return -1;
     }
