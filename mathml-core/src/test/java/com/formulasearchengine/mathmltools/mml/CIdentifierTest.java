@@ -55,4 +55,9 @@ class CIdentifierTest {
         final CIdentifier E2 = getE();
         assertEquals(E2, E);
     }
+    @Test
+    void equalsTo2()  throws Exception {
+        final CIdentifier E = getE();
+        assertNotEquals("E", E);
+    }
 }

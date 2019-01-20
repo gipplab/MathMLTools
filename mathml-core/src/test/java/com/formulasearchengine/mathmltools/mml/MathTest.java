@@ -21,6 +21,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -199,6 +200,38 @@ public class MathTest {
         mml.highlightConsecutiveIdentifiers(toHighlight, true);
         isHighlighted(mml, PID_k1);
         isHighlighted(mml, PID_k2);
+        isNotHighlighted(mml, PID_k3);
+    }
+
+    @Test
+    void HighlightMTestFirstk2() throws Exception {
+        final String sampleMML = getFileContents(TEST_DIR + "Van_der_Waerden_CI.mml");
+        final MathDoc mml = new MathDoc(sampleMML);
+        final int WHash = "Q7913892".hashCode();
+        final int kHash = "Q12503".hashCode();
+        final ArrayList<Integer> toHighlight = new ArrayList<>();
+        toHighlight.add(kHash);
+        toHighlight.add(WHash);
+        mml.highlightConsecutiveIdentifiers(toHighlight, false);
+        isHighlighted(mml, PID_k1);
+        isNotHighlighted(mml, PID_k2);
+        isNotHighlighted(mml, PID_k3);
+    }
+
+    @Test
+    void HighlightTestDefun() throws Exception {
+        final String sampleMML = getFileContents(TEST_DIR + "Van_der_Waerden_CI.mml");
+        final MathDoc mml = new MathDoc(sampleMML);
+        final int kHash = "Q12503".hashCode();
+        final ArrayList<Integer> toHighlight = new ArrayList<>();
+        toHighlight.add(kHash);
+        final CIdentifier k1 = mml.getIdentifiers().get(1);
+        k1.getPresentation().setAttribute("class","other");
+        mml.highlightConsecutiveIdentifiers(toHighlight, false);
+        assertTrue(k1.getPresentation().hasAttribute("class"));
+        assertEquals("other",k1.getPresentation().getAttribute("class"));
+
+        isNotHighlighted(mml, PID_k2);
         isNotHighlighted(mml, PID_k3);
     }
 }
