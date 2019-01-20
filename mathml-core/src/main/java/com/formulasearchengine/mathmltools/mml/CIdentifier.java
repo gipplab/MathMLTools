@@ -4,7 +4,6 @@ package com.formulasearchengine.mathmltools.mml;
 import com.formulasearchengine.mathmltools.helper.XMLHelper;
 import javax.xml.xpath.XPathExpressionException;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 public class CIdentifier implements Comparable<CIdentifier> {
     private Element n;
@@ -18,7 +17,7 @@ public class CIdentifier implements Comparable<CIdentifier> {
     }
 
     public Element getPresentation() throws XPathExpressionException {
-        return (Element) XMLHelper.getElementById(n.getOwnerDocument(),getXref());
+        return (Element) XMLHelper.getElementById(n.getOwnerDocument(), getXref());
     }
 
     public String getXref() {
@@ -32,10 +31,12 @@ public class CIdentifier implements Comparable<CIdentifier> {
     }
 
     @Override
-    public String toString() { return  getName();    }
+    public String toString() {
+        return getName();
+    }
 
     @Override
     public int compareTo(CIdentifier o) {
-        return  getName().compareTo(o.getName());
+        return getName().compareTo(o.getName());
     }
 }

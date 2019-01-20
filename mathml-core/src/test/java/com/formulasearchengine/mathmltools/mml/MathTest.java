@@ -121,7 +121,7 @@ public class MathTest {
         final int mHash = "E".hashCode();
         final ArrayList<Integer> toHighlight = new ArrayList<>();
         toHighlight.add(mHash);
-        mml.highlightIdentifier(toHighlight, false);
+        mml.highlightConsecutiveIdentifiers(toHighlight, false);
         final Element element = (Element) XMLHelper.getElementById(mml.getDom(), PID_E);
         assertEquals("highlightedIdentifier",element.getAttribute("class"));
 
