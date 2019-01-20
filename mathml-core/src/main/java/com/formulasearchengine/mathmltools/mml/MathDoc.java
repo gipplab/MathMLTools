@@ -265,20 +265,37 @@ public class MathDoc {
      * @param backward if true the first identifier is searched from the end of the expression
      */
     public void highlightConsecutiveIdentifiers(List<Integer> hashes, boolean backward) {
+        final int startPos = highlightFirstIdentifier(hashes.get(0), backward);
+        if (startPos >= 0) {
+            highlightRemainingIdentifiers(hashes.subList(1, hashes.size()), startPos);
+        }
+    }
+
+    private void highlightRemainingIdentifiers(List<Integer> hashes, int pos) {
         final List<CIdentifier> identifiers = getIdentifiers();
-        int i = backward ? identifiers.size() - 1 : 0;
         for (Integer curHash : hashes) {
-            while (i >= 0 && i < identifiers.size()) {
-                final CIdentifier curIdent = identifiers.get(i);
-                if (curHash == curIdent.hashCode()) {
-                    highlightIdentifier(curIdent);
-                    backward = false;
-                    i++;
-                    break;
-                }
-                i = backward ? i - 1 : i + 1;
+            final CIdentifier curIdent = identifiers.get(pos + 1);
+            if (curHash == curIdent.hashCode()) {
+                highlightIdentifier(curIdent);
+                pos++;
+            } else {
+                return;
             }
         }
+    }
+
+    private int highlightFirstIdentifier(int hash, boolean backward) {
+        final List<CIdentifier> identifiers = getIdentifiers();
+        int i = backward ? identifiers.size() - 1 : 0;
+        while (i >= 0 && i < identifiers.size()) {
+            final CIdentifier curIdent = identifiers.get(i);
+            if (hash == curIdent.hashCode()) {
+                highlightIdentifier(curIdent);
+                return i;
+            }
+            i = backward ? i - 1 : i + 1;
+        }
+        return -1;
     }
 
 
