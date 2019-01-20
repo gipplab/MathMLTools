@@ -1,6 +1,7 @@
 package com.formulasearchengine.mathmltools.mml;
 
 import com.formulasearchengine.mathmltools.helper.XMLHelper;
+import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.lang3.NotImplementedException;
 import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,7 @@ import java.util.Scanner;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -31,6 +33,7 @@ public class MathTest {
 
     public static final String TEST_DIR = "com/formulasearchengine/mathmltools/mml/tests/";
     private static final String PID_E = "p1.1.m1.1.1";
+    private static final String PID_m = "p1.1.m1.1.3";
 
     static public String getFileContents(String fname) throws IOException {
         try (InputStream is = MathTest.class.getClassLoader().getResourceAsStream(fname)) {
@@ -114,6 +117,22 @@ public class MathTest {
         assertThrows(Exception.class, () -> new MathDoc(tag));
     }
 
+    private void isHighlighted(MathDoc mml, String id) throws XPathExpressionException {
+        final Element element = (Element) XMLHelper.getElementById(mml.getDom(), id);
+        isHighlighted(element);
+    }
+    private void isNotHighlighted(MathDoc mml, String id) throws XPathExpressionException {
+        final Element element = (Element) XMLHelper.getElementById(mml.getDom(), id);
+        isNotHighlighted(element);
+    }
+
+    private void isHighlighted(Element element) {
+        assertEquals("highlightedIdentifier", element.getAttribute("class"));
+    }
+    private void isNotHighlighted(Element element) {
+        assertFalse( element.hasAttribute("class"));
+    }
+
     @Test
     void HighlightMTest() throws Exception {
         final String sampleMML = getFileContents(TEST_DIR + "Emc2.mml");
@@ -122,9 +141,8 @@ public class MathTest {
         final ArrayList<Integer> toHighlight = new ArrayList<>();
         toHighlight.add(mHash);
         mml.highlightConsecutiveIdentifiers(toHighlight, false);
-        final Element element = (Element) XMLHelper.getElementById(mml.getDom(), PID_E);
-        assertEquals("highlightedIdentifier",element.getAttribute("class"));
-
+        isHighlighted(mml, PID_E);
+        isNotHighlighted(mml, PID_m);
     }
 }
 
