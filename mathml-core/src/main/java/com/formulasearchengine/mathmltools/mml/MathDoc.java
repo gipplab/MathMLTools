@@ -23,11 +23,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
+import static com.formulasearchengine.mathmltools.helper.CMMLHelper.getElement;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -257,7 +260,36 @@ public class MathDoc {
     }
 
     public void highlightIdentifier(List<Integer> toHighlight, boolean b) {
+        final List<CIdentifier> identifiers = getIdentifiers();
+        int identPointer;
+        if (b) {
+            identPointer = identifiers.size() - 1;
+        } else {
+            identPointer = 0;
+        }
+        for (Integer currentIdent : toHighlight) {
+            while (identPointer >= 0 && identPointer < identifiers.size()) {
+                final CIdentifier selectedIdent = identifiers.get(identPointer);
+                if (currentIdent == selectedIdent.hashCode()) {
+                    highlightNode(selectedIdent);
+                    b = false;
+                    identPointer++;
+                    break;
+                }
+                if (b) {
+                    identPointer--;
+                } else {
+                    identPointer++;
+                }
+
+            }
+        }
+
+    }
+
+    private void highlightNode(CIdentifier identPointer) {
         throw new NotImplementedException("");
+
     }
 
     private static class SchemaInput {
