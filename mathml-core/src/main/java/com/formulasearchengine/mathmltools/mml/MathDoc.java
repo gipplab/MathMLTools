@@ -6,6 +6,7 @@ import com.formulasearchengine.mathmltools.io.XmlDocumentWriter;
 import com.formulasearchengine.mathmltools.utils.mml.CSymbol;
 import com.formulasearchengine.mathmltools.xml.PartialLocalEntityResolver;
 import com.sun.org.apache.xerces.internal.dom.DOMInputImpl;
+import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -288,8 +289,12 @@ public class MathDoc {
     }
 
     private void highlightNode(CIdentifier identPointer) {
-        throw new NotImplementedException("");
-
+        try {
+            identPointer.getPresentation().setAttribute("class","highlightedIdentifier");
+        } catch (XPathExpressionException e) {
+            log.warn("Can not highlight presentation node " + identPointer.getXref() );
+            log.warn(e);
+        }
     }
 
     private static class SchemaInput {
