@@ -65,6 +65,7 @@ public class MathDoc {
     private static Validator v;
 
     private List<CSymbol> cSymbols = null;
+    private List<CIdentifier> cIdentifiers = null;
 
     private Document dom;
 
@@ -240,6 +241,15 @@ public class MathDoc {
             nodeList.forEach(n -> cSymbols.add(new CSymbol((Element) n)));
         }
         return cSymbols;
+    }
+
+    public List<CIdentifier> getIdentifiers() {
+        if (cIdentifiers == null) {
+            final IterableNodeList nodeList = new IterableNodeList(dom.getElementsByTagName("ci"));
+            cIdentifiers = new ArrayList<>();
+            nodeList.forEach(n -> cIdentifiers.add(new CIdentifier((Element) n)));
+        }
+        return cIdentifiers;
     }
 
     public Document getDom() {

@@ -628,4 +628,8 @@ public final class XMLHelper {
             return nodes.iterator();
         }
     }
+
+    public static Node getElementById(Document dom, String id) throws XPathExpressionException {
+        return getElementB(dom, "//*[@id='" + id + "']");
+    }
 }
