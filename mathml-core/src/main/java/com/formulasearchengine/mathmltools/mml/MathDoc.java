@@ -266,12 +266,7 @@ public class MathDoc {
      */
     public void highlightConsecutiveIdentifiers(List<Integer> hashes, boolean backward) {
         final List<CIdentifier> identifiers = getIdentifiers();
-        int i;
-        if (backward) {
-            i = identifiers.size() - 1;
-        } else {
-            i = 0;
-        }
+        int i = backward ? identifiers.size() - 1 : 0;
         for (Integer curHash : hashes) {
             while (i >= 0 && i < identifiers.size()) {
                 final CIdentifier curIdent = identifiers.get(i);
@@ -281,15 +276,11 @@ public class MathDoc {
                     i++;
                     break;
                 }
-                if (backward) {
-                    i--;
-                } else {
-                    i++;
-                }
+                i = backward ? i - 1 : i + 1;
             }
         }
-
     }
+
 
     private void highlightIdentifier(CIdentifier identifier) {
         try {
