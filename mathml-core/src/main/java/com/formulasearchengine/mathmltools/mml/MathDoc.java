@@ -18,7 +18,6 @@ import com.formulasearchengine.mathmltools.io.XmlDocumentReader;
 import com.formulasearchengine.mathmltools.io.XmlDocumentWriter;
 import com.formulasearchengine.mathmltools.utils.mml.CSymbol;
 import com.formulasearchengine.mathmltools.xml.PartialLocalEntityResolver;
-import com.sun.org.apache.xerces.internal.dom.DOMInputImpl;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
@@ -32,6 +31,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.ls.LSInput;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xmlunit.builder.Input;
@@ -163,10 +163,10 @@ public class MathDoc {
         return null;
     }
 
-    public static DOMInputImpl getMathMLSchema() {
+    public static LSInput getMathMLSchema() {
         SchemaInput schemaInput = new SchemaInput().invoke();
         InputSource inputSource = schemaInput.getInputSource();
-        final DOMInputImpl input = new DOMInputImpl();
+        final LSInput input = new DOMInputImpl();
         input.setByteStream(inputSource.getByteStream());
         input.setPublicId(inputSource.getPublicId());
         input.setSystemId(inputSource.getSystemId());
