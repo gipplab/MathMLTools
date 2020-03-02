@@ -34,10 +34,11 @@ public class SaveTranslatorWrapper {
 
     private Object translatorObj;
     private Object exceptionObj;
+    private Object resultObj;
 
     private Method translateMethod;
     private Method getInfoMethod;
-    private Method getTranslatedExpressionMethod;
+//    private Method getTranslatedExpressionMethod;
 
     private Method getExceptionMessageMethod;
     private Method getExceptionReasonMethod;
@@ -64,10 +65,10 @@ public class SaveTranslatorWrapper {
             File jarF = jar.toFile();
             URLClassLoader urlCL = new URLClassLoader(new URL[] {jarF.toURI().toURL()}, System.class.getClassLoader());
 
-            Class globalConstantsClass = urlCL.loadClass(PACKAGE_COMMON + "GlobalConstants");
-            Class translationExceptionClass = urlCL.loadClass(PACKAGE_COMMON + "TranslationException");
+            Class globalConstantsClass = urlCL.loadClass(PACKAGE_COMMON + "constants.GlobalConstants");
+            Class translationExceptionClass = urlCL.loadClass(PACKAGE_COMMON + "exceptions.TranslationException");
             Class translator = urlCL.loadClass(PACKAGE_TRANSLATOR + "SemanticLatexTranslator");
-            Class globalPathsClass = urlCL.loadClass(PACKAGE_COMMON + "GlobalPaths");
+            Class globalPathsClass = urlCL.loadClass(PACKAGE_COMMON + "constants.GlobalPaths");
             LOG.debug("Successfully loaded classes at runtime. Start to load objects at runtime.");
 
             // setting global cas
@@ -78,12 +79,12 @@ public class SaveTranslatorWrapper {
             Object obj = f.get(null);
             //System.out.println(((Path) obj).toAbsolutePath().toString());
 
-            translatorObj = translator.getDeclaredConstructor(String.class, String.class).newInstance("LaTeX", cas);
+            translatorObj = translator.getDeclaredConstructor(String.class).newInstance(cas);
 
             Method initMethod = translator.getMethod("init", Path.class);
             translateMethod = translator.getMethod("translate", String.class);
-            getInfoMethod = translator.getMethod("getInfoLog");
-            getTranslatedExpressionMethod = translator.getMethod("getTranslatedExpression");
+            getInfoMethod = translator.getMethod("getInfoLogger");
+//            getTranslatedExpressionMethod = translator.getMethod("getTranslatedExpression");
 
             getExceptionMessageMethod = translationExceptionClass.getMethod("getMessage");
             getExceptionReasonMethod = translationExceptionClass.getMethod("getReason");
@@ -103,12 +104,13 @@ public class SaveTranslatorWrapper {
 
     private void reset() {
         exceptionObj = null; // reset previous error
+        resultObj = null;
     }
 
     public void translate(String latexString) throws IllegalAccessException {
         reset();
         try {
-            translateMethod.invoke(translatorObj, latexString);
+            resultObj = translateMethod.invoke(translatorObj, latexString);
         } catch (InvocationTargetException ie) {
             exceptionObj = ie.getCause();
         }
@@ -117,7 +119,7 @@ public class SaveTranslatorWrapper {
     public TranslationResponse getTranslationResult() throws IllegalAccessException {
         TranslationResponse res = new TranslationResponse();
         try {
-            Object result;
+            String result;
             Object log;
             if (exceptionObj != null) {
                 result = "";
@@ -125,10 +127,10 @@ public class SaveTranslatorWrapper {
                 msg += " - Reason: " + getExceptionReasonMethod.invoke(exceptionObj).toString();
                 log = msg;
             } else {
-                result = getTranslatedExpressionMethod.invoke(translatorObj);
+                result = resultObj.toString();
                 log = getInfoMethod.invoke(translatorObj);
             }
-            res.setResult((String) result);
+            res.setResult(result);
             res.setLog(log.toString());
             return res;
         } catch (InvocationTargetException ie) {

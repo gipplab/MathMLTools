@@ -7,6 +7,9 @@
 **/out/
 **/target/
 
+mathml-converters/libs
+node_modules
+
 ### Maven ###
 pom.xml.tag
 pom.xml.releaseBackup

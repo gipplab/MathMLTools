@@ -108,7 +108,7 @@ public class XmlDocumentReader {
         if (validation) {
             return ValidationBuilder.parse(src);
         } else {
-            return NoValidationBuilder.parse(src);
+            return XmlDocumentReader.getDefaultNoValidatingDocBuilder().parse(src);
         }
     }
 

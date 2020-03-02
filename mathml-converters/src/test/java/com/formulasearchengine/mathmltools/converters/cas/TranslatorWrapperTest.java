@@ -12,8 +12,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * @author Andre Greiner-Petter
  */
 @AssumeTranslatorAvailability(
-        getJarPath = "/home/andreg-p/Projects/latex-grammar/latex-to-cas-translator.jar",
-        getReferenceDirectory = "/home/andreg-p/Projects/latex-grammar/libs/ReferenceData"
+        getJarPath = "/home/andreg-p/Projects/LaCASt/bin/latex-to-cas-translator.jar",
+        getReferenceDirectory = "/home/andreg-p/Projects/LaCASt/libs/ReferenceData"
 )
 public class TranslatorWrapperTest {
     private static SaveTranslatorWrapper translator;
@@ -22,9 +22,9 @@ public class TranslatorWrapperTest {
     public static void init(){
         translator = new SaveTranslatorWrapper();
         translator.init(
-                "/home/andreg-p/Projects/latex-grammar/latex-to-cas-translator.jar",
+                "/home/andreg-p/Projects/LaCASt/bin/latex-to-cas-translator.jar",
                 "Maple",
-                "/home/andreg-p/Projects/latex-grammar/libs/ReferenceData"
+                "/home/andreg-p/Projects/LaCASt/libs/ReferenceData"
         );
     }
 
