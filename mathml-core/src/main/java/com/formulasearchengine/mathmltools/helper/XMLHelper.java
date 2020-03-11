@@ -187,10 +187,10 @@ public final class XMLHelper {
      * Helper program: Transforms a String to a XML Document.
      *
      * @param inputXMLString     the input xml string
-     * @param namespaceAwareness the namespace awareness
+     * @param validation         validation on/off
      * @return parsed document
      */
-    public static Document string2Doc(String inputXMLString, boolean namespaceAwareness) {
+    public static Document string2Doc(String inputXMLString, boolean validation) {
         try {
             return XmlDocumentReader.parse(inputXMLString, false);
         } catch (IOException | SAXException e) {
@@ -210,7 +210,7 @@ public final class XMLHelper {
     }
 
     public static Document getNewDocument() {
-        DocumentBuilder builder = XmlDocumentReader.NoValidationBuilder;
+        DocumentBuilder builder = XmlDocumentReader.getDefaultNoValidatingDocBuilder();
         return builder.newDocument();
     }
 

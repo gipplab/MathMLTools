@@ -13,6 +13,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,13 +22,24 @@ import static org.junit.jupiter.api.Assertions.*;
 class XmlDocumentReaderTest {
 
     @Test
-    void simpleDocTest(){
+    public void simpleDocTest(){
         try {
             Document xml = XmlDocumentReader.parse(MathTest.SIMPLE_WITH_DOCTYPE);
             assertNotNull(xml);
         } catch (Exception e){
             fail("Parsing document throws an exception.", e);
         }
+    }
+
+    @Test
+    public void simpleDocParallelTest() throws IOException {
+        mmlResources().parallel().forEach(p -> {
+            try {
+                XmlDocumentReader.parse(p, true);
+            } catch (Exception e) {
+                fail("Parsing document throws an exception.", e);
+            }
+        });
     }
 
     @Test

@@ -28,9 +28,9 @@ import java.nio.file.Paths;
 public class XmlDocumentReader {
     private static final Logger LOG = LogManager.getLogger(XmlDocumentReader.class.getName());
 
-    public static final DocumentBuilder ValidationBuilder = XmlDocumentReader.getDefaultValidatingDocBuilder();
-
-    public static final DocumentBuilder NoValidationBuilder = XmlDocumentReader.getDefaultNoValidatingDocBuilder();
+//    public static final DocumentBuilder ValidationBuilder = XmlDocumentReader.getDefaultValidatingDocBuilder();
+//
+//    public static final DocumentBuilder NoValidationBuilder = XmlDocumentReader.getDefaultNoValidatingDocBuilder();
 
     private XmlDocumentReader() {
     }
@@ -106,9 +106,10 @@ public class XmlDocumentReader {
         InputSource src = stringToSource(xml);
 
         if (validation) {
-            return ValidationBuilder.parse(src);
+            return XmlDocumentReader.getDefaultValidatingDocBuilder().parse(src);
         } else {
             return XmlDocumentReader.getDefaultNoValidatingDocBuilder().parse(src);
+//            return NoValidationBuilder.parse(src);
         }
     }
 
@@ -151,14 +152,14 @@ public class XmlDocumentReader {
     public static Document parse(File file, boolean validation) throws IOException, SAXException, IllegalArgumentException {
         if (validation) {
             try {
-                return ValidationBuilder.parse(file);
+                return XmlDocumentReader.getDefaultValidatingDocBuilder().parse(file);
             } catch (SAXException saxe) {
                 LOG.debug("Parsing exception occur. It's most likely a wrong header. Try to fixing it...");
                 String str = new String(Files.readAllBytes(file.toPath()), Charsets.UTF_8);
                 return parse(str, validation);
             }
         } else {
-            return NoValidationBuilder.parse(file);
+            return XmlDocumentReader.getDefaultNoValidatingDocBuilder().parse(file);
         }
     }
 
@@ -204,7 +205,7 @@ public class XmlDocumentReader {
         return is;
     }
 
-    private static DocumentBuilder getDefaultValidatingDocBuilder() {
+    public static DocumentBuilder getDefaultValidatingDocBuilder() {
         try {
             DocumentBuilder db = getStandardDocumentBuilderFactory(true).newDocumentBuilder();
             db.setErrorHandler(new ParsingErrorHandler(Severity.SEVERE));
@@ -215,7 +216,7 @@ public class XmlDocumentReader {
         }
     }
 
-    private static DocumentBuilder getDefaultNoValidatingDocBuilder() {
+    public static DocumentBuilder getDefaultNoValidatingDocBuilder() {
         try {
             DocumentBuilder db = getStandardDocumentBuilderFactory(false).newDocumentBuilder();
             db.setErrorHandler(new ParsingErrorHandler(Severity.NOTIFY));
