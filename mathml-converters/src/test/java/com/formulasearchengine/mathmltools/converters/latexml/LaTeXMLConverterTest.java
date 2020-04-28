@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 @AssumeLaTeXMLAvailability
 public class LaTeXMLConverterTest {
 
-    public static final String HTTP_LATEXML_TEST = "https://drmf-latexml.wmflabs.org";
+    public static final String HTTP_LATEXML_TEST = "https://drmf-latexml.wmflabs.org/convert";
 
     /**
      * This test needs a local LaTeXML installation. If you don't have
@@ -60,7 +60,7 @@ public class LaTeXMLConverterTest {
         NativeResponse serviceResponse = converter.parseAsService(latex);
 
         // validate
-        String expected = getResourceContent("latexml_service_expected.txt");
+        String expected = getResourceContent("latexml_service_expected.xml");
         assertThat(serviceResponse.getStatusCode(), equalTo(0));
         assertThat(serviceResponse.getResult(), equalTo(expected));
     }
@@ -92,7 +92,7 @@ public class LaTeXMLConverterTest {
         NativeResponse serviceResponse = converter.parseAsService(latex);
 
         // validate
-        String expected = getResourceContent("latexml_service_2_expected.txt");
+        String expected = getResourceContent("latexml_service_2_expected.xml");
         assertThat(serviceResponse.getStatusCode(), equalTo(0));
         assertThat(serviceResponse.getResult(), equalToIgnoringWhiteSpace(expected));
     }

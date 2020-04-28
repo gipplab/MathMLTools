@@ -36,7 +36,7 @@ public class WikidataExample {
 
     }
 
-    private ItemDocument getItem(long qId) throws MediaWikiApiErrorException {
+    private ItemDocument getItem(long qId) throws MediaWikiApiErrorException, IOException {
         return (ItemDocument) FETCHER.getEntityDocument("Q" + qId);
     }
 

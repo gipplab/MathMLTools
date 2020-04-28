@@ -18,7 +18,6 @@ import java.nio.file.Path;
  *
  * @author Andre Greiner-Petter
  * @see DocumentOutputFormatConfiguration
- * @see XMLSerializer
  */
 public class XmlDocumentWriter {
 

@@ -10,20 +10,26 @@ import com.formulasearchengine.mathmltools.nativetools.NativeResponse;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * Conversion from a latex formula to a MathML representation via LaTeXML.
@@ -139,6 +145,15 @@ public class LaTeXMLConverter implements IConverter, Canonicalizable {
         return executor.exec(CommandExecutor.DEFAULT_TIMEOUT, Level.TRACE);
     }
 
+    public NativeResponse parseToNativeResponse(List<String> arguments) {
+        LOG.info("Start parsing process of installed latexml version. " + arguments);
+        CommandExecutor executor = new CommandExecutor(NAME, arguments);
+        if (redirect != null) {
+            executor.setWorkingDirectoryForProcess(redirect);
+        }
+        return executor.exec(CommandExecutor.DEFAULT_TIMEOUT, Level.TRACE);
+    }
+
     /**
      * Converts a latex formula string into mathml and includes
      * pmml, cmml and tex semantics. If no url in the config is given,
@@ -213,18 +228,30 @@ public class LaTeXMLConverter implements IConverter, Canonicalizable {
      * @return MathML String
      */
     public LaTeXMLServiceResponse parseAsService(String latex) {
-        try {
-            latex = UriComponentsBuilder.newInstance().queryParam("tex", latex).build().encode(StandardCharsets.UTF_8.toString()).getQuery();
-        } catch (UnsupportedEncodingException ignore) {
-            LOG.warn("encoding not supported", ignore);
-        }
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-        String serviceArguments = config.buildServiceRequest();
-        String payload = serviceArguments + "&" + latex;
+        MultiValueMap<String, String> parameters = config.buildServiceRequestParameters(true);
+        parameters.add("tex", latex);
+//        System.out.println(parameters);
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(parameters, header);
         RestTemplate restTemplate = new RestTemplate();
 
+//
+//        try {
+//            latex = UriComponentsBuilder.newInstance().queryParam("tex", latex).build().encode(StandardCharsets.UTF_8.toString()).getQuery();
+//        } catch (UnsupportedEncodingException ignore) {
+//            LOG.warn("encoding not supported", ignore);
+//        }
+//
+//        String serviceArguments = config.buildServiceRequest();
+//        String payload = serviceArguments + "&" + latex;
+//        RestTemplate restTemplate = new RestTemplate();
+
         try {
-            LaTeXMLServiceResponse rep = restTemplate.postForObject(config.getUrl(), payload, LaTeXMLServiceResponse.class);
+//            LaTeXMLServiceResponse rep = restTemplate.getForObject(config.getUrl(), LaTeXMLServiceResponse.class, config.getDefaultParams());
+            LaTeXMLServiceResponse rep = restTemplate.postForObject(config.getUrl(), request, LaTeXMLServiceResponse.class);
             LOG.debug(String.format("LaTeXMLServiceResponse:\n"
                             + "statusCode: %s\nstatus: %s\nlog: %s\nresult: %s",
                     rep.getStatusCode(), rep.getStatus(), rep.getLog(), rep.getResult()));
@@ -233,5 +260,105 @@ public class LaTeXMLConverter implements IConverter, Canonicalizable {
             LOG.error(e.getResponseBodyAsString());
             throw e;
         }
+    }
+
+    public static void main(String[] args) {
+        LaTeXMLConfig lateXMLConfig = LaTeXMLConfig.getDefaultConfiguration().setUrl("https://drmf-latexml.wmflabs.org/convert");
+        lateXMLConfig.getDefaultParams().remove("pmml");
+        lateXMLConfig.getDefaultParams().remove("cmml");
+        LaTeXMLConverter c = new LaTeXMLConverter(lateXMLConfig);
+//        c.init();
+        c.semanticMode();
+        c.redirectLatex(Paths.get("/home/andre/data/DRMF"));
+
+//        Map<String, String> params = c.config.getDefaultParams();
+//        params.remove("cmml");
+//        params.remove("format");
+//        params.remove("linelength");
+
+        Path dataset = Paths.get("/home/andre/data/Howard/together.txt");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(dataset.getParent().resolve("together-lines.tex").toFile()))) {
+            Pattern linePattern = Pattern.compile("^(.*?)[,.;]? \\\\url.*");
+            Pattern resultPattern = Pattern.compile("<span.*?>(.*?)</span>", Pattern.DOTALL);
+
+            int[] ln = new int[]{0};
+            Stream<String> lines = Files.lines(dataset).sequential();
+            lines
+                    .peek(l -> ln[0]++)
+                    .forEach(l -> {
+                        Matcher m = linePattern.matcher(l);
+                        if (m.matches()) {
+                            String tex = m.group(1);
+                            LOG.info("Convert " + ln[0] + ": " + tex);
+                            try {
+                                if (tex.isEmpty() || tex.matches("\\s+")) {
+                                    tex = "ERROR";
+                                }
+                                writer.write("$" + tex + "$\n");
+                            } catch (IOException e) {
+                                LOG.error("CANNOT WRITE! STOP HERE");
+                            }
+
+//                            try {
+////                                NativeResponse res = c.parseAsService(tex);
+//                                NativeResponse res = c.parseToNativeResponse(tex);
+//                                Matcher resM = resultPattern.matcher(res.getResult());
+//                                if ( resM.find() ) {
+//                                    String resStr = resM.group(1);
+//                                    resStr = resStr.replaceAll("%\n", "");
+//                                    resStr = resStr.replaceAll("\\\\\n", "\\\\ ");
+//                                    LOG.info("Successfully converted " + ln[0]);
+//                                    writer.write(ln[0] + ": " + resStr + "\n");
+//                                } else {
+//                                    LOG.warn("Unable to identify result " + ln[0]);
+//                                    System.out.println(res.getResult());
+//                                }
+//                            } catch ( Exception | Error e ) {
+//                                LOG.warn("Error in line " + ln[0]);
+//                            }
+                        } else {
+                            LOG.warn("Cannot determine end of line in " + ln[0]);
+                            try {
+                                writer.write("$ERROR$\n");
+                            } catch (IOException e) {
+                                LOG.error("CANNOT WRITE! STOP HERE");
+                            }
+                        }
+                    });
+        } catch (IOException e) {
+            LOG.error("Cannot read/write", e);
+        }
+
+//        LinkedList<String> myArgs = new LinkedList<>();
+//        myArgs.addLast("latexmlc");
+//        myArgs.addLast("--whatsin=math");
+//        myArgs.addLast("--includes");
+//        myArgs.addLast("--mathtex");
+//        myArgs.addLast("--preload=amsmath.sty");
+//        myArgs.addLast("--preload=DLMFmath.sty");
+//        myArgs.addLast("--preload=DRMFfcns.sty");
+//        myArgs.addLast("test.tex");
+
+//        String tex = "\\JacobipolyP{a}{b}{c}@{x}";
+//        String tex = "\\binom{n}{k}=\\frac{n!}{(n-k)!k!}=\\binom{n}{n-k}";
+//        String tex = "\\phase@@{\\conj{z}}=-\\phase@@{z}";
+//        NativeResponse res = c.parseToNativeResponse(tex);
+
+
+//        NativeResponse res = c.parseToNativeResponse(myArgs);
+//        System.out.println(res.getResult());
+
+
+//        Pattern resultPattern = Pattern.compile("<span.*?>(.*?)</span>", Pattern.DOTALL);
+//        Matcher m = resultPattern.matcher(res.getResult());
+//        if ( m.find() ){
+//            String r = m.group(1).replaceAll("\\\\\n", "\\\\ ");
+//            System.out.println(r);
+//        }
+
+//        NativeResponse res = c.parseAsService(tex);
+//        System.out.println(res.getResult());
+//        System.out.println(res.getMessage());
+//        System.out.println(res.getStatusCode());
     }
 }

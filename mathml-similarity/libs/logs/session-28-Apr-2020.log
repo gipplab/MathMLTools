@@ -1,0 +1,39 @@
+[16:37:57,401 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:37:57,443 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:37:58,861 DEBUG] io.XmlDocumentWriter: Successfully serialized document to string.
+[16:38:00,332 DEBUG] io.XmlDocumentWriter: Successfully serialized document to string.
+[16:38:00,336 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:00,555 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:00,745 DEBUG] io.XmlDocumentWriter: Successfully serialized document to string.
+[16:38:00,754 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:00,764 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:00,782 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'm:math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:00,788 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:00,815 DEBUG] io.XmlDocumentWriter: Successfully serialized document to string.
+[16:38:01,119 DEBUG] io.XmlDocumentWriter: Successfully serialized document to string.
+[16:38:01,123 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:01,266 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'm:math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:01,422 DEBUG] io.XmlDocumentWriter: Successfully serialized document to string.
+[16:38:01,426 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'm:math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:01,433 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:01,440 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'm:math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:01,447 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:01,461 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:01,467 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:01,512 DEBUG] io.XmlDocumentWriter: Successfully serialized document to string.
+[16:38:01,793 DEBUG] io.XmlDocumentWriter: Successfully serialized document to string.
+[16:38:01,798 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:01,909 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:02,041 DEBUG] io.XmlDocumentWriter: Successfully serialized document to string.
+[16:38:02,046 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:02,051 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:02,056 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:02,062 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:02,079 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:02,091 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:02,208 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:02,215 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:02,317 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:02,325 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:02,380 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.
+[16:38:02,388 WARN] exceptions.ParsingErrorHandler: cvc-elt.1.a: Cannot find the declaration of element 'math'. Error handler is on level 'notify', no exception was thrown.

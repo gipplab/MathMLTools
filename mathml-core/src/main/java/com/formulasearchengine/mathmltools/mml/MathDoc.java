@@ -18,12 +18,14 @@ import com.formulasearchengine.mathmltools.io.XmlDocumentReader;
 import com.formulasearchengine.mathmltools.io.XmlDocumentWriter;
 import com.formulasearchengine.mathmltools.utils.mml.CSymbol;
 import com.formulasearchengine.mathmltools.xml.PartialLocalEntityResolver;
+
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
+
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,6 +33,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.bootstrap.DOMImplementationRegistry;
+import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSInput;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -78,6 +82,8 @@ public class MathDoc {
 
     private Document dom;
 
+    private static DOMImplementationLS domImplLS;
+
     /**
      * Creates a MathDoc object based on the xml string input
      *
@@ -88,6 +94,7 @@ public class MathDoc {
      */
     public MathDoc(String inputXMLString) throws IOException, SAXException, IllegalArgumentException {
         dom = XmlDocumentReader.parse(inputXMLString);
+        setup();
     }
 
     /**
@@ -100,6 +107,7 @@ public class MathDoc {
      */
     public MathDoc(Path path) throws IOException, SAXException, IllegalArgumentException {
         dom = XmlDocumentReader.parse(path);
+        setup();
     }
 
     /**
@@ -112,10 +120,22 @@ public class MathDoc {
      */
     public MathDoc(File file) throws IOException, SAXException, IllegalArgumentException {
         dom = XmlDocumentReader.parse(file);
+        setup();
     }
 
     public MathDoc(Document dom) {
         this.dom = dom;
+        setup();
+    }
+
+    private void setup() {
+        if (domImplLS == null) {
+            try {
+                this.domImplLS = (DOMImplementationLS) DOMImplementationRegistry.newInstance().getDOMImplementation("LS");
+            } catch (Exception e) {
+                log.error("Cannot instantiate LSInput implementation", e);
+            }
+        }
     }
 
     public static String fixingHeaderAndNS(String in) {
@@ -166,7 +186,7 @@ public class MathDoc {
     public static LSInput getMathMLSchema() {
         SchemaInput schemaInput = new SchemaInput().invoke();
         InputSource inputSource = schemaInput.getInputSource();
-        final LSInput input = new DOMInputImpl();
+        final LSInput input = domImplLS.createLSInput();
         input.setByteStream(inputSource.getByteStream());
         input.setPublicId(inputSource.getPublicId());
         input.setSystemId(inputSource.getSystemId());
@@ -255,18 +275,18 @@ public class MathDoc {
     public List<CIdentifier> getIdentifiers() {
         if (cIdentifiers == null) {
             final IterableNodeList nodeList;
-                nodeList = getXNodes("//m:ci");
-                cIdentifiers = new ArrayList<>();
-                int i = 0;
-                for (Node node : nodeList) {
-                    cIdentifiers.add(new CIdentifier((Element) node, i));
-                    i++;
-                }
+            nodeList = getXNodes("//m:ci");
+            cIdentifiers = new ArrayList<>();
+            int i = 0;
+            for (Node node : nodeList) {
+                cIdentifiers.add(new CIdentifier((Element) node, i));
+                i++;
+            }
         }
         return cIdentifiers;
     }
 
-    private IterableNodeList getXNodes(String xPath)  {
+    private IterableNodeList getXNodes(String xPath) {
         XPath xpath = XMLHelper.namespaceAwareXpath("m", NS_MATHML);
         try {
             final XPathExpression pattern = xpath.compile(xPath);

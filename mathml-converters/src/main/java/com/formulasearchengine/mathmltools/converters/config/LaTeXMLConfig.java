@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -157,7 +159,11 @@ public class LaTeXMLConfig {
         return args;
     }
 
+    /**
+     * @return
+     */
     @JsonIgnore
+    @Deprecated
     public String buildServiceRequest() {
         LinkedList<String> args = new LinkedList<>();
         addParamsForService(defaultParams, args);
@@ -170,5 +176,35 @@ public class LaTeXMLConfig {
             args.add(cmd);
         }
         return String.join("&", args);
+    }
+
+    /**
+     * Build multi-valued map of parameters.
+     *
+     * @param content true if the request parameters should contain content parameters as well.
+     * @return map of parameters
+     */
+    @JsonIgnore
+    public MultiValueMap<String, String> buildServiceRequestParameters(boolean content) {
+        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+        for (Map.Entry<String, String> e : defaultParams.entrySet()) {
+            parameters.add(e.getKey(), e.getValue());
+        }
+
+        if (content) {
+            for (Map.Entry<String, String> e : extraContentParams.entrySet()) {
+                parameters.add(e.getKey(), e.getValue());
+            }
+
+            for (String s : contentPreloads) {
+                parameters.add("preload", s);
+            }
+        } else {
+            for (String s : defaultPreloads) {
+                parameters.add("preload", s);
+            }
+        }
+
+        return parameters;
     }
 }

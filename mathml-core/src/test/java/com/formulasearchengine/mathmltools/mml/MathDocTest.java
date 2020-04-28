@@ -1,9 +1,9 @@
 package com.formulasearchengine.mathmltools.mml;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import com.sun.org.apache.xerces.internal.xs.XSImplementation;
-import com.sun.org.apache.xerces.internal.xs.XSLoader;
-import com.sun.org.apache.xerces.internal.xs.XSModel;
+import org.apache.xerces.xs.XSImplementation;
+import org.apache.xerces.xs.XSLoader;
+import org.apache.xerces.xs.XSModel;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 

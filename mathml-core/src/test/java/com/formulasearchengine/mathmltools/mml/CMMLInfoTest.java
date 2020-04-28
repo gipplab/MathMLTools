@@ -310,7 +310,7 @@ public class CMMLInfoTest {
         XQueryExecutable CDQuery = strict.getXQuery();
         CMMLInfo cmmlElement = new CMMLInfo(sampleMML);
         final String s = cmmlElement.toStrictCmml().getXQuery().getUnderlyingCompiledQuery().getExpression().toString();
-        assertThat(s, containsString("firstItem"));
+        assertThat(s, containsString("first("));
     }
 
 
