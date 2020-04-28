@@ -84,6 +84,14 @@ public class MathDoc {
 
     private static DOMImplementationLS domImplLS;
 
+    static {
+        try {
+            domImplLS = (DOMImplementationLS) DOMImplementationRegistry.newInstance().getDOMImplementation("LS");
+        } catch (Exception e) {
+            log.error("Cannot instantiate LSInput implementation", e);
+        }
+    }
+
     /**
      * Creates a MathDoc object based on the xml string input
      *
@@ -94,7 +102,6 @@ public class MathDoc {
      */
     public MathDoc(String inputXMLString) throws IOException, SAXException, IllegalArgumentException {
         dom = XmlDocumentReader.parse(inputXMLString);
-        setup();
     }
 
     /**
@@ -107,7 +114,6 @@ public class MathDoc {
      */
     public MathDoc(Path path) throws IOException, SAXException, IllegalArgumentException {
         dom = XmlDocumentReader.parse(path);
-        setup();
     }
 
     /**
@@ -120,22 +126,10 @@ public class MathDoc {
      */
     public MathDoc(File file) throws IOException, SAXException, IllegalArgumentException {
         dom = XmlDocumentReader.parse(file);
-        setup();
     }
 
     public MathDoc(Document dom) {
         this.dom = dom;
-        setup();
-    }
-
-    private void setup() {
-        if (domImplLS == null) {
-            try {
-                this.domImplLS = (DOMImplementationLS) DOMImplementationRegistry.newInstance().getDOMImplementation("LS");
-            } catch (Exception e) {
-                log.error("Cannot instantiate LSInput implementation", e);
-            }
-        }
     }
 
     public static String fixingHeaderAndNS(String in) {
