@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN">
+<Configuration status="INFO">
     <Appenders>
+        <File name="LogFile" fileName="libs/logs/session-${date:dd-MMM-yyy}.log">
+            <PatternLayout pattern="[%d{ABSOLUTE} %level] %logger{2}: %msg%n"/>
+            <Filters>
+                <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </File>
         <Console name="system-console" target="SYSTEM_OUT">
             <PatternLayout>
                 <Pattern>%highlight{[%-5level]}{FATAL=bg_red Bright white, ERROR=bright red, WARN=Bright yellow, INFO=Bright blue, DEBUG=green, TRACE=cyan} %d{HH:mm:ss.SSS} %highlight{[%t] %c{1}:%line}{FATAL=magenta, ERROR=magenta, WARN=magenta, INFO=magenta, DEBUG=magenta, TRACE=magenta} - %msg%n</Pattern>
@@ -10,6 +16,7 @@
     <Loggers>
         <Root level="ALL">
             <AppenderRef ref="system-console" level="INFO"/>
+            <AppenderRef ref="LogFile"/>
         </Root>
     </Loggers>
 </Configuration>

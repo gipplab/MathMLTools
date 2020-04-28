@@ -2,7 +2,6 @@ package com.formulasearchengine.mathmltools.io;
 
 import com.formulasearchengine.mathmltools.mml.MathDoc;
 import com.google.common.base.Charsets;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Node;
@@ -19,7 +18,6 @@ import java.nio.file.Path;
  *
  * @author Andre Greiner-Petter
  * @see DocumentOutputFormatConfiguration
- * @see XMLSerializer
  */
 public class XmlDocumentWriter {
 

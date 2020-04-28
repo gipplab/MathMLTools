@@ -98,8 +98,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
 
         <log4j2.version>2.10.0</log4j2.version>
 
@@ -108,8 +109,8 @@
             See: https://junit.org/junit5/docs/current/user-guide/#running-tests-ide-intellij-idea
             And: https://junit.org/junit5/docs/current/user-guide/#running-tests-build-maven
          -->
-        <junit.version>5.1.0</junit.version>
-        <junit.platform.version>1.1.0</junit.platform.version>
+        <junit.version>5.6.0</junit.version>
+<!--        <junit.platform.version>1.1.0</junit.platform.version>-->
         <junit.mockito.version>2.11.0</junit.mockito.version>
 
         <jackson.version>2.9.5</jackson.version>
@@ -146,12 +147,12 @@
         </dependency>
 
         <!-- Needed to run tests in a version of IntelliJ IDEA that bundles older versions -->
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
-            <version>${junit.platform.version}</version>
-            <scope>test</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.junit.platform</groupId>-->
+<!--            <artifactId>junit-platform-launcher</artifactId>-->
+<!--            <version>${junit.platform.version}</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -188,23 +189,24 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.8.0</version>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                    <encoding>${project.source.encoding}</encoding>
+                    <release>${java.version}</release>
+<!--                    <source>${maven.compiler.source}</source>-->
+<!--                    <target>${maven.compiler.target}</target>-->
+<!--                    <encoding>${project.source.encoding}</encoding>-->
                 </configuration>
             </plugin>
 
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19.1</version>
+                <version>3.0.0-M4</version>
                 <dependencies>
-                    <dependency>
-                        <groupId>org.junit.platform</groupId>
-                        <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>${junit.platform.version}</version>
-                    </dependency>
+<!--                    <dependency>-->
+<!--                        <groupId>org.junit.platform</groupId>-->
+<!--                        <artifactId>junit-platform-surefire-provider</artifactId>-->
+<!--                        <version>${junit.platform.version}</version>-->
+<!--                    </dependency>-->
                     <dependency>
                         <groupId>org.junit.jupiter</groupId>
                         <artifactId>junit-jupiter-engine</artifactId>
@@ -222,7 +224,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.6.201602180812</version>
+                <version>0.8.5</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>

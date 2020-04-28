@@ -7,8 +7,10 @@
 **/out/
 **/target/
 
-mathml-converters/libs
-node_modules
+node_modules/
+package-lock.json
+
+**/libs/logs/
 
 ### Maven ###
 pom.xml.tag
