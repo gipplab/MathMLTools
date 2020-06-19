@@ -37,4 +37,4 @@ deploy:
       repo: ag-gipp/MathMLTools
       tags: true
       all_branches: true
-      jdk: oraclejdk8
+      jdk: openjdk11
