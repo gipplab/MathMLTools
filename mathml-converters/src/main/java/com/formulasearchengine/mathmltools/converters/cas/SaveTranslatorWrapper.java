@@ -62,12 +62,12 @@ public class SaveTranslatorWrapper {
      * In the future, we may allow remote access. Thus you do not need to communicate directly to
      * the jar but to the host that provides a LaCASt endpoint.
      *
-     * @param forwardJARPath path to the latex-to-cas-translator.jar from the LaCASt project
+     * @param config path to the latex-to-cas-translator.jar from the LaCASt project
      * @throws RuntimeException a generic runtime exception will be thrown if the instantiation fails.
      *                          The message in the exception will provide more details about what went wrong.
      */
-    public void init(String forwardJARPath) throws RuntimeException {
-        Path jar = Paths.get(forwardJARPath);
+    public void init(TranslatorConfig config) throws RuntimeException {
+        Path jar = Paths.get(config.getJarPath());
 
         try {
             File jarF = jar.toFile();

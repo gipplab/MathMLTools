@@ -22,7 +22,7 @@ public class TranslatorWrapperTest {
     public static void init(){
         translator = new SaveTranslatorWrapper("Maple");
         translator.init(
-                "/home/andre/Projects/LaCASt/bin/latex-to-cas-translator.jar"
+                new TranslatorConfig("/home/andre/Projects/LaCASt/bin/latex-to-cas-translator.jar")
         );
     }
 
