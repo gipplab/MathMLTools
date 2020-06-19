@@ -14,8 +14,8 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Root level="ALL">
-            <AppenderRef ref="system-console" level="INFO"/>
+        <Root level="DEBUG">
+            <AppenderRef ref="system-console" level="DEBUG"/>
             <AppenderRef ref="LogFile"/>
         </Root>
     </Loggers>

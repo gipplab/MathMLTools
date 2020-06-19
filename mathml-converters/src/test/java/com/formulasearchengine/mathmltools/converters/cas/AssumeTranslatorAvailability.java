@@ -16,10 +16,4 @@ public @interface AssumeTranslatorAvailability {
      * @return path
      */
     String getJarPath();
-
-    /**
-     * String path to reference directory necessary for a forward translation
-     * @return path
-     */
-    String getReferenceDirectory();
 }

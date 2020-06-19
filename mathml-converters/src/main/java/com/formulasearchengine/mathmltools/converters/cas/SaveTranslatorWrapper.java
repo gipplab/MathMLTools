@@ -4,14 +4,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -26,8 +23,7 @@ import java.nio.file.Paths;
  * @author Andre Greiner-Petter
  */
 public class SaveTranslatorWrapper {
-
-    private static final Logger LOG = LogManager.getLogger(SaveTranslatorWrapper.class.getName());
+    private static final Logger LOG = LogManager.getLogger(SaveTranslatorWrapper.class);
 
     private static final String PACKAGE_COMMON = "gov.nist.drmf.interpreter.common.";
     private static final String PACKAGE_TRANSLATOR = "gov.nist.drmf.interpreter.cas.translation.";
@@ -37,82 +33,101 @@ public class SaveTranslatorWrapper {
     private Object resultObj;
 
     private Method translateMethod;
+    private Method translateLabelMethod;
     private Method getInfoMethod;
-//    private Method getTranslatedExpressionMethod;
 
     private Method getExceptionMessageMethod;
     private Method getExceptionReasonMethod;
 
-    public SaveTranslatorWrapper() {
+    private final String cas;
+
+    /**
+     * The new translator requires to provide the CAS to translate to.
+     * You can handle two instances in parallel for different CAS if you want.
+     *
+     * @param cas the CAS (e.g., Maple or Mathematica)
+     */
+    public SaveTranslatorWrapper(String cas) {
+        this.cas = cas;
     }
 
-    public void init(String forwardJARPath, String cas, String mlpReferenceDir) throws RuntimeException {
+    /**
+     * Loads and initiates LaCASt from the provided path to the jar. If you wondering which jar
+     * path to use, you need the 'latex-to-cas-translator.jar' from LaCASt.
+     * <p>
+     * Since it is a non-public project, we load the class on the fly and call necessary entry
+     * points via reflection. If the JVM doesn't allow it, the initiation will fail. If you
+     * do not have LaCASt (or a wrong version) the program is also unable to initiate a connection.
+     * <p>
+     * In the future, we may allow remote access. Thus you do not need to communicate directly to
+     * the jar but to the host that provides a LaCASt endpoint.
+     *
+     * @param forwardJARPath path to the latex-to-cas-translator.jar from the LaCASt project
+     * @throws RuntimeException a generic runtime exception will be thrown if the instantiation fails.
+     *                          The message in the exception will provide more details about what went wrong.
+     */
+    public void init(String forwardJARPath) throws RuntimeException {
         Path jar = Paths.get(forwardJARPath);
-        Path referenceDirPath = Paths.get(mlpReferenceDir);
-
-        LOG.debug("Check existence of given JAR and reference directory.");
-        if (!Files.exists(jar) || !Files.exists(referenceDirPath)) {
-            throw new IllegalArgumentException("Given jar for the forward translation or the reference directory cannot be found!");
-        }
-
-        try {
-            Files.createSymbolicLink(Paths.get("libs"), referenceDirPath.getParent());
-        } catch (IOException e) {
-            //e.printStackTrace();
-        }
 
         try {
             File jarF = jar.toFile();
-            URLClassLoader urlCL = new URLClassLoader(new URL[] {jarF.toURI().toURL()}, System.class.getClassLoader());
+            URLClassLoader urlCL = new URLClassLoader(new URL[]{jarF.toURI().toURL()}, ClassLoader.getSystemClassLoader());
 
-            Class globalConstantsClass = urlCL.loadClass(PACKAGE_COMMON + "constants.GlobalConstants");
-            Class translationExceptionClass = urlCL.loadClass(PACKAGE_COMMON + "exceptions.TranslationException");
-            Class translator = urlCL.loadClass(PACKAGE_TRANSLATOR + "SemanticLatexTranslator");
-            Class globalPathsClass = urlCL.loadClass(PACKAGE_COMMON + "constants.GlobalPaths");
-            LOG.debug("Successfully loaded classes at runtime. Start to load objects at runtime.");
+            // load necessary classes
+            // the exception class (thrown if any error during the translation process occurred)
+            Class<?> translationExceptionClass = urlCL.loadClass(PACKAGE_COMMON + "exceptions.TranslationException");
+            // and the main translator class
+            Class<?> translator = urlCL.loadClass(PACKAGE_TRANSLATOR + "SemanticLatexTranslator");
+            LOG.debug("Successfully loaded classes at runtime. Start to connect to necessary methods via reflection.");
 
-            // setting global cas
-            Field casKeyField = globalConstantsClass.getDeclaredField("CAS_KEY"); // public static string
-            casKeyField.set(null, cas); // set global variable
-
-            Field f = globalPathsClass.getDeclaredField("PATH_LEXICONS");
-            Object obj = f.get(null);
-            //System.out.println(((Path) obj).toAbsolutePath().toString());
-
-            translatorObj = translator.getDeclaredConstructor(String.class).newInstance(cas);
-
-            Method initMethod = translator.getMethod("init", Path.class);
+            // translation and meta information methods
             translateMethod = translator.getMethod("translate", String.class);
+            translateLabelMethod = translator.getMethod("translate", String.class, String.class);
             getInfoMethod = translator.getMethod("getInfoLogger");
-//            getTranslatedExpressionMethod = translator.getMethod("getTranslatedExpression");
 
             getExceptionMessageMethod = translationExceptionClass.getMethod("getMessage");
             getExceptionReasonMethod = translationExceptionClass.getMethod("getReason");
 
-            LOG.debug("Successfully loaded all objects. Start to init translator.");
-            initMethod.invoke(translatorObj, referenceDirPath);
+            LOG.debug("Successfully established all connections. Initiating LaCASt...");
+            translatorObj = translator.getConstructor(String.class).newInstance(cas);
+            LOG.info("Established connection with the LaCASt engine.");
         } catch (MalformedURLException mue) {
             throw new IllegalArgumentException("The given jar was corrupted. Cannot build URL.", mue);
-        } catch (ClassNotFoundException | NoSuchFieldException | NoSuchMethodException cfe) {
+        } catch (ClassNotFoundException | NoSuchMethodException cfe) {
             throw new IllegalArgumentException("The given jar was corrupted (maybe out of date). Cannot load classes.", cfe);
         } catch (IllegalAccessException iae) {
-            throw new IllegalArgumentException("The given jar was corrupted. Cannot set values of public static variable.", iae);
+            throw new IllegalArgumentException("The given jar was corrupted. Cannot create instances of the translator object.", iae);
         } catch (InvocationTargetException | InstantiationException ie) {
-            throw new RuntimeException("Cannot run translator.", ie);
+            throw new RuntimeException("Unable to initiate the translator.", ie);
         }
     }
 
     private void reset() {
-        exceptionObj = null; // reset previous error
+        exceptionObj = null;
         resultObj = null;
     }
 
-    public void translate(String latexString) throws IllegalAccessException {
+    public String translate(String latexString) throws IllegalAccessException {
         reset();
         try {
             resultObj = translateMethod.invoke(translatorObj, latexString);
+            return resultObj.toString();
         } catch (InvocationTargetException ie) {
             exceptionObj = ie.getCause();
+            LOG.error("Unable to translate " + latexString, ie.getCause());
+            return null;
+        }
+    }
+
+    public String translate(String latexString, String label) throws IllegalAccessException {
+        reset();
+        try {
+            resultObj = translateLabelMethod.invoke(translatorObj, latexString, label);
+            return resultObj.toString();
+        } catch (InvocationTargetException ie) {
+            exceptionObj = ie.getCause();
+            LOG.error("Unable to translate " + latexString, ie.getCause());
+            return null;
         }
     }
 

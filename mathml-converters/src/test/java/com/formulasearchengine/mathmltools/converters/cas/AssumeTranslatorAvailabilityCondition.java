@@ -23,16 +23,14 @@ public class AssumeTranslatorAvailabilityCondition implements ExecutionCondition
 
         if (annotation.isPresent()){
             String jarPath = annotation.get().getJarPath();
-            String refDirPath = annotation.get().getReferenceDirectory();
 
-            if (StringUtils.isEmpty(jarPath) || StringUtils.isEmpty(refDirPath)){
+            if (StringUtils.isEmpty(jarPath)){
                 return ConditionEvaluationResult.disabled("Missing translator arguments. Skipping tests!");
             }
 
             Path jarP = Paths.get(jarPath);
-            Path refDirP = Paths.get(refDirPath);
 
-            if (Files.notExists(jarP) || Files.notExists(refDirP)){
+            if (Files.notExists(jarP)){
                 return ConditionEvaluationResult.disabled("Sources for translator are not available. Skipping tests!");
             } else {
                 return ConditionEvaluationResult.enabled("Translator sources available. Continue translator tests!");

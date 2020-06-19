@@ -7,24 +7,22 @@ import static org.apache.logging.log4j.ThreadContext.isEmpty;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Andre Greiner-Petter
  */
 @AssumeTranslatorAvailability(
-        getJarPath = "/home/andreg-p/Projects/LaCASt/bin/latex-to-cas-translator.jar",
-        getReferenceDirectory = "/home/andreg-p/Projects/LaCASt/libs/ReferenceData"
+        getJarPath = "/home/andre/Projects/LaCASt/bin/latex-to-cas-translator.jar"
 )
 public class TranslatorWrapperTest {
     private static SaveTranslatorWrapper translator;
 
     @BeforeAll
     public static void init(){
-        translator = new SaveTranslatorWrapper();
+        translator = new SaveTranslatorWrapper("Maple");
         translator.init(
-                "/home/andreg-p/Projects/LaCASt/bin/latex-to-cas-translator.jar",
-                "Maple",
-                "/home/andreg-p/Projects/LaCASt/libs/ReferenceData"
+                "/home/andre/Projects/LaCASt/bin/latex-to-cas-translator.jar"
         );
     }
 
@@ -36,10 +34,18 @@ public class TranslatorWrapperTest {
     }
 
     @Test
+    public void semanticMacroTranslationTest() throws IllegalAccessException {
+        String translation = translator.translate("\\JacobipolyP{\\alpha}{\\beta}{n}@{a \\cos{\\theta}}");
+        TranslationResponse tr = translator.getTranslationResult();
+        assertEquals( translation, tr.getResult() );
+        assertEquals( "JacobiP(n, alpha, beta, a*cos(theta))", translation );
+    }
+
+    @Test
     public void exceptionTranslationTest() throws IllegalAccessException {
         translator.translate("\\ctsHahn{n}@{x}{a}{b}{c}{d}{}");
         TranslationResponse tr = translator.getTranslationResult();
         assertThat( tr.getResult(), isEmpty() );
-        assertThat( tr.getLog(), containsString("Unknown DLMF/DRMF Macro") );
+        assertThat( tr.getLog(), containsString("No translation possible") );
     }
 }
