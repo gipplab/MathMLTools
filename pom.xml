@@ -346,10 +346,9 @@
                         </executions>
                         <configuration>
                             <!-- Since java 8
-                                Javadoc is very strict.
-                                This deactivates the very strict javadoc.
+                                Javadoc is quite strict, hence we deactivate it
                             -->
-                            <additionalparam>-Xdoclint:none</additionalparam>
+                            <doclint>none</doclint>
                         </configuration>
                     </plugin>
 
