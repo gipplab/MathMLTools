@@ -22,7 +22,7 @@ jobs:
       - name: Publish package
         run: |
           mvn --settings .travis/settings.xml org.codehaus.mojo:versions-maven-plugin:2.1:set 1>/dev/null 2>/dev/null
-          mvn clean deploy --settings .travis/settings.xml -Dgpg.passphrase=${{ MAVEN_GPG_PASSPHRASE }} -DskipTests=true -B -U -P release
+          mvn clean deploy --settings .travis/settings.xml -Dgpg.passphrase=$MAVEN_GPG_PASSPHRASE-DskipTests=true -B -U -P release
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
