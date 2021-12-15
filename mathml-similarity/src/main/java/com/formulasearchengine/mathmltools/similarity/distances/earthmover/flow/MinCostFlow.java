@@ -12,7 +12,8 @@ public class MinCostFlow {
     // e - supply(positive) and demand(negative).
     // c[i] - edges that goes from node i. first is the second nod
     // x - the flow is returned in it
-    public long compute(java.util.Vector<Long> e, java.util.Vector<java.util.List<Edge>> c, java.util.Vector<java.util.List<EdgeFlow>> x) {
+    public long compute(java.util.Vector<Long> e, java.util.Vector<java.util.List<Edge>> c,
+                        java.util.Vector<java.util.List<EdgeFlow>> x) {
         assert e.size() == c.size();
         assert x.size() == c.size();
 
@@ -32,7 +33,8 @@ public class MinCostFlow {
 
         // reduced costs for forward edges (c[i,j]-pi[i]+pi[j])
         // Note that for forward edges the residual capacity is infinity
-        java.util.Vector<java.util.List<ReducedEdge>> rCostForward = new java.util.Vector<java.util.List<ReducedEdge>>();
+        java.util.Vector<java.util.List<ReducedEdge>> rCostForward =
+                new java.util.Vector<java.util.List<ReducedEdge>>();
         for (int i = 0; i < numNodes; i++) {
             rCostForward.add(new java.util.LinkedList<ReducedEdge>());
         }
@@ -46,7 +48,8 @@ public class MinCostFlow {
         // (c[j,i]-pi[j]+pi[i])
         // Since the flow at the beginning is 0, the residual capacity is
         // also zero
-        java.util.Vector<java.util.List<ResidualReducedEdge>> rCostCapBackward = new java.util.Vector<java.util.List<ResidualReducedEdge>>();
+        java.util.Vector<java.util.List<ResidualReducedEdge>> rCostCapBackward =
+                new java.util.Vector<java.util.List<ResidualReducedEdge>>();
         for (int i = 0; i < numNodes; i++) {
             rCostCapBackward.add(new java.util.LinkedList<ResidualReducedEdge>());
         }
@@ -105,8 +108,8 @@ public class MinCostFlow {
 
                 // residual
                 int itccb = 0;
-                while ((itccb < rCostCapBackward.get(from).size())
-                        && (rCostCapBackward.get(from).get(itccb).getTo() != to)) {
+                while (itccb < rCostCapBackward.get(from).size()
+                        && rCostCapBackward.get(from).get(itccb).getTo() != to) {
                     itccb++;
                 }
                 if (itccb < rCostCapBackward.get(from).size()) {
@@ -134,8 +137,8 @@ public class MinCostFlow {
 
                 // update residual for backward edges
                 int itccb = 0;
-                while ((itccb < rCostCapBackward.get(to).size())
-                        && (rCostCapBackward.get(to).get(itccb).getTo() != from)) {
+                while (itccb < rCostCapBackward.get(to).size()
+                        && rCostCapBackward.get(to).get(itccb).getTo() != from) {
                     itccb++;
                 }
                 if (itccb < rCostCapBackward.get(to).size()) {
@@ -143,8 +146,8 @@ public class MinCostFlow {
                     rCostCapBackward.get(to).get(itccb).setResidualCapacity(tmp + delta);
                 }
                 itccb = 0;
-                while ((itccb < rCostCapBackward.get(from).size())
-                        && (rCostCapBackward.get(from).get(itccb).getTo() != to)) {
+                while (itccb < rCostCapBackward.get(from).size()
+                        && rCostCapBackward.get(from).get(itccb).getTo() != to) {
                     itccb++;
                 }
                 if (itccb < rCostCapBackward.get(from).size()) {
@@ -172,7 +175,8 @@ public class MinCostFlow {
 
     void computeShortestPath(java.util.Vector<Long> d, java.util.Vector<Integer> prev,
                              int from, java.util.Vector<java.util.List<ReducedEdge>> costForward,
-                             java.util.Vector<java.util.List<ResidualReducedEdge>> costBackward, java.util.Vector<Long> e, int[] l) {
+                             java.util.Vector<java.util.List<ResidualReducedEdge>> costBackward,
+                             java.util.Vector<Long> e, int[] l) {
         // Making heap (all inf except 0, so we are saving comparisons...)
         java.util.Vector<EdgeDistance> edgeDistanceVector = new java.util.Vector<EdgeDistance>();
         for (int i = 0; i < numNodes; i++) {
@@ -220,8 +224,8 @@ public class MinCostFlow {
                 assert it.getCost() >= 0;
                 long alt = d.get(u) + it.getCost();
                 int v = it.getTo();
-                if ((nodesToQ.get(v) < edgeDistanceVector.size())
-                        && (alt < edgeDistanceVector.get(nodesToQ.get(v)).getDist())) {
+                if (nodesToQ.get(v) < edgeDistanceVector.size()
+                        && alt < edgeDistanceVector.get(nodesToQ.get(v)).getDist()) {
                     heapDecreaseKey(edgeDistanceVector, nodesToQ, v, alt);
                     prev.set(v, u);
                 }
@@ -231,8 +235,8 @@ public class MinCostFlow {
                     assert it.getCost() >= 0;
                     long alt = d.get(u) + it.getCost();
                     int v = it.getTo();
-                    if ((nodesToQ.get(v) < edgeDistanceVector.size())
-                            && (alt < edgeDistanceVector.get(nodesToQ.get(v)).getDist())) {
+                    if (nodesToQ.get(v) < edgeDistanceVector.size()
+                            && alt < edgeDistanceVector.get(nodesToQ.get(v)).getDist()) {
                         heapDecreaseKey(edgeDistanceVector, nodesToQ, v, alt);
                         prev.set(v, u);
                     }
@@ -288,12 +292,12 @@ public class MinCostFlow {
             int l = left(i);
             int r = right(i);
             int smallest;
-            if ((l < q.size()) && (q.get(l).getDist() < q.get(i).getDist())) {
+            if (l < q.size() && q.get(l).getDist() < q.get(i).getDist()) {
                 smallest = l;
             } else {
                 smallest = i;
             }
-            if ((r < q.size()) && (q.get(r).getDist() < q.get(smallest).getDist())) {
+            if (r < q.size() && q.get(r).getDist() < q.get(smallest).getDist()) {
                 smallest = r;
             }
 
