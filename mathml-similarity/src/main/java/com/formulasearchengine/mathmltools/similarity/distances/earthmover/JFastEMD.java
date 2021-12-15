@@ -289,9 +289,9 @@ public class JFastEMD {
 
         long mcfDist = mcf.compute(bb, cc, flows);
 
-        myDist = preFlowCost + // pre-flowing on cases where it was possible
-                mcfDist + // solution of the transportation problem
-                (absDiffSumPSumQ * extraMassPenalty); // emd-hat extra mass penalty
+        myDist = preFlowCost // pre-flowing on cases where it was possible
+                + mcfDist // solution of the transportation problem
+                + (absDiffSumPSumQ * extraMassPenalty); // emd-hat extra mass penalty
 
         return myDist;
     }

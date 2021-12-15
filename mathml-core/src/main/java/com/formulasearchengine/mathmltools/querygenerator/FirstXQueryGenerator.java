@@ -140,7 +140,7 @@ public class FirstXQueryGenerator {
 
     private String getConstraings(String qvarConstraintString) {
         String out = lengthConstraint
-                + (((qvarConstraintString.length() > 0) && (lengthConstraint.length() > 0)) ? " and " : "")
+                + (qvarConstraintString.length() > 0 && lengthConstraint.length() > 0 ? " and " : "")
                 + qvarConstraintString;
         if (out.trim().length() > 0) {
             return "where" + "\n" + out + "\n";

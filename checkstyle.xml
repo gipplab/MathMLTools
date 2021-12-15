@@ -35,6 +35,12 @@
     <module name="FileLength"/>
     <module name="FileTabCharacter"/>
     <module name="SuppressWarningsFilter"/>
+    <module name="LineLength">
+        <property name="severity" value="warning"/>
+        <property name="ignorePattern" value="^.*(@see|@\([#]\) \$Id:).*$"/>
+        <property name="max" value="120"/>
+        <property name="tabWidth" value="3"/>
+    </module>
     <module name="TreeWalker">
         <module name="Regexp">
             <property name="format" value="(^|[^*])[ \t]+$"/>
@@ -77,12 +83,10 @@
             <property name="scope" value="private"/>
             <property name="authorFormat" value=".* .*"/>
         </module>
-        <module name="JavadocMethod">
+        <module name="MissingJavadocMethod">
             <property name="severity" value="warning"/>
-            <property name="scope" value="private"/>
-            <property name="allowUndeclaredRTE" value="true"/>
-            <property name="allowThrowsTagsForSubclasses" value="true"/>
-            <property name="allowMissingPropertyJavadoc" value="false"/>
+            <property name="scope" value="public"/>
+            <property name="allowMissingPropertyJavadoc" value="true"/>
         </module>
         <module name="JavadocVariable">
             <property name="severity" value="warning"/>
@@ -105,12 +109,6 @@
         <module name="ParameterName"/>
         <module name="StaticVariableName"/>
         <module name="TypeName"/>
-        <module name="LineLength">
-            <property name="severity" value="warning"/>
-            <property name="ignorePattern" value="^.*(@see|@\([#]\) \$Id:).*$"/>
-            <property name="max" value="120"/>
-            <property name="tabWidth" value="3"/>
-        </module>
         <module name="MethodLength">
             <property name="max" value="250"/>
             <property name="countEmpty" value="false"/>
