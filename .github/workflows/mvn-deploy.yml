@@ -1,0 +1,29 @@
+name: Publish package to the Maven Central Repository
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  Publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Maven Central Repository
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          server-id: ossrh
+          server-username: ${{ secrets.OSSRH_USERNAME }}
+          server-password: ${{ secrets.OSSRH_TOKEN }}
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+      - name: Publish package
+        run: |
+          mvn --settings .travis/settings.xml org.codehaus.mojo:versions-maven-plugin:2.1:set 1>/dev/null 2>/dev/null
+          mvn clean deploy --settings .travis/settings.xml -Dgpg.passphrase=${{ MAVEN_GPG_PASSPHRASE }} -DskipTests=true -B -U -P release
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
