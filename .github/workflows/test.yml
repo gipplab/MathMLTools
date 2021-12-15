@@ -7,7 +7,7 @@ env:
   JACOCO_SOURCE_PATH: 'mathml-converters mathml-core mathml-gold mathml-libs mathml-similarity mathml-utils'
 
 jobs:
-  CI Tests:
+  ci-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
