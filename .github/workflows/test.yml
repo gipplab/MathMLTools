@@ -39,7 +39,7 @@ jobs:
           mvn clean -q
           mvn --settings .travis/settings.xml install -DskipTests=true -Dgpg.skip -Dmaven.javadoc.skip=true -B -V
       - name: Maven Test
-        run: mvn clean test jacoco:report coveralls:report
+        run: mvn clean test jacoco:report
       - name: Report Test Coverage
         run: |
           source .github/fix-jacoco.sh
