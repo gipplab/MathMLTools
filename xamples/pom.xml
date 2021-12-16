@@ -3,7 +3,7 @@
     <parent>
         <artifactId>mathmltools</artifactId>
         <groupId>com.formulasearchengine.mathmltools</groupId>
-        <version>2.0.6-SNAPSHOT</version>
+        <version>2.0.6</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -12,7 +12,7 @@
         <dependency>
             <groupId>com.formulasearchengine.mathmltools</groupId>
             <artifactId>mathml-gold</artifactId>
-            <version>2.0.6-SNAPSHOT</version>
+            <version>2.0.6</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.formulasearchengine.mathmltools</groupId>
             <artifactId>mathml-core</artifactId>
-            <version>2.0.6-SNAPSHOT</version>
+            <version>2.0.6</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -42,25 +42,25 @@
         <dependency>
             <groupId>com.formulasearchengine.mathmltools</groupId>
             <artifactId>mathml-converters</artifactId>
-            <version>2.0.6-SNAPSHOT</version>
+            <version>2.0.6</version>
         </dependency>
 
         <dependency>
             <groupId>com.formulasearchengine.mathmltools</groupId>
             <artifactId>mathml-libs</artifactId>
-            <version>2.0.6-SNAPSHOT</version>
+            <version>2.0.6</version>
         </dependency>
 
         <dependency>
             <groupId>com.formulasearchengine.mathmltools</groupId>
             <artifactId>mathml-similarity</artifactId>
-            <version>2.0.6-SNAPSHOT</version>
+            <version>2.0.6</version>
         </dependency>
 
         <dependency>
             <groupId>com.formulasearchengine.mathmltools</groupId>
             <artifactId>mathml-utils</artifactId>
-            <version>2.0.6-SNAPSHOT</version>
+            <version>2.0.6</version>
         </dependency>
     </dependencies>
 
