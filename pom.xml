@@ -279,13 +279,21 @@
 
     <profiles>
         <profile>
-            <id>release</id>
+            <id>ossrh</id>
             <activation>
-                <property>
-                    <name>release</name>
-                </property>
+                <activeByDefault>false</activeByDefault>
             </activation>
-
+            <properties>
+                <gpg.executable>gpg</gpg.executable>
+            </properties>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>maven</id>
+                    <name>Central Repository OSSRH</name>
+                    <!--DO NOT change to new URL without creating a new account etc.-->
+                    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+            </distributionManagement>
             <build>
                 <plugins>
                     <!-- To release to Maven central -->
@@ -333,12 +341,10 @@
                             <doclint>none</doclint>
                         </configuration>
                     </plugin>
-
-                    <!-- To sign the artifacts -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
+                        <version>3.0.1</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -348,9 +354,16 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                            <!-- This key will be provided by org secretes-->
+                            <keyname>9AACFA6E84DA40F69BA2CF2F373354382888AB24</keyname>
+                        </configuration>
                     </plugin>
                 </plugins>
-
             </build>
         </profile>
     </profiles>
