@@ -25,6 +25,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InaccessibleObjectException;
 import java.util.Optional;
 
 
@@ -203,10 +204,11 @@ public class MathMLConverter {
         Field field;
         Document document = mathNode.getOwnerDocument();
         try {
+            // TODO with Java 17 this throws an InaccessibleObjectException due to access permission restrictions
             field = document.getClass().getDeclaredField("fNamespacesEnabled");
             field.setAccessible(true);
             return (boolean) field.get(document);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException | InaccessibleObjectException e) {
             logger.debug("Possible performance issue: Can not determine if node document is namespace aware.", e);
             return false;
         }
