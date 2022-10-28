@@ -6,10 +6,10 @@
             data-semantic-content="1"
             data-semantic-id="3"
             data-semantic-role="multiplication"
+            data-semantic-speech="x asterisk y"
             data-semantic-type="infixop"
             id="p3">
-         <mi data-semantic-annotation="clearspeak:simple;clearspeak:simple"
-             data-semantic-font="italic"
+         <mi data-semantic-font="italic"
              data-semantic-id="0"
              data-semantic-parent="3"
              data-semantic-role="latinletter"
@@ -21,8 +21,7 @@
              data-semantic-role="multiplication"
              data-semantic-type="operator"
              id="p1">*</mo>
-         <mi data-semantic-annotation="clearspeak:simple;clearspeak:simple"
-             data-semantic-font="italic"
+         <mi data-semantic-font="italic"
              data-semantic-id="2"
              data-semantic-parent="3"
              data-semantic-role="latinletter"
